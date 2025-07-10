@@ -195,11 +195,11 @@
         const tourName = btn.getAttribute('data-tour');
         const correctCode = btn.getAttribute('data-code');
 
-        const input = prompt(`Introduce el código para "${tourName}":`);
+        const input = prompt(`Enter the code to "${tourName}":`);
         if (input === correctCode) {
-          alert(`✅ Acceso concedido a ${tourName}`);
+          alert(`✅ Access granted to ${tourName}`);
         } else {
-          alert('❌ Código incorrecto');
+          alert('❌ incorrect Code');
         }
 
         menuOpciones.style.display = 'none';
