@@ -61,14 +61,11 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 2px solid #ff9933;
-  color: #ff9933;
-  font-size: 24px;
-  padding: 8px 14px;
-  border-radius: 50%;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
   z-index: 1000;
 }
 
@@ -174,7 +171,7 @@
           weight: 2,
           opacity: 1,
           fillOpacity: 0.8
-        }).addTo(map).bindPopup("¡Estás aquí!").openPopup();
+        }).addTo(map).bindPopup("You Are Here!").openPopup();
 
         map.setView([lat, lon], 15);
       }
@@ -210,12 +207,12 @@
         const tourName = btn.getAttribute('data-tour');
         const correctCode = btn.getAttribute('data-code');
 
-        const input = prompt(`Introduce el código para "${tourName}":`);
+        const input = prompt(`Enter the code to "${tourName}":`);
         if (input === correctCode) {
-          alert(`✅ Acceso concedido a ${tourName}`);
+          alert(`✅ Access granted a ${tourName}`);
           unlockedTours[tourName] = true; // Marcar como desbloqueado
         } else {
-          alert('❌ Código incorrecto');
+          alert('❌ Incorrect Code');
         }
 
         menuOpciones.style.display = 'none';
