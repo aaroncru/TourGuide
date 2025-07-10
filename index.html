@@ -15,8 +15,9 @@
       color: white;
       text-align: center;
       min-height: 100vh;
-      background: url('background.jpg') no-repeat center center fixed;       
-      background-color: #322782; /* color de fondo de respaldo */
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      background-color: #322782;
     }
 
     h1 {
@@ -57,201 +58,97 @@
     .tour-button:hover {
       background-color: #ffad4d;
     }
-   #lockButton {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 28px;
-  cursor: pointer;
-  z-index: 1000;
-}
 
-#lockButton:hover {
-  background-color: rgba(255, 153, 51, 0.2);
-  transform: scale(1.1);
-}
+    @media (max-width: 600px) {
+      #map {
+        width: 95%;
+        height: 300px;
+      }
 
-#menuOpciones {
-  position: absolute;
-  top: 65px;
-  right: 20px;
-  background-color: rgba(0, 0, 0, 0.9);
-  border: 2px solid #ff9933;
-  border-radius: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  z-index: 999;
-}
-
-.option-btn {
-  background-color: #ff9933;
-  border: none;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
-}
-
-.option-btn:hover {
-  background-color: #ffad4d;
-}
-#accessMessage {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 0, 0, 0.9);
-  color: white;
-  padding: 20px 30px;
-  border-radius: 10px;
-  font-size: 1.5em;
-  z-index: 2000;
-  box-shadow: 0 0 20px red;
-}
-
-
+      h1 {
+        font-size: 2em;
+      }
+    }
   </style>
 </head>
 <body>
 
   <h1>Tour Guide</h1>
-
   <div id="map"></div>
 
-  <!-- Botones debajo del mapa -->
   <div class="button-container">
-    <button class="tour-button">Food Tour</button>
-    <button class="tour-button">History Tour</button>
-    <button class="tour-button">Art Tour</button>
-    <button class="tour-button">Adventure Tour</button>
-    <button class="tour-button">Escape Room Tour</button>
+    <button class="tour-button" data-tour="Food Tour" data-code="0000" data-page="food-tour.html">Food Tour</button>
+    <button class="tour-button" data-tour="History Tour" data-code="0001" data-page="history-tour.html">History Tour</button>
+    <button class="tour-button" data-tour="Art Tour" data-code="0002" data-page="art-tour.html">Art Tour</button>
+    <button class="tour-button" data-tour="Adventure Tour" data-code="0003" data-page="adventure-tour.html">Adventure Tour</button>
+    <button class="tour-button" data-tour="Escape Room Tour" data-code="0004" data-page="escape-room-tour.html">Escape Room Tour</button>
   </div>
-  <!-- Mensaje flotante -->
-<div id="accessMessage" style="display: none;">Access Code Required</div>
 
-  <button id="lockButton">🔒</button>
-
-<!-- Menú desplegable oculto -->
-<div id="menuOpciones" style="display: none;">
-  <button class="option-btn" data-tour="Food Tour" data-code="0000">Food Tour</button>
-  <button class="option-btn" data-tour="History Tour" data-code="0001">History Tour</button>
-  <button class="option-btn" data-tour="Art Tour" data-code="0002">Art Tour</button>
-  <button class="option-btn" data-tour="Adventure Tour" data-code="0003">Adventure Tour</button>
-  <button class="option-btn" data-tour="Escape Room Tour" data-code="0004">Escape Room Tour</button>
-</div>
-  <!-- Leaflet JS + Geolocalización -->
+  <!-- Leaflet JS + lógica -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
- <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Mapa y geolocalización
-    const map = L.map('map').setView([61.2176, -149.8997], 14);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Inicializar el mapa
+      const map = L.map('map').setView([61.2176, -149.8997], 14);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
 
-    let userMarker = null;
-    function updatePosition(position) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
+      let userMarker = null;
+      function updatePosition(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
 
-      if (userMarker) {
-        userMarker.setLatLng([lat, lon]);
-      } else {
-        userMarker = L.circleMarker([lat, lon], {
-          radius: 8,
-          fillColor: "#f03",
-          color: "#900",
-          weight: 2,
-          opacity: 1,
-          fillOpacity: 0.8
-        }).addTo(map).bindPopup("You Are Here!").openPopup();
+        if (userMarker) {
+          userMarker.setLatLng([lat, lon]);
+        } else {
+          userMarker = L.circleMarker([lat, lon], {
+            radius: 8,
+            fillColor: "#f03",
+            color: "#900",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
+          }).addTo(map).bindPopup("You Are Here!").openPopup();
 
-        map.setView([lat, lon], 15);
+          map.setView([lat, lon], 15);
+        }
       }
-    }
 
-    function showError(error) {
-      console.warn("Error de geolocalización:", error.message);
-    }
+      if ("geolocation" in navigator) {
+        navigator.geolocation.watchPosition(updatePosition, console.warn, {
+          enableHighAccuracy: true,
+          maximumAge: 10000,
+          timeout: 10000
+        });
+      }
 
-    if ("geolocation" in navigator) {
-      navigator.geolocation.watchPosition(updatePosition, showError, {
-        enableHighAccuracy: true,
-        maximumAge: 10000,
-        timeout: 10000
-      });
-    } else {
-      alert("Tu navegador no soporta geolocalización.");
-    }
+      // Manejo de botones con códigos
+      const buttons = document.querySelectorAll('.tour-button');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tour = btn.getAttribute('data-tour');
+          const code = btn.getAttribute('data-code');
+          const page = btn.getAttribute('data-page');
 
-    // 🔒 Códigos desbloqueados
-    const unlockedTours = {}; // Ej: { 'Food Tour': true }
+          const unlockedKey = `unlocked_${tour}`;
+          const isUnlocked = localStorage.getItem(unlockedKey) === 'true';
 
-    const lockButton = document.getElementById('lockButton');
-    const menuOpciones = document.getElementById('menuOpciones');
-
-    lockButton.addEventListener('click', () => {
-      menuOpciones.style.display = menuOpciones.style.display === 'none' ? 'flex' : 'none';
-    });
-
-    const optionButtons = document.querySelectorAll('.option-btn');
-    optionButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tourName = btn.getAttribute('data-tour');
-        const correctCode = btn.getAttribute('data-code');
-
-        const input = prompt(`Enter the code to "${tourName}":`);
-        if (input === correctCode) {
-          alert(`✅ Access granted a ${tourName}`);
-          unlockedTours[tourName] = true; // Marcar como desbloqueado
-        } else {
-          alert('❌ Incorrect Code');
-        }
-
-        menuOpciones.style.display = 'none';
+          if (isUnlocked) {
+            window.location.href = page;
+          } else {
+            const input = prompt(`Enter the code to "${tour}":`);
+            if (input === code) {
+              localStorage.setItem(unlockedKey, 'true');
+              window.location.href = page;
+            } else {
+              alert('❌ Incorrect Code');
+            }
+          }
+        });
       });
     });
-
-    // 🚫 Mostrar mensaje si no hay acceso
-    const showAccessDeniedMessage = () => {
-      const msg = document.getElementById('accessMessage');
-      msg.style.display = 'block';
-      setTimeout(() => {
-        msg.style.display = 'none';
-      }, 2000);
-    };
-
-    // 🎯 Botones principales (debajo del mapa)
-    const mainButtons = document.querySelectorAll('.tour-button');
-    mainButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tourName = btn.textContent.trim();
-
-        if (unlockedTours[tourName]) {
-          const pageMap = {
-  "Food Tour": "food-tour.html",
-  "History Tour": "history-tour.html",
-  "Art Tour": "art-tour.html",
-  "Adventure Tour": "adventure-tour.html",
-  "Escape Room Tour": "escape-room-tour.html"
-};
-
-window.location.href = pageMap[tourName];
-
-        } else {
-          showAccessDeniedMessage();
-        }
-      });
-    });
-  });
-</script>
+  </script>
 
 </body>
 </html>
