@@ -57,6 +57,26 @@
     .tour-button:hover {
       background-color: #ffad4d;
     }
+    #lockButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ff9933;
+  color: #ff9933;
+  font-size: 24px;
+  padding: 8px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  z-index: 1000;
+}
+
+#lockButton:hover {
+  background-color: rgba(255, 153, 51, 0.2);
+  transform: scale(1.1);
+}
+
   </style>
 </head>
 <body>
@@ -73,6 +93,7 @@
     <button class="tour-button">Adventure Tour</button>
     <button class="tour-button">Escape Room Tour</button>
   </div>
+  <button id="lockButton">🔒</button>
 
   <!-- Leaflet JS + Geolocalización -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
