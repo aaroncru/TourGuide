@@ -15,8 +15,9 @@
       color: white;
       text-align: center;
       min-height: 100vh;
-      background: url('history.jpg') no-repeat center center fixed;       
-      background-color: #0000; /* color de fondo de respaldo */
+      background: url('history.jpg') no-repeat center center fixed;
+      background-size: cover;
+      background-color: #000; /* Color de respaldo si no carga la imagen */
     }
 
     h1 {
@@ -28,6 +29,7 @@
 
     #map {
       width: 80%;
+      max-width: 100%;
       height: 500px;
       margin: 0 auto 20px;
       border: 5px solid #661fcc;
@@ -35,67 +37,70 @@
       border-radius: 10px;
     }
 
-    .button-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 40px;
-    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2em;
+      }
 
+      #map {
+        width: 95%;
+        height: 300px;
+      }
+    }
   </style>
 </head>
 <body>
 
   <h1>History Tour</h1>
-
   <div id="map"></div>
 
-  <!-- Leaflet JS + Geolocalización -->
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
- <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Mapa y geolocalización
-    const map = L.map('map').setView([61.2176, -149.8997], 14);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const map = L.map('map').setView([61.2176, -149.8997], 14);
 
-    let userMarker = null;
-    function updatePosition(position) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
 
-      if (userMarker) {
-        userMarker.setLatLng([lat, lon]);
-      } else {
-        userMarker = L.circleMarker([lat, lon], {
-          radius: 8,
-          fillColor: "#f03",
-          color: "#900",
-          weight: 2,
-          opacity: 1,
-          fillOpacity: 0.8
-        }).addTo(map).bindPopup("You Are Here!").openPopup();
+      let userMarker = null;
 
-        map.setView([lat, lon], 15);
+      function updatePosition(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        if (userMarker) {
+          userMarker.setLatLng([lat, lon]);
+        } else {
+          userMarker = L.circleMarker([lat, lon], {
+            radius: 8,
+            fillColor: "#f03",
+            color: "#900",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
+          }).addTo(map).bindPopup("You Are Here!").openPopup();
+
+          map.setView([lat, lon], 15);
+        }
       }
-    }
 
-    function showError(error) {
-      console.warn("Error de geolocalización:", error.message);
-    }
+      function showError(error) {
+        console.warn("Error de geolocalización:", error.message);
+      }
 
-    if ("geolocation" in navigator) {
-      navigator.geolocation.watchPosition(updatePosition, showError, {
-        enableHighAccuracy: true,
-        maximumAge: 10000,
-        timeout: 10000
-      });
-    } else {
-      alert("Tu navegador no soporta geolocalización.");
-    }
-</script>
+      if ("geolocation" in navigator) {
+        navigator.geolocation.watchPosition(updatePosition, showError, {
+          enableHighAccuracy: true,
+          maximumAge: 10000,
+          timeout: 10000
+        });
+      } else {
+        alert("Tu navegador no soporta geolocalización.");
+      }
+    });
+  </script>
 
 </body>
 </html>
