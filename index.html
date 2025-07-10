@@ -57,7 +57,7 @@
     .tour-button:hover {
       background-color: #ffad4d;
     }
-    #lockButton {
+   #lockButton {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -77,6 +77,36 @@
   transform: scale(1.1);
 }
 
+#menuOpciones {
+  position: absolute;
+  top: 65px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 2px solid #ff9933;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 999;
+}
+
+.option-btn {
+  background-color: #ff9933;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.option-btn:hover {
+  background-color: #ffad4d;
+}
+
+
   </style>
 </head>
 <body>
@@ -95,6 +125,14 @@
   </div>
   <button id="lockButton">🔒</button>
 
+<!-- Menú desplegable oculto -->
+<div id="menuOpciones" style="display: none;">
+  <button class="option-btn" data-tour="Food Tour" data-code="0000">Food Tour</button>
+  <button class="option-btn" data-tour="History Tour" data-code="0001">History Tour</button>
+  <button class="option-btn" data-tour="Art Tour" data-code="0002">Art Tour</button>
+  <button class="option-btn" data-tour="Adventure Tour" data-code="0003">Adventure Tour</button>
+  <button class="option-btn" data-tour="Escape Room Tour" data-code="0004">Escape Room Tour</button>
+</div>
   <!-- Leaflet JS + Geolocalización -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
@@ -141,6 +179,37 @@
         alert("Tu navegador no soporta geolocalización.");
       }
     });
+   
+  document.addEventListener('DOMContentLoaded', () => {
+    // ... Tu código del mapa y geolocalización ...
+
+    const lockButton = document.getElementById('lockButton');
+    const menuOpciones = document.getElementById('menuOpciones');
+
+    lockButton.addEventListener('click', () => {
+      // Mostrar/ocultar el menú
+      menuOpciones.style.display = menuOpciones.style.display === 'none' ? 'flex' : 'none';
+    });
+
+    // Manejador para cada opción
+    const optionButtons = document.querySelectorAll('.option-btn');
+    optionButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tourName = btn.getAttribute('data-tour');
+        const correctCode = btn.getAttribute('data-code');
+
+        const input = prompt(`Introduce el código para "${tourName}":`);
+        if (input === correctCode) {
+          alert(`✅ Acceso concedido a ${tourName}`);
+        } else {
+          alert('❌ Código incorrecto');
+        }
+
+        menuOpciones.style.display = 'none'; // Ocultar menú
+      });
+    });
+  });
+
   </script>
 
 </body>
