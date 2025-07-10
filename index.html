@@ -124,29 +124,32 @@
       }
 
       // Manejo de botones con códigos
-      const buttons = document.querySelectorAll('.tour-button');
-      buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-      const tour = btn.getAttribute('data-tour');
-      const code = btn.getAttribute('data-code');
-      const page = btn.getAttribute('data-page');
+     const buttons = document.querySelectorAll('.tour-button');
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tour = btn.getAttribute('data-tour');
+    const code = btn.getAttribute('data-code');
+    const page = btn.getAttribute('data-page');
+    const id = btn.getAttribute('data-id'); // nuevo atributo para clave
 
-      const unlockedKey = `unlocked_${tour}`;
-      const isUnlocked = localStorage.getItem(unlockedKey) === 'true';
+    const unlockedKey = `unlocked_${id}`;
+    const isUnlocked = localStorage.getItem(unlockedKey) === 'true';
 
-      if (isUnlocked) {
+    if (isUnlocked) {
       window.location.href = page;
     } else {
       const input = prompt(`Enter the code to "${tour}":`);
       if (input === code) {
         localStorage.setItem(unlockedKey, 'true');
-        alert(`✅ Access Granted. Now you can access to ${tour}.`);
+        alert(`✅ Access granted to ${tour} ✅`);
       } else {
-        alert('❌ Incorrect Code');
+        alert('❌ Incorrect code ❌');
       }
     }
   });
 });
+
+      });
   </script>
 
 </body>
