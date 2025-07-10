@@ -135,63 +135,60 @@
 </div>
   <!-- Leaflet JS + Geolocalización -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const map = L.map('map').setView([61.2176, -149.8997], 14);
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
-
-      let userMarker = null;
-
-      function updatePosition(position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-
-        if (userMarker) {
-          userMarker.setLatLng([lat, lon]);
-        } else {
-          userMarker = L.circleMarker([lat, lon], {
-            radius: 8,
-            fillColor: "#f03",
-            color: "#900",
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.8
-          }).addTo(map).bindPopup("You Are Here!").openPopup();
-
-          map.setView([lat, lon], 15);
-        }
-      }
-
-      function showError(error) {
-        console.warn("Error de geolocalización:", error.message);
-      }
-
-      if ("geolocation" in navigator) {
-        navigator.geolocation.watchPosition(updatePosition, showError, {
-          enableHighAccuracy: true,
-          maximumAge: 10000,
-          timeout: 10000
-        });
-      } else {
-        alert("Tu navegador no soporta geolocalización.");
-      }
-    });
-   
+ <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // ... Tu código del mapa y geolocalización ...
+    // Inicializar el mapa
+    const map = L.map('map').setView([61.2176, -149.8997], 14);
 
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    let userMarker = null;
+
+    function updatePosition(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      if (userMarker) {
+        userMarker.setLatLng([lat, lon]);
+      } else {
+        userMarker = L.circleMarker([lat, lon], {
+          radius: 8,
+          fillColor: "#f03",
+          color: "#900",
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 0.8
+        }).addTo(map).bindPopup("¡Estás aquí!").openPopup();
+
+        map.setView([lat, lon], 15);
+      }
+    }
+
+    function showError(error) {
+      console.warn("Error de geolocalización:", error.message);
+    }
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.watchPosition(updatePosition, showError, {
+        enableHighAccuracy: true,
+        maximumAge: 10000,
+        timeout: 10000
+      });
+    } else {
+      alert("Tu navegador no soporta geolocalización.");
+    }
+
+    // 🔒 Funcionalidad del botón candado
     const lockButton = document.getElementById('lockButton');
     const menuOpciones = document.getElementById('menuOpciones');
 
     lockButton.addEventListener('click', () => {
-      // Mostrar/ocultar el menú
+      // Alternar visibilidad del menú
       menuOpciones.style.display = menuOpciones.style.display === 'none' ? 'flex' : 'none';
     });
 
-    // Manejador para cada opción
     const optionButtons = document.querySelectorAll('.option-btn');
     optionButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -205,7 +202,7 @@
           alert('❌ Código incorrecto');
         }
 
-        menuOpciones.style.display = 'none'; // Ocultar menú
+        menuOpciones.style.display = 'none';
       });
     });
   });
