@@ -11,7 +11,7 @@
   <style>
     body {
       margin: 0;
-      font-family: Trebuchet MS, sans-serif;
+      font-family: 'Trebuchet MS', sans-serif;
       color: white;
       text-align: center;
       background: url('background.jpg') no-repeat center center fixed;
@@ -40,65 +40,53 @@
   <h1>Tour Guide</h1>
   <div id="map"></div>
 
-  <!-- Leaflet JS (colócalo después del div del mapa) -->
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // Esperar a que cargue todo
     document.addEventListener('DOMContentLoaded', () => {
+      // Crear el mapa solo una vez
       const map = L.map('map').setView([61.2176, -149.8997], 14);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
       }).addTo(map);
-    });
-document.addEventListener('DOMContentLoaded', () => {
-    const map = L.map('map').setView([61.2176, -149.8997], 14);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+      let userMarker = null;
 
-    let userMarker = null;
+      function updatePosition(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
 
-    // Función para actualizar la posición
-    function updatePosition(position) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
+        if (userMarker) {
+          userMarker.setLatLng([lat, lon]);
+        } else {
+          userMarker = L.circleMarker([lat, lon], {
+            radius: 8,
+            fillColor: "#f03",
+            color: "#900",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
+          }).addTo(map).bindPopup("¡Estás aquí!").openPopup();
 
-      if (userMarker) {
-        userMarker.setLatLng([lat, lon]); // Mover el marcador
-      } else {
-        userMarker = L.circleMarker([lat, lon], {
-          radius: 8,
-          fillColor: "#f03",
-          color: "#900",
-          weight: 2,
-          opacity: 1,
-          fillOpacity: 0.8
-        }).addTo(map).bindPopup("¡Estás aquí!");
-
-        map.setView([lat, lon], 15); // Centrar el mapa al principio
+          map.setView([lat, lon], 15);
+        }
       }
-    }
 
-    // Manejo de errores
-    function showError(error) {
-      console.warn("Error de geolocalización:", error.message);
-    }
+      function showError(error) {
+        console.warn("Error de geolocalización:", error.message);
+      }
 
-    // Obtener posición actual y seguirla
-    if ("geolocation" in navigator) {
-      navigator.geolocation.watchPosition(updatePosition, showError, {
-        enableHighAccuracy: true,
-        maximumAge: 10000,
-        timeout: 10000
-      });
-    } else {
-      alert("Tu navegador no soporta geolocalización.");
-    }
-  });
-
-    
+      if ("geolocation" in navigator) {
+        navigator.geolocation.watchPosition(updatePosition, showError, {
+          enableHighAccuracy: true,
+          maximumAge: 10000,
+          timeout: 10000
+        });
+      } else {
+        alert("Tu navegador no soporta geolocalización.");
+      }
+    });
   </script>
 
 </body>
