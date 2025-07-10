@@ -28,23 +28,55 @@
     #map {
       width: 80%;
       height: 500px;
-      margin: 0 auto 40px;
+      margin: 0 auto 20px;
       border: 5px solid #661fcc;
       box-shadow: 0 0 20px #7f4acc;
       border-radius: 10px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .tour-button {
+      background-color: #ff9933;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .tour-button:hover {
+      background-color: #ffad4d;
     }
   </style>
 </head>
 <body>
 
   <h1>Tour Guide</h1>
+
   <div id="map"></div>
 
-  <!-- Leaflet JS -->
+  <!-- Botones debajo del mapa -->
+  <div class="button-container">
+    <button class="tour-button">Food Tour</button>
+    <button class="tour-button">History Tour</button>
+    <button class="tour-button">Art Tour</button>
+    <button class="tour-button">Adventure Tour</button>
+    <button class="tour-button">Escape Room Tour</button>
+  </div>
+
+  <!-- Leaflet JS + Geolocalización -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Crear el mapa solo una vez
       const map = L.map('map').setView([61.2176, -149.8997], 14);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
