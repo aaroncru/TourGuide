@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tour Guide</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-sA+4J1C9QGpGzLE7pwyD+jD1R/0j1wyj1HxP52tzp8M=" crossorigin=""/>
+  
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-o9N1jY5aR81EUMG1jMbUdtN7PjaOgGdLSWf2DdvbzU8=" crossorigin=""></script>
+
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 20px 0;
+      font-size: 3em;
+      color: #00ffff;
+      text-shadow: 2px 2px 0 #00aaff, 4px 4px 0 #005577;
+    }
+
+    #map {
+      width: 80%;
+      height: 500px;
+      margin: 0 auto 40px;
+      border: 5px solid #00ccff;
+      box-shadow: 0 0 20px #00ccff;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Tour Guide</h1>
+  <div id="map"></div>
+
+  <script>
+    // Crear el mapa
+    const map = L.map('map').setView([61.2176, -149.8997], 14); // Anchorage Downtown
+
+    // Cargar capa base
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+  </script>
+
+</body>
+</html>
