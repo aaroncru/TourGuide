@@ -6,12 +6,7 @@
   <title>Tour Guide</title>
 
   <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-sA+4J1C9QGpGzLE7pwyD+jD1R/0j1wyj1HxP52tzp8M=" crossorigin=""/>
-  
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-o9N1jY5aR81EUMG1jMbUdtN7PjaOgGdLSWf2DdvbzU8=" crossorigin=""></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <style>
     body {
@@ -44,14 +39,17 @@
   <h1>Tour Guide</h1>
   <div id="map"></div>
 
+  <!-- Leaflet JS (colócalo después del div del mapa) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // Crear el mapa
-    const map = L.map('map').setView([61.2176, -149.8997], 14); // Anchorage Downtown
+    // Esperar a que cargue todo
+    document.addEventListener('DOMContentLoaded', () => {
+      const map = L.map('map').setView([61.2176, -149.8997], 14);
 
-    // Cargar capa base
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+    });
   </script>
 
 </body>
