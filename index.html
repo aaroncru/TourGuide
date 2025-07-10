@@ -105,6 +105,19 @@
 .option-btn:hover {
   background-color: #ffad4d;
 }
+#accessMessage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 0, 0, 0.9);
+  color: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  font-size: 1.5em;
+  z-index: 2000;
+  box-shadow: 0 0 20px red;
+}
 
 
   </style>
@@ -123,6 +136,9 @@
     <button class="tour-button">Adventure Tour</button>
     <button class="tour-button">Escape Room Tour</button>
   </div>
+  <!-- Mensaje flotante -->
+<div id="accessMessage" style="display: none;">Access Code Required</div>
+
   <button id="lockButton">🔒</button>
 
 <!-- Menú desplegable oculto -->
@@ -137,15 +153,13 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
  <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar el mapa
+    // Mapa y geolocalización
     const map = L.map('map').setView([61.2176, -149.8997], 14);
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
     let userMarker = null;
-
     function updatePosition(position) {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
@@ -160,7 +174,7 @@
           weight: 2,
           opacity: 1,
           fillOpacity: 0.8
-        }).addTo(map).bindPopup("You are Here!").openPopup();
+        }).addTo(map).bindPopup("¡Estás aquí!").openPopup();
 
         map.setView([lat, lon], 15);
       }
@@ -180,12 +194,13 @@
       alert("Tu navegador no soporta geolocalización.");
     }
 
-    // 🔒 Funcionalidad del botón candado
+    // 🔒 Códigos desbloqueados
+    const unlockedTours = {}; // Ej: { 'Food Tour': true }
+
     const lockButton = document.getElementById('lockButton');
     const menuOpciones = document.getElementById('menuOpciones');
 
     lockButton.addEventListener('click', () => {
-      // Alternar visibilidad del menú
       menuOpciones.style.display = menuOpciones.style.display === 'none' ? 'flex' : 'none';
     });
 
@@ -195,19 +210,43 @@
         const tourName = btn.getAttribute('data-tour');
         const correctCode = btn.getAttribute('data-code');
 
-        const input = prompt(`Enter the code to "${tourName}":`);
+        const input = prompt(`Introduce el código para "${tourName}":`);
         if (input === correctCode) {
-          alert(`✅ Access granted to ${tourName}`);
+          alert(`✅ Acceso concedido a ${tourName}`);
+          unlockedTours[tourName] = true; // Marcar como desbloqueado
         } else {
-          alert('❌ incorrect Code');
+          alert('❌ Código incorrecto');
         }
 
         menuOpciones.style.display = 'none';
       });
     });
-  });
 
-  </script>
+    // 🚫 Mostrar mensaje si no hay acceso
+    const showAccessDeniedMessage = () => {
+      const msg = document.getElementById('accessMessage');
+      msg.style.display = 'block';
+      setTimeout(() => {
+        msg.style.display = 'none';
+      }, 2000);
+    };
+
+    // 🎯 Botones principales (debajo del mapa)
+    const mainButtons = document.querySelectorAll('.tour-button');
+    mainButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tourName = btn.textContent.trim();
+
+        if (unlockedTours[tourName]) {
+          alert(`🎉 Bienvenido a ${tourName}`);
+          // Aquí puedes redirigir, mostrar contenido, etc.
+        } else {
+          showAccessDeniedMessage();
+        }
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
