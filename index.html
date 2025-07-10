@@ -235,8 +235,16 @@
         const tourName = btn.textContent.trim();
 
         if (unlockedTours[tourName]) {
-          alert(`🎉 Bienvenido a ${tourName}`);
-          // Aquí puedes redirigir, mostrar contenido, etc.
+          const pageMap = {
+  "Food Tour": "food-tour.html",
+  "History Tour": "history-tour.html",
+  "Art Tour": "art-tour.html",
+  "Adventure Tour": "adventure-tour.html",
+  "Escape Room Tour": "escape-room-tour.html"
+};
+
+window.location.href = pageMap[tourName];
+
         } else {
           showAccessDeniedMessage();
         }
