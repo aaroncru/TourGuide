@@ -234,14 +234,14 @@
             fillOpacity: 0.9
           }).addTo(map);
 
-  let popupHTML = `
-  <div style="display: flex; align-items: center; gap: 6px;">
-    ${item.link ? `<a href="${item.link}" target="_blank" style="color: white; font-weight: bold; text-decoration: underline;">${item.name}</a>` : `<span style="color: white; font-weight: bold;">${item.name}</span>`}
+ let popupHTML = `
+  <div style="display: flex; align-items: center; gap: 6px; color: black; background: white; padding: 4px; border-radius: 4px;">
+    ${item.link ? `<a href="${item.link}" target="_blank" style="color: blue; font-weight: bold; text-decoration: underline;">${item.name}</a>` : `<span style="color: black; font-weight: bold;">${item.name}</span>`}
     <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer;">📷</button>
   </div>
 `;
-marker.bindPopup(popupHTML);
 
+marker.bindPopup(popupHTML).openPopup();
           markers[categoryKey].push(marker);
         });
       }
