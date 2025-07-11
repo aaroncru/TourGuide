@@ -236,10 +236,12 @@
 
 let popupHTML = `
   <div style="display: flex; flex-direction: column; align-items: center;">
-    ${item.link 
-      ? `<a href="${item.link}" target="_blank" style="color: black; font-weight: bold; text-decoration: underline; font-size: 16px;">${item.name}</a>`
-      : `<span style="color: white; font-weight: bold;">${item.name}</span>`
-    }
+    <span style="color: black; font-weight: bold; font-size: 16px;">
+      ${item.link 
+        ? `<a href="${item.link}" target="_blank" style="color: black; text-decoration: underline;">${item.name}</a>`
+        : item.name
+      }
+    </span>
     <div style="margin: 5px 0; font-size: 14px; color: black;">
       ⭐ ${item.rating ? item.rating.toFixed(1) : 'N/A'}
     </div>
