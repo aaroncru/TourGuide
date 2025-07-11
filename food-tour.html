@@ -90,7 +90,24 @@
   width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); 
   z-index: 2000; justify-content: center; align-items: center; flex-direction: column; padding-top: 60px;">
 
-  <!-- Botón de cerrar mejor posicionado -->
+ <!-- Contenedor de galería con fondo desenfocado -->
+<div id="galleryModal" style="
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.1); /* fondo muy tenue */
+  backdrop-filter: blur(10px);          /* efecto de desenfoque */
+  -webkit-backdrop-filter: blur(10px);  /* compatibilidad con Safari */
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 60px;
+">
+  <!-- Botón de cerrar arriba a la derecha -->
   <button onclick="closeGallery()" style="
     position: absolute;
     top: 15px;
@@ -103,6 +120,7 @@
     font-weight: bold;
   ">✖</button>
 
+  <!-- Contenedor de imágenes -->
   <div id="galleryContent" style="
     display: flex;
     flex-wrap: wrap;
