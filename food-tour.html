@@ -185,15 +185,15 @@
     }
 
     // Categorías con coordenadas fijas y nombres personalizados
-    const categories = {
-      recomendations: {
-        color: 'yellow',
-        coords: [
-          { lat: 61.2181, lng: -149.9003, name: 'Snow City Cafe' },
-          { lat: 61.2179, lng: -149.8945, name: 'Simon & Seaforts' },
-          { lat: 61.2157, lng: -149.8991, name: '49th State Brewing' }
-        ]
-      },
+   const categories = {
+  recomendations: {
+    color: 'yellow',
+    coords: [
+      { lat: 61.2181, lng: -149.9003, name: 'Snow City Cafe', link: 'https://snowcitycafe.com' },
+      { lat: 61.2179, lng: -149.8945, name: 'Simon & Seaforts', link: 'https://simonandseaforts.com' },
+      { lat: 61.2157, lng: -149.8991, name: '49th State Brewing', link: 'https://www.49thstatebrewing.com/anchorage-3/' }
+    ]
+  },
       streetfood: {
         color: 'orange',
         coords: [
@@ -234,12 +234,15 @@
             fillOpacity: 0.9
           }).addTo(map);
 
-          marker.bindPopup(`
+   marker.bindPopup(`
   <div style="display: flex; align-items: center; gap: 6px;">
-    <strong>${item.name}</strong>
+    <a href="${item.link}" target="_blank" style="color: white; font-weight: bold; text-decoration: underline;">
+      ${item.name}
+    </a>
     <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer;">📷</button>
   </div>
 `);
+
           markers[categoryKey].push(marker);
         });
       }
