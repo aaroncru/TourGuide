@@ -17,14 +17,7 @@
       min-height: 100vh;
       background: url('food.jpeg') no-repeat center center fixed;
       background-size: cover;
-      background-color: #000; /* Color de respaldo si no carga la imagen */
-    }
-
-    h1 {
-      margin: 20px 0;
-      font-size: 3em;
-      color: #e5c165;
-      text-shadow: 2px 2px 0 #bb9d50, 4px 4px 0 #80631b;
+      background-color: #000;
     }
 
     #map {
@@ -37,22 +30,74 @@
       border-radius: 10px;
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2em;
-      }
+    img[alt="Food Tour"] {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 10px;
+    }
 
+    /* Botones laterales */
+    .sidebar-buttons {
+      position: fixed;
+      top: 200px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
+    }
+
+    .sidebar-buttons button {
+      background-color: #ff9933;
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      font-size: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transition: background-color 0.3s;
+    }
+
+    .sidebar-buttons button:hover {
+      background-color: #ffad4d;
+    }
+
+    @media (max-width: 600px) {
       #map {
         width: 95%;
         height: 300px;
       }
+
+      .sidebar-buttons {
+        top: auto;
+        bottom: 20px;
+        right: 10px;
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      .sidebar-buttons button {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<img src="titlefood.png" alt="Food Tour" style="width: 100%; margin: 5px auto; display: block;">
+  <img src="titlefood.png" alt="Food Tour">
   <div id="map"></div>
+
+  <!-- Botones laterales -->
+  <div class="sidebar-buttons">
+    <button id="btnRecom">Recomendations</button>
+    <button id="btnStreet">Street Food</button>
+    <button id="btnHalibut">Halibut</button>
+  </div>
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -86,19 +131,67 @@
         }
       }
 
-      function showError(error) {
-        console.warn("Error de geolocalización:", error.message);
-      }
-
       if ("geolocation" in navigator) {
-        navigator.geolocation.watchPosition(updatePosition, showError, {
+        navigator.geolocation.watchPosition(updatePosition, console.warn, {
           enableHighAccuracy: true,
           maximumAge: 10000,
           timeout: 10000
         });
-      } else {
-        alert("Tu navegador no soporta geolocalización.");
       }
+
+      // 🗺 Función para generar posiciones aleatorias cerca del centro
+      function getRandomLocations(centerLat, centerLng, count) {
+        const locations = [];
+        for (let i = 0; i < count; i++) {
+          const offsetLat = (Math.random() - 0.5) * 0.01;
+          const offsetLng = (Math.random() - 0.5) * 0.02;
+          locations.push([centerLat + offsetLat, centerLng + offsetLng]);
+        }
+        return locations;
+      }
+
+      // 🎯 Control por categoría
+      const categoryPins = {
+        Recomendations: [],
+        StreetFood: [],
+        Halibut: []
+      };
+
+      function togglePins(category, color) {
+        // Si ya hay pines, los removemos
+        if (categoryPins[category].length > 0) {
+          categoryPins[category].forEach(marker => map.removeLayer(marker));
+          categoryPins[category] = [];
+          return;
+        }
+
+        const coords = getRandomLocations(61.2176, -149.8997, 3);
+        const pins = coords.map(([lat, lng]) => {
+          return L.marker([lat, lng], {
+            icon: L.icon({
+              iconUrl: `https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`,
+              iconSize: [21, 34],
+              iconAnchor: [10, 34],
+              popupAnchor: [0, -34]
+            })
+          }).addTo(map);
+        });
+
+        categoryPins[category] = pins;
+      }
+
+      // 🧭 Eventos de botón
+      document.getElementById("btnRecom").addEventListener("click", () => {
+        togglePins("Recomendations", "FF0000"); // rojo
+      });
+
+      document.getElementById("btnStreet").addEventListener("click", () => {
+        togglePins("StreetFood", "00AA00"); // verde
+      });
+
+      document.getElementById("btnHalibut").addEventListener("click", () => {
+        togglePins("Halibut", "9933CC"); // morado
+      });
     });
   </script>
 
