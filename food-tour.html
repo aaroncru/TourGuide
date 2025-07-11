@@ -237,10 +237,10 @@
 let popupHTML = `
   <div style="display: flex; flex-direction: column; align-items: center;">
     ${item.link 
-      ? `<a href="${item.link}" target="_blank" style="color: white; font-weight: bold; text-decoration: underline; font-size: 16px;">${item.name}</a>`
+      ? `<a href="${item.link}" target="_blank" style="color: black; font-weight: bold; text-decoration: underline; font-size: 16px;">${item.name}</a>`
       : `<span style="color: white; font-weight: bold;">${item.name}</span>`
     }
-    <div style="margin: 5px 0; font-size: 14px; color: gold;">
+    <div style="margin: 5px 0; font-size: 14px; color: black;">
       ⭐ ${item.rating ? item.rating.toFixed(1) : 'N/A'}
     </div>
     <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
