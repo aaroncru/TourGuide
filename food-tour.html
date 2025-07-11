@@ -84,6 +84,15 @@
   <img src="titlefood.png" alt="Food Tour">
   <div id="map"></div>
 <button id="locateMe" title="Recenter my location"> 📍 </button>
+
+<!-- Contenedor de galería -->
+<div id="galleryModal" style="display:none; position: fixed; top: 0; left: 0; 
+  width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); 
+  z-index: 2000; justify-content: center; align-items: center; flex-direction: column; padding: 20px;">
+  <button onclick="closeGallery()" style="align-self: flex-end; font-size: 24px; color: white; background: none; border: none; cursor: pointer;">✖</button>
+  <div id="galleryContent" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"></div>
+</div>
+
 <!-- Botones -->
 <div class="button-container">
   <button id="btnRecomendations" class="map-button">Recomendations</button>
@@ -94,6 +103,13 @@
 <!-- Script de Leaflet + JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+  const placeImages = {
+  "Recomendation1": ["img/reco1a.jpg", "img/reco1b.jpg"],
+  "Recomendation2": ["img/reco2a.jpg", "img/reco2b.jpg"],
+  "StreetFood1": ["img/street1a.jpg", "img/street1b.jpg"],
+  "Halibut1": ["img/hali1a.jpg", "img/hali1b.jpg"]
+};
+
   document.addEventListener('DOMContentLoaded', () => {
     const map = L.map('map').setView([61.2176, -149.8997], 14);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -221,6 +237,28 @@ locateButton.addEventListener('click', () => {
 });
 
   });
+  function openGallery(placeName) {
+  const modal = document.getElementById('galleryModal');
+  const content = document.getElementById('galleryContent');
+  content.innerHTML = "";
+
+  if (placeImages[placeName]) {
+    placeImages[placeName].forEach(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.style.width = "150px";
+      img.style.borderRadius = "8px";
+      img.style.boxShadow = "0 0 10px white";
+      content.appendChild(img);
+    });
+    modal.style.display = 'flex';
+  }
+}
+
+function closeGallery() {
+  document.getElementById('galleryModal').style.display = 'none';
+}
+
 </script>
 
 </body>
