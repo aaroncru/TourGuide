@@ -189,9 +189,9 @@
   recomendations: {
     color: 'yellow',
     coords: [
-      { lat: 61.218510, lng: -149.903435, name: 'Snow City Cafe', link: 'https://snowcitycafe.com' },
-      { lat: 61.217962, lng: -149.904035, name: 'Simon & Seaforts', link: 'https://simonandseaforts.com' },
-      { lat: 61.219568, lng: -149.895970, name: '49th State Brewing', link: 'https://www.49thstatebrewing.com/anchorage-3/' }
+      { lat: 61.218510, lng: -149.903435, name: 'Snow City Cafe', link: 'https://snowcitycafe.com', rating: 4.5 },
+      { lat: 61.217962, lng: -149.904035, name: 'Simon & Seaforts', link: 'https://simonandseaforts.com', rating: 4.3 },
+      { lat: 61.219568, lng: -149.895970, name: '49th State Brewing', link: 'https://www.49thstatebrewing.com/anchorage-3/', rating: 4.7 }
     ]
   },
       streetfood: {
@@ -234,12 +234,19 @@
             fillOpacity: 0.9
           }).addTo(map);
 
- let popupHTML = `
-  <div style="display: flex; align-items: center; gap: 6px; color: black; background: white; padding: 4px; border-radius: 4px;">
-    ${item.link ? `<a href="${item.link}" target="_blank" style="color: blue; font-weight: bold; text-decoration: underline;">${item.name}</a>` : `<span style="color: black; font-weight: bold;">${item.name}</span>`}
-    <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer;">📷</button>
+let popupHTML = `
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    ${item.link 
+      ? `<a href="${item.link}" target="_blank" style="color: white; font-weight: bold; text-decoration: underline; font-size: 16px;">${item.name}</a>`
+      : `<span style="color: white; font-weight: bold;">${item.name}</span>`
+    }
+    <div style="margin: 5px 0; font-size: 14px; color: gold;">
+      ⭐ ${item.rating ? item.rating.toFixed(1) : 'N/A'}
+    </div>
+    <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
   </div>
 `;
+
 
 marker.bindPopup(popupHTML).openPopup();
           markers[categoryKey].push(marker);
