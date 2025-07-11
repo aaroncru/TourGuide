@@ -152,25 +152,28 @@ document.addEventListener('DOMContentLoaded', () => {
     Halibut: []
   };
 
-  function toggleMarkers(categoryKey) {
-    const cat = categories[categoryKey];
-    const currentMarkers = markers[categoryKey];
+ function toggleMarkers(categoryKey) {
+  const cat = categories[categoryKey];
+  const currentMarkers = markers[categoryKey];
 
-    if (currentMarkers.length > 0) {
-      currentMarkers.forEach(m => map.removeLayer(m));
-      markers[categoryKey] = [];
-    } else {
-      cat.coords.forEach(coord => {
-        const marker = L.circleMarker(coord, {
-          radius: 8,
-          color: cat.color,
-          fillColor: cat.color,
-          fillOpacity: 0.9
-        }).addTo(map);
-        markers[categoryKey].push(marker);
-      });
-    }
+  if (currentMarkers.length > 0) {
+    currentMarkers.forEach(m => map.removeLayer(m));
+    markers[categoryKey] = [];
+  } else {
+    cat.coords.forEach((coord, index) => {
+      const marker = L.circleMarker(coord, {
+        radius: 8,
+        color: cat.color,
+        fillColor: cat.color,
+        fillOpacity: 0.9
+      }).addTo(map);
+
+      marker.bindPopup(`Place${index + 1}`).openPopup();
+      markers[categoryKey].push(marker);
+    });
   }
+}
+
 
   // Event listeners para botones
   document.getElementById("btnRecom").addEventListener("click", () => toggleMarkers("Recom"));
