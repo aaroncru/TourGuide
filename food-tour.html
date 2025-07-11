@@ -92,108 +92,109 @@
   <img src="titlefood.png" alt="Food Tour">
   <div id="map"></div>
 
-  <!-- Botones laterales -->
-  <div class="sidebar-buttons">
-    <button id="btnRecom">Recomendations</button>
-    <button id="btnStreet">Street Food</button>
-    <button id="btnHalibut">Halibut</button>
-  </div>
+<!-- Botones -->
+<div class="sidebar-buttons">
+  <button id="btnRecom">Recomendations</button>
+  <button id="btnStreet">Street Food</button>
+  <button id="btnHalibut">Halibut</button>
+</div>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const map = L.map('map').setView([61.2176, -149.8997], 14);
+<!-- Script de Leaflet + JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const map = L.map('map').setView([61.2176, -149.8997], 14);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-      let userMarker = null;
+    let userMarker = null;
 
-      function updatePosition(position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
+    function updatePosition(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
 
-        if (userMarker) {
-          userMarker.setLatLng([lat, lon]);
-        } else {
-          userMarker = L.circleMarker([lat, lon], {
-            radius: 8,
-            fillColor: "#f03",
-            color: "#900",
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.8
-          }).addTo(map).bindPopup("You Are Here!").openPopup();
+      if (userMarker) {
+        userMarker.setLatLng([lat, lon]);
+      } else {
+        userMarker = L.circleMarker([lat, lon], {
+          radius: 8,
+          fillColor: "#f03",
+          color: "#900",
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 0.8
+        }).addTo(map).bindPopup("You Are Here!").openPopup();
 
-          map.setView([lat, lon], 15);
-        }
+        map.setView([lat, lon], 15);
+      }
+    }
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.watchPosition(updatePosition, console.warn, {
+        enableHighAccuracy: true,
+        maximumAge: 10000,
+        timeout: 10000
+      });
+    }
+
+    // 🔁 Generar posiciones al azar en Anchorage Downtown
+    function getRandomLocations(centerLat, centerLng, count) {
+      const locations = [];
+      for (let i = 0; i < count; i++) {
+        const offsetLat = (Math.random() - 0.5) * 0.01;
+        const offsetLng = (Math.random() - 0.5) * 0.02;
+        locations.push([centerLat + offsetLat, centerLng + offsetLng]);
+      }
+      return locations;
+    }
+
+    // Almacenar círculos por categoría
+    const categoryCircles = {
+      Recomendations: [],
+      StreetFood: [],
+      Halibut: []
+    };
+
+    function toggleDots(category, color) {
+      // Si ya hay puntos, los removemos
+      if (categoryCircles[category].length > 0) {
+        categoryCircles[category].forEach(circle => map.removeLayer(circle));
+        categoryCircles[category] = [];
+        return;
       }
 
-      if ("geolocation" in navigator) {
-        navigator.geolocation.watchPosition(updatePosition, console.warn, {
-          enableHighAccuracy: true,
-          maximumAge: 10000,
-          timeout: 10000
-        });
-      }
-
-      // 🗺 Función para generar posiciones aleatorias cerca del centro
-      function getRandomLocations(centerLat, centerLng, count) {
-        const locations = [];
-        for (let i = 0; i < count; i++) {
-          const offsetLat = (Math.random() - 0.5) * 0.01;
-          const offsetLng = (Math.random() - 0.5) * 0.02;
-          locations.push([centerLat + offsetLat, centerLng + offsetLng]);
-        }
-        return locations;
-      }
-
-      // 🎯 Control por categoría
-      const categoryPins = {
-        Recomendations: [],
-        StreetFood: [],
-        Halibut: []
-      };
-
-      function togglePins(category, color) {
-        // Si ya hay pines, los removemos
-        if (categoryPins[category].length > 0) {
-          categoryPins[category].forEach(marker => map.removeLayer(marker));
-          categoryPins[category] = [];
-          return;
-        }
-
-        const coords = getRandomLocations(61.2176, -149.8997, 3);
-        const pins = coords.map(([lat, lng]) => {
-          return L.marker([lat, lng], {
-            icon: L.icon({
-              iconUrl: `https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`,
-              iconSize: [21, 34],
-              iconAnchor: [10, 34],
-              popupAnchor: [0, -34]
-            })
-          }).addTo(map);
-        });
-
-        categoryPins[category] = pins;
-      }
-
-      // 🧭 Eventos de botón
-      document.getElementById("btnRecom").addEventListener("click", () => {
-        togglePins("Recomendations", "FF0000"); // rojo
+      const coords = getRandomLocations(61.2176, -149.8997, 3);
+      const circles = coords.map(([lat, lng]) => {
+        return L.circleMarker([lat, lng], {
+          radius: 6,
+          fillColor: color,
+          color: color,
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.8
+        }).addTo(map);
       });
 
-      document.getElementById("btnStreet").addEventListener("click", () => {
-        togglePins("StreetFood", "00AA00"); // verde
-      });
+      categoryCircles[category] = circles;
+    }
 
-      document.getElementById("btnHalibut").addEventListener("click", () => {
-        togglePins("Halibut", "9933CC"); // morado
-      });
+    // 🎯 Botones
+    document.getElementById("btnRecom").addEventListener("click", () => {
+      toggleDots("Recomendations", "#FFD700"); // Amarillo
     });
-  </script>
+
+    document.getElementById("btnStreet").addEventListener("click", () => {
+      toggleDots("StreetFood", "#FF8C00"); // Naranja
+    });
+
+    document.getElementById("btnHalibut").addEventListener("click", () => {
+      toggleDots("Halibut", "#9933CC"); // Morado
+    });
+  });
+</script>
+
 
 </body>
 </html>
