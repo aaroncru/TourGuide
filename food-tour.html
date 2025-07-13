@@ -395,6 +395,7 @@ function toggleRoute(destLat, destLng) {
   if (routingControl) {
     map.removeControl(routingControl);
     routingControl = null;
+    activeRouteCategory = null;
     return;
   }
 
