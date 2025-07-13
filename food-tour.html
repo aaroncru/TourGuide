@@ -7,6 +7,8 @@
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
   <style>
     body {
@@ -194,6 +196,8 @@
     };
   let map;
   let userMarker = null;
+  let routingControl = null;
+
 function toggleMarkers(categoryKey) {
       const cat = categories[categoryKey];
       const currentMarkers = markers[categoryKey];
@@ -221,9 +225,13 @@ let popupHTML = `
     <div style="margin: 5px 0; font-size: 14px; color: black;">
       ⭐ ${item.rating ? item.rating.toFixed(1) : 'N/A'}
     </div>
-    <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
+    <div style="display: flex; gap: 10px;">
+      <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
+      <button onclick="toggleRoute(${item.lat}, ${item.lng})" style="background: none; border: none; cursor: pointer; font-size: 18px;">➡️</button>
+    </div>
   </div>
 `;
+
 
 
 marker.bindPopup(popupHTML).openPopup();
@@ -375,6 +383,31 @@ function buscarLugar() {
       alert("Restaurante no encontrado.");
     }
   }, 600);
+}
+function toggleRoute(destLat, destLng) {
+  if (routingControl) {
+    map.removeControl(routingControl);
+    routingControl = null;
+    return;
+  }
+
+  if (!userMarker) {
+    alert("Ubicación no disponible aún.");
+    return;
+  }
+
+  const userLatLng = userMarker.getLatLng();
+
+  routingControl = L.Routing.control({
+    waypoints: [
+      L.latLng(userLatLng.lat, userLatLng.lng),
+      L.latLng(destLat, destLng)
+    ],
+    routeWhileDragging: false,
+    addWaypoints: false,
+    show: false,
+    createMarker: () => null  // Evita que Leaflet Routing agregue más marcadores
+  }).addTo(map);
 }
 
 
