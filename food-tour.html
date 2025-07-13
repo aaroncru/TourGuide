@@ -198,52 +198,54 @@
   let map;
   let userMarker = null;
   let routingControl = null;
+  let activeRouteCategory = null;
 
 function toggleMarkers(categoryKey) {
-      const cat = categories[categoryKey];
-      const currentMarkers = markers[categoryKey];
-      if (routingControl) {
-          map.removeControl(routingControl);
-          routingControl = null;
-                          }
+  const cat = categories[categoryKey];
+  const currentMarkers = markers[categoryKey];
 
-      if (currentMarkers.length > 0) {
-        currentMarkers.forEach(m => map.removeLayer(m));
-        markers[categoryKey] = [];
-      } else {
-        cat.coords.forEach(item => {
-          const marker = L.circleMarker([item.lat, item.lng], {
-            radius: 8,
-            color: cat.color,
-            fillColor: cat.color,
-            fillOpacity: 0.9
-          }).addTo(map);
+  // Solo quitamos la ruta si la ruta activa pertenece a esta categoría
+  if (routingControl && activeRouteCategory === categoryKey) {
+    map.removeControl(routingControl);
+    routingControl = null;
+    activeRouteCategory = null;
+  }
 
-let popupHTML = `
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="color: black; font-weight: bold; font-size: 16px;">
-      ${item.link 
-        ? `<a href="${item.link}" target="_blank" style="color: black; text-decoration: underline;">${item.name}</a>`
-        : item.name
-      }
-    </span>
-    <div style="margin: 5px 0; font-size: 14px; color: black;">
-      ⭐ ${item.rating ? item.rating.toFixed(1) : 'N/A'}
-    </div>
-    <div style="display: flex; gap: 10px;">
-      <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
-      <button onclick="toggleRoute(${item.lat}, ${item.lng})" style="background: none; border: none; cursor: pointer; font-size: 18px;">➡️</button>
-    </div>
-  </div>
-`;
+  if (currentMarkers.length > 0) {
+    currentMarkers.forEach(m => map.removeLayer(m));
+    markers[categoryKey] = [];
+  } else {
+    cat.coords.forEach(item => {
+      const marker = L.circleMarker([item.lat, item.lng], {
+        radius: 8,
+        color: cat.color,
+        fillColor: cat.color,
+        fillOpacity: 0.9
+      }).addTo(map);
 
+      let popupHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <span style="color: black; font-weight: bold; font-size: 16px;">
+            ${item.link 
+              ? `<a href="${item.link}" target="_blank" style="color: black; text-decoration: underline;">${item.name}</a>`
+              : item.name}
+          </span>
+          <div style="margin: 5px 0; font-size: 14px; color: black;">
+            ⭐ ${item.rating ? item.rating.toFixed(1) : 'N/A'}
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
+            <button onclick="toggleRoute(${item.lat}, ${item.lng}, '${categoryKey}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">➡️</button>
+          </div>
+        </div>
+      `;
 
+      marker.bindPopup(popupHTML).openPopup();
+      markers[categoryKey].push(marker);
+    });
+  }
+}
 
-marker.bindPopup(popupHTML).openPopup();
-          markers[categoryKey].push(marker);
-        });
-      }
-    }
 
   document.addEventListener('DOMContentLoaded', () => {
     map = L.map('map').setView([61.2176, -149.8997], 14);
@@ -418,6 +420,7 @@ function toggleRoute(destLat, destLng) {
   show: false,
   createMarker: () => null
 }).addTo(map);
+  activeRouteCategory = categoryKey; // Guardamos la categoría activa
 }
 </script>
 
