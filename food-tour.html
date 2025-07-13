@@ -341,45 +341,39 @@ function buscarLugar() {
   const query = document.getElementById("searchInput").value.toLowerCase().trim();
   let encontrado = false;
 
-  const esperarYBuscar = (catKey, idx) => {
-    // Espera medio segundo y luego busca el marcador
-    setTimeout(() => {
-      const marker = markers[catKey][idx];
-      if (marker) {
-        map.setView(marker.getLatLng(), 16);
-        marker.openPopup();
-      }
-    }, 500);
-  };
-
-  let accionesPendientes = 0;
-
   Object.keys(categories).forEach(catKey => {
     categories[catKey].coords.forEach((item, idx) => {
       if (item.name.toLowerCase().includes(query)) {
         encontrado = true;
 
-        // Si el marcador aún no está agregado
+        // Si aún no existe el marcador, agregamos los de esa categoría
         if (!markers[catKey][idx]) {
-          accionesPendientes++;
           toggleMarkers(catKey);
 
-          // Espera a que se agregue y luego enfoca
-          esperarYBuscar(catKey, idx);
+          // Esperamos a que los markers se agreguen antes de centrar el mapa
+          setTimeout(() => {
+            const marker = markers[catKey][idx];
+            if (marker) {
+              map.setView(marker.getLatLng(), 16);
+              marker.openPopup();
+            }
+          }, 400); // Ajusta este tiempo si el mapa sigue sin enfocarse
         } else {
-          // Ya existe, solo enfoca
-          map.setView(markers[catKey][idx].getLatLng(), 16);
-          markers[catKey][idx].openPopup();
+          // Ya existe, solo centramos y abrimos popup
+          const marker = markers[catKey][idx];
+          map.setView(marker.getLatLng(), 16);
+          marker.openPopup();
         }
       }
     });
   });
 
+  // Si no se encontró, mostrar mensaje después de esperar
   setTimeout(() => {
-    if (!encontrado && accionesPendientes === 0) {
+    if (!encontrado) {
       alert("Restaurante no encontrado.");
     }
-  }, 700);
+  }, 600);
 }
 
 
