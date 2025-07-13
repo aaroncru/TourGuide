@@ -159,14 +159,7 @@
   "The Halibut House": ["ho.jpg", "ho1.jpg"],
   "Alaska Fish Tacos": ["ta.jpg", "ta1.jpg"]
 };
-
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const map = L.map('map').setView([61.2176, -149.8997], 14);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-    // Categorías con coordenadas fijas y nombres personalizados
+  // Categorías con coordenadas fijas y nombres personalizados
    const categories = {
   recomendations: {
     color: 'yellow',
@@ -199,6 +192,13 @@
       streetfood: [],
       halibut: []
     };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const map = L.map('map').setView([61.2176, -149.8997], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+  
     let userMarker = null;
     function updatePosition(position) {
       const lat = position.coords.latitude;
