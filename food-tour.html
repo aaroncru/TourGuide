@@ -86,8 +86,10 @@
 <button id="locateMe" title="Recenter my location"> 📍 </button>
   
 <div style="margin: 10px auto;">
-  <input type="text" id="searchInput" placeholder="Search restaurant..." 
-         style="padding: 8px; border-radius: 8px; border: none; width: 250px; font-size: 16px;">
+  <input type="text" id="searchInput" list="restaurantList" placeholder="Search restaurant..." 
+       style="padding: 8px; border-radius: 8px; border: none; width: 250px; font-size: 16px;">
+<datalist id="restaurantList"></datalist>
+
   <button onclick="buscarLugar()" 
           style="padding: 8px 12px; border-radius: 8px; border: none; background-color: #bb8e1e; color: white; font-weight: bold; cursor: pointer;">
     Search
@@ -184,6 +186,20 @@
         map.setView([lat, lon], 15);
       }
     }
+    const datalist = document.getElementById('restaurantList');
+    const allNames = [];
+
+    Object.values(categories).forEach(cat => {
+      cat.coords.forEach(item => {
+        allNames.push(item.name);
+      });
+    });
+
+    allNames.forEach(name => {
+      const option = document.createElement('option');
+      option.value = name;
+      datalist.appendChild(option);
+    });
 
     if ("geolocation" in navigator) {
       navigator.geolocation.watchPosition(updatePosition, console.warn, {
@@ -327,35 +343,47 @@ function buscarLugar() {
   const query = document.getElementById("searchInput").value.toLowerCase().trim();
   let encontrado = false;
 
-  // Recorremos todas las categorías
+  const esperarYBuscar = (catKey, idx) => {
+    // Espera medio segundo y luego busca el marcador
+    setTimeout(() => {
+      const marker = markers[catKey][idx];
+      if (marker) {
+        map.setView(marker.getLatLng(), 16);
+        marker.openPopup();
+      }
+    }, 500);
+  };
+
+  let accionesPendientes = 0;
+
   Object.keys(categories).forEach(catKey => {
     categories[catKey].coords.forEach((item, idx) => {
       if (item.name.toLowerCase().includes(query)) {
-        // Si no está ya en el mapa, lo agregamos
-        if (!markers[catKey][idx]) {
-          toggleMarkers(catKey); // Activa los marcadores si no están
-        }
+        encontrado = true;
 
-        setTimeout(() => {
-          const marker = markers[catKey][idx];
-          if (marker) {
-            map.setView(marker.getLatLng(), 16);
-            marker.openPopup();
-            encontrado = true;
-          }
-        }, 300); // Espera breve a que toggleMarkers agregue el marcador
+        // Si el marcador aún no está agregado
+        if (!markers[catKey][idx]) {
+          accionesPendientes++;
+          toggleMarkers(catKey);
+
+          // Espera a que se agregue y luego enfoca
+          esperarYBuscar(catKey, idx);
+        } else {
+          // Ya existe, solo enfoca
+          map.setView(markers[catKey][idx].getLatLng(), 16);
+          markers[catKey][idx].openPopup();
+        }
       }
     });
   });
 
-  if (!encontrado) {
-    setTimeout(() => {
-      if (!encontrado) {
-        alert("Restaurante no encontrado.");
-      }
-    }, 400);
-  }
+  setTimeout(() => {
+    if (!encontrado && accionesPendientes === 0) {
+      alert("Restaurante no encontrado.");
+    }
+  }, 700);
 }
+
 
 </script>
 
