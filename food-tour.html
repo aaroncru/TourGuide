@@ -84,6 +84,15 @@
   <img src="titlefood.png" alt="Food Tour">
   <div id="map"></div>
 <button id="locateMe" title="Recenter my location"> 📍 </button>
+  
+<div style="margin: 10px auto;">
+  <input type="text" id="searchInput" placeholder="Buscar restaurante..." 
+         style="padding: 8px; border-radius: 8px; border: none; width: 250px; font-size: 16px;">
+  <button onclick="buscarLugar()" 
+          style="padding: 8px 12px; border-radius: 8px; border: none; background-color: #bb8e1e; color: white; font-weight: bold; cursor: pointer;">
+    Search
+  </button>
+</div>
 
   <!-- Contenedor de galería con fondo desenfocado -->
 <div id="galleryModal" style="
@@ -313,6 +322,39 @@ locateButton.addEventListener('click', () => {
 
 function closeGallery() {
   document.getElementById('galleryModal').style.display = 'none';
+}
+function buscarLugar() {
+  const query = document.getElementById("searchInput").value.toLowerCase().trim();
+  let encontrado = false;
+
+  // Recorremos todas las categorías
+  Object.keys(categories).forEach(catKey => {
+    categories[catKey].coords.forEach((item, idx) => {
+      if (item.name.toLowerCase().includes(query)) {
+        // Si no está ya en el mapa, lo agregamos
+        if (!markers[catKey][idx]) {
+          toggleMarkers(catKey); // Activa los marcadores si no están
+        }
+
+        setTimeout(() => {
+          const marker = markers[catKey][idx];
+          if (marker) {
+            map.setView(marker.getLatLng(), 16);
+            marker.openPopup();
+            encontrado = true;
+          }
+        }, 300); // Espera breve a que toggleMarkers agregue el marcador
+      }
+    });
+  });
+
+  if (!encontrado) {
+    setTimeout(() => {
+      if (!encontrado) {
+        alert("Restaurante no encontrado.");
+      }
+    }, 400);
+  }
 }
 
 </script>
