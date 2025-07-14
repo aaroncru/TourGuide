@@ -101,11 +101,6 @@
   </button>
 </div>
 
-<div style="margin: 10px auto;">
-  <button class="mode-btn" data-mode="car" style="padding:8px 15px;">car</button>
-  <button class="mode-btn" data-mode="foot" style="padding:8px 15px;">foot</button>
-</div>
-
   <!-- Contenedor de galería con fondo desenfocado -->
 <div id="galleryModal" style="
   display: none;
@@ -397,18 +392,6 @@ function buscarLugar() {
     }
   }, 600);
 }
-let currentRoutingMode = 'car'; // Valor por defecto
-
-// Escuchar click en botones para cambiar modo
-document.querySelectorAll('.mode-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    currentRoutingMode = btn.getAttribute('data-mode');
-
-    // Opcional: resalta el botón activo
-    document.querySelectorAll('.mode-btn').forEach(b => b.style.backgroundColor = '');
-    btn.style.backgroundColor = '#bb8e1e';
-  });
-});
 
 // Modifica la función toggleRoute para usar currentRoutingMode
 function toggleRoute(destLat, destLng, categoryKey) {
@@ -419,7 +402,6 @@ function toggleRoute(destLat, destLng, categoryKey) {
 
   const userLatLng = userMarker.getLatLng();
 
-  // Si ya hay una ruta, elimínala para permitir cambiar de modo
   if (routingControl) {
     map.removeControl(routingControl);
     routingControl = null;
@@ -430,15 +412,15 @@ function toggleRoute(destLat, destLng, categoryKey) {
       L.latLng(userLatLng.lat, userLatLng.lng),
       L.latLng(destLat, destLng)
     ],
-  router: L.Routing.osrmv1({
-  serviceUrl: `https://router.project-osrm.org/route/v1/${currentRoutingMode}`
-                      });
+    router: L.Routing.osrmv1({
+      serviceUrl: 'https://router.project-osrm.org/route/v1/car'
+    }),
     lineOptions: {
-    styles: [{
-    color: currentRoutingMode === 'car' ? 'blue' : 'green',
-    opacity: 0.7,
-    weight: 5
-  }]
+      styles: [{
+        color: 'blue',
+        opacity: 0.7,
+        weight: 5
+      }]
     },
     routeWhileDragging: false,
     addWaypoints: false,
@@ -450,9 +432,6 @@ function toggleRoute(destLat, destLng, categoryKey) {
 
   activeRouteCategory = categoryKey;
 }
-
-
-
 </script>
 
 </body>
