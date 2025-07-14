@@ -13,8 +13,6 @@
 <!-- Scripts -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-<script src="https://unpkg.com/lrm-openrouteservice/dist/lrm-openrouteservice.min.js"></script>
-<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-routing-machine/v3.2.12/leaflet-routing-machine.js"></script>
 <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-routing-machine/v3.2.12/Control.Geocoder.js"></script>
 
 
@@ -473,19 +471,20 @@ routingControl.on('routesfound', function(e) {
     const route = e.routes[0];
     const summary = route.summary;
     const tiempoMin = Math.round(summary.totalTime / 60);
-    const distanciaKm = (summary.totalDistance / 1000).toFixed(1);
+    const distanciaMillas = (summary.totalDistance / 1609.34).toFixed(1);
 
     const divId = `routeInfo-${destLat}-${destLng}`;
     const infoDiv = document.getElementById(divId);
     if (infoDiv) {
-      infoDiv.innerHTML = `🚶${tiempoMin}min/${distanciaKm} km`;
+      infoDiv.innerHTML = `🚶${tiempoMin}min/${distanciaMillas} mi`;
     }
 
-    console.log(`🚶${tiempoMin}min/${distanciaKm} km`);
+    console.log(`🚶${tiempoMin}min/${distanciaMillas} mi`);
   } else {
     console.warn("Ruta no encontrada.");
   }
 });
+
 }
 
 </script>
