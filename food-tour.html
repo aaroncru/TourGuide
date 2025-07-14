@@ -449,7 +449,7 @@ function toggleRoute(destLat, destLng, categoryKey) {
       L.latLng(destLat, destLng)
     ],
     router: L.Routing.osrmv1({
-      serviceUrl: 'https://router.project-osrm.org/route/v1'
+      serviceUrl: 'https://router.project-osrm.org/route/v1',
       profile: 'foot'
     }),
     lineOptions: {
