@@ -410,15 +410,6 @@ function buscarLugar() {
 
 // Modifica la función toggleRoute para usar currentRoutingMode
 function toggleRoute(destLat, destLng, categoryKey) {
-  console.log("Creando ruta desde:", userLatLng.lat, userLatLng.lng, "hasta", destLat, destLng);
-if (
-  !userLatLng || isNaN(userLatLng.lat) || isNaN(userLatLng.lng) ||
-  isNaN(destLat) || isNaN(destLng)
-) {
-  console.error("Coordenadas inválidas para la ruta.");
-  return;
-}
-
   if (!userMarker) {
     alert("Ubicación no disponible aún.");
     return;
@@ -426,11 +417,19 @@ if (
 
   const userLatLng = userMarker.getLatLng();
 
-  // Guardamos el destino actual para futuros movimientos
+  console.log("Creando ruta desde:", userLatLng.lat, userLatLng.lng, "hasta", destLat, destLng);
+
+  if (
+    !userLatLng || isNaN(userLatLng.lat) || isNaN(userLatLng.lng) ||
+    isNaN(destLat) || isNaN(destLng)
+  ) {
+    console.error("Coordenadas inválidas para la ruta.");
+    return;
+  }
+
   currentDestination = { lat: destLat, lng: destLng };
   activeRouteCategory = categoryKey;
 
-  // Elimina ruta anterior
   if (routingControl) {
     map.removeControl(routingControl);
     routingControl = null;
@@ -442,8 +441,8 @@ if (
       L.latLng(destLat, destLng)
     ],
     router: L.Routing.osrmv1({
-  serviceUrl: 'https://router.project-osrm.org/route/v1'
-}),
+      serviceUrl: 'https://router.project-osrm.org/route/v1/car'
+    }),
     lineOptions: {
       styles: [{
         color: 'blue',
@@ -458,22 +457,20 @@ if (
     show: false,
     createMarker: () => null
   }).addTo(map);
-  
- routingControl.on('routesfound', function(e) {
-  if (e.routes.length > 0) {
-    const route = e.routes[0];
-    const summary = route.summary;
 
-    const tiempoMin = Math.round(summary.totalTime / 60);
-    const distanciaKm = (summary.totalDistance / 1000).toFixed(1);
-
-    console.log(`🚗 ${tiempoMin} min / ${distanciaKm} km`);
-  } else {
-    console.warn("Ruta no encontrada.");
-  }
-});
-
+  routingControl.on('routesfound', function(e) {
+    if (e.routes.length > 0) {
+      const route = e.routes[0];
+      const summary = route.summary;
+      const tiempoMin = Math.round(summary.totalTime / 60);
+      const distanciaKm = (summary.totalDistance / 1000).toFixed(1);
+      console.log(`🚗 ${tiempoMin} min / ${distanciaKm} km`);
+    } else {
+      console.warn("Ruta no encontrada.");
+    }
+  });
 }
+
 
 </script>
 
