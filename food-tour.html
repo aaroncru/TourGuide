@@ -109,11 +109,6 @@
           style="padding: 8px 12px; border-radius: 8px; border: none; background-color: #bb8e1e; color: white; font-weight: bold; cursor: pointer;">
     Search
   </button>
-  <button onclick="mostrarFavoritos()" 
-  style="padding: 8px 12px; border-radius: 8px; border: none; background-color: crimson; color: white; font-weight: bold; cursor: pointer;">
-  ❤️ Ver Favoritos
-</button>
-
 </div>
 
   <!-- Contenedor de galería con fondo desenfocado -->
@@ -253,8 +248,6 @@ function toggleMarkers(categoryKey) {
     <div style="display: flex; gap: 10px;">
   <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
   <button onclick="toggleRoute(${item.lat}, ${item.lng}, '${categoryKey}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">➡️</button>
-  <button onclick="toggleFavorite('${item.name}', this)" style="background: none; border: none; cursor: pointer; font-size: 18px;" 
-    id="fav-${item.name.replace(/\s+/g, '')}" title="Agregar a favoritos">❤️</button>
 </div>
   </div>
 `;
@@ -492,80 +485,6 @@ routingControl.on('routesfound', function(e) {
   }
 });
 }
-function toggleFavorite(name, btn) {
-  const favorites = JSON.parse(localStorage.getItem('favoritePlaces') || '[]');
-  const index = favorites.indexOf(name);
-
-  if (index >= 0) {
-    // Ya es favorito, eliminarlo
-    favorites.splice(index, 1);
-    btn.style.color = ""; // color normal
-  } else {
-    // Agregar a favoritos
-    favorites.push(name);
-    btn.style.color = "red";
-  }
-
-  localStorage.setItem('favoritePlaces', JSON.stringify(favorites));
-}
-function mostrarFavoritos() {
-  const favoritos = JSON.parse(localStorage.getItem('favoritePlaces') || '[]');
-  if (favoritos.length === 0) {
-    alert("No tienes lugares marcados como favoritos.");
-    return;
-  }
-
-  // Limpiar marcadores actuales
-  Object.keys(markers).forEach(catKey => {
-    markers[catKey].forEach(m => map.removeLayer(m));
-    markers[catKey] = [];
-  });
-
-  // Buscar los objetos por nombre
-  Object.keys(categories).forEach(catKey => {
-    categories[catKey].coords.forEach(item => {
-      if (favoritos.includes(item.name)) {
-        const marker = L.circleMarker([item.lat, item.lng], {
-          radius: 8,
-          color: 'red',
-          fillColor: 'red',
-          fillOpacity: 0.9
-        }).addTo(map);
-
-        let popupHTML = `
-          <div style="display: flex; flex-direction: column; align-items: center;">
-            <span style="color: black; font-weight: bold; font-size: 16px;">
-              ${item.link 
-                ? `<a href="${item.link}" target="_blank" style="color: black; text-decoration: underline;">${item.name}</a>`
-                : item.name}
-            </span>
-            <div style="margin: 5px 0; font-size: 14px; color: black;">
-              ⭐ ${item.rating ? item.rating.toFixed(1) : 'N/A'}
-            </div>
-            <div id="routeInfo-${item.lat}-${item.lng}" style="font-size: 14px; color: black;"></div>
-            <div style="display: flex; gap: 10px;">
-              <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
-              <button onclick="toggleRoute(${item.lat}, ${item.lng}, null)" style="background: none; border: none; cursor: pointer; font-size: 18px;">➡️</button>
-              <button onclick="toggleFavorite('${item.name}', this)" style="background: none; border: none; cursor: pointer; font-size: 18px;" 
-                id="fav-${item.name.replace(/\s+/g, '')}" title="Favorito">❤️</button>
-            </div>
-          </div>
-        `;
-
-        marker.bindPopup(popupHTML);
-        setTimeout(() => {
-          const favBtn = document.getElementById(`fav-${item.name.replace(/\s+/g, '')}`);
-          if (favBtn) favBtn.style.color = "red";
-        }, 300);
-
-        markers[catKey].push(marker);
-      }
-    });
-  });
-
-  alert("Mostrando lugares favoritos.");
-}
-
 
 </script>
 
