@@ -450,6 +450,18 @@ function toggleRoute(destLat, destLng, categoryKey) {
     show: false,
     createMarker: () => null
   }).addTo(map);
+  
+  routingControl.on('routesfound', function(e) {
+  const route = e.routes[0];
+  const summary = route.summary;
+
+  const tiempoMin = Math.round(summary.totalTime / 60);
+  const distanciaKm = (summary.totalDistance / 1000).toFixed(1);
+
+  // Mostrar en consola (o podrías mostrarlo bajo el mapa o el popup)
+  console.log(`🚗 ${tiempoMin} min / ${distanciaKm} km`);
+});
+
 }
 
 </script>
