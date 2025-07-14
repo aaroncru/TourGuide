@@ -252,7 +252,7 @@ function toggleMarkers(categoryKey) {
   </div>
 `;
 
-      marker.bindPopup(popupHTML).openPopup();
+      marker.bindPopup(popupHTML);
       marker.on('popupopen', () => {
   if (userMarker) {
     const userLatLng = userMarker.getLatLng();
@@ -493,17 +493,24 @@ function toggleRoute(destLat, destLng, categoryKey) {
     createMarker: () => null
   }).addTo(map);
 
-  routingControl.on('routesfound', function(e) {
-    if (e.routes.length > 0) {
-      const route = e.routes[0];
-      const summary = route.summary;
-      const tiempoMin = Math.round(summary.totalTime / 60);
-      const distanciaKm = (summary.totalDistance / 1000).toFixed(1);
-      console.log(`🚗 ${tiempoMin} min / ${distanciaKm} km`);
-    } else {
-      console.warn("Ruta no encontrada.");
+routingControl.on('routesfound', function(e) {
+  if (e.routes.length > 0) {
+    const route = e.routes[0];
+    const summary = route.summary;
+    const tiempoMin = Math.round(summary.totalTime / 60);
+    const distanciaKm = (summary.totalDistance / 1000).toFixed(1);
+
+    const divId = `routeInfo-${destLat}-${destLng}`;
+    const infoDiv = document.getElementById(divId);
+    if (infoDiv) {
+      infoDiv.innerHTML = `🚗${tiempoMin} min / 📏 ${distanciaKm} km`;
     }
-  });
+
+    console.log(`🚗 ${tiempoMin} min / ${distanciaKm} km`);
+  } else {
+    console.warn("Ruta no encontrada.");
+  }
+});
 }
 
 
