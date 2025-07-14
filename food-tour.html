@@ -410,10 +410,10 @@ function toggleRoute(destLat, destLng, categoryKey) {
   routingControl = L.Routing.control({
     waypoints: [
       L.latLng(userLatLng.lat, userLatLng.lng),
-      L.latLng(destLat, destLng)
+      L.latLng(destLat, destLat === destLng ? destLat + 0.0001 : destLng) // evitar error si son iguales
     ],
     router: L.Routing.osrmv1({
-      serviceUrl: 'https://router.project-osrm.org/route/v1/car'
+      serviceUrl: 'https://router.project-osrm.org/route/v1'
     }),
     lineOptions: {
       styles: [{
@@ -430,8 +430,18 @@ function toggleRoute(destLat, destLng, categoryKey) {
     createMarker: () => null
   }).addTo(map);
 
+  routingControl.on('routesfound', function (e) {
+    console.log('Ruta encontrada:', e.routes[0]);
+  });
+
+  routingControl.on('routingerror', function (e) {
+    alert('No se pudo calcular la ruta. Intenta más tarde.');
+    console.error('Routing error:', e);
+  });
+
   activeRouteCategory = categoryKey;
 }
+
 </script>
 
 </body>
