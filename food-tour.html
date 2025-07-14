@@ -283,10 +283,9 @@ function toggleMarkers(categoryKey) {
         map.setView([lat, lon], 15);
       }
       // Si hay una ruta activa, se actualiza automáticamente con la nueva posición
-if (currentDestination) {
+if (currentDestination && userMarker && map) {
   toggleRoute(currentDestination.lat, currentDestination.lng, activeRouteCategory);
 }
-
     }
     const datalist = document.getElementById('restaurantList');
     const allNames = [];
@@ -451,15 +450,18 @@ function toggleRoute(destLat, destLng, categoryKey) {
     createMarker: () => null
   }).addTo(map);
   
-  routingControl.on('routesfound', function(e) {
-  const route = e.routes[0];
-  const summary = route.summary;
+ routingControl.on('routesfound', function(e) {
+  if (e.routes.length > 0) {
+    const route = e.routes[0];
+    const summary = route.summary;
 
-  const tiempoMin = Math.round(summary.totalTime / 60);
-  const distanciaKm = (summary.totalDistance / 1000).toFixed(1);
+    const tiempoMin = Math.round(summary.totalTime / 60);
+    const distanciaKm = (summary.totalDistance / 1000).toFixed(1);
 
-  // Mostrar en consola (o podrías mostrarlo bajo el mapa o el popup)
-  console.log(`🚗 ${tiempoMin} min / ${distanciaKm} km`);
+    console.log(`🚗 ${tiempoMin} min / ${distanciaKm} km`);
+  } else {
+    console.warn("Ruta no encontrada.");
+  }
 });
 
 }
