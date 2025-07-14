@@ -10,9 +10,8 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-
+<script src="https://unpkg.com/lrm-openrouteservice/dist/lrm-openrouteservice.min.js"></script>
 
   <style>
     body {
@@ -97,7 +96,7 @@
   margin-bottom: 10px;
   opacity: 0.8;
 ">
-  🚗 Only driving directions are supported
+  🚶 Only walking directions are supported
 </p>
 
 <div style="margin: 10px auto;">
@@ -448,10 +447,10 @@ function toggleRoute(destLat, destLng, categoryKey) {
       L.latLng(userLatLng.lat, userLatLng.lng),
       L.latLng(destLat, destLng)
     ],
-    router: L.Routing.osrmv1({
-      serviceUrl: 'https://router.project-osrm.org/route/v1',
-      profile: 'foot'
-    }),
+   router: new L.Routing.openrouteservice('eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjM4MDVmZGZkMWEyMzRkNzk5ZmRhMGE1N2U0NWE0M2E2IiwiaCI6Im11cm11cjY0In0=', {
+  profile: 'foot-walking'
+}),
+
     lineOptions: {
       styles: [{
         color: 'blue',
@@ -477,10 +476,10 @@ routingControl.on('routesfound', function(e) {
     const divId = `routeInfo-${destLat}-${destLng}`;
     const infoDiv = document.getElementById(divId);
     if (infoDiv) {
-      infoDiv.innerHTML = `🚗${tiempoMin}min/${distanciaKm} km`;
+      infoDiv.innerHTML = `🚶${tiempoMin}min/${distanciaKm} km`;
     }
 
-    console.log(`🚗${tiempoMin}min/${distanciaKm} km`);
+    console.log(`🚶${tiempoMin}min/${distanciaKm} km`);
   } else {
     console.warn("Ruta no encontrada.");
   }
