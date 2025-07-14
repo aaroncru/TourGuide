@@ -412,13 +412,6 @@ document.querySelectorAll('.mode-btn').forEach(btn => {
 
 // Modifica la función toggleRoute para usar currentRoutingMode
 function toggleRoute(destLat, destLng, categoryKey) {
-  if (routingControl) {
-    map.removeControl(routingControl);
-    routingControl = null;
-    activeRouteCategory = null;
-    return;
-  }
-
   if (!userMarker) {
     alert("Ubicación no disponible aún.");
     return;
@@ -426,16 +419,26 @@ function toggleRoute(destLat, destLng, categoryKey) {
 
   const userLatLng = userMarker.getLatLng();
 
+  // Si ya hay una ruta, elimínala para permitir cambiar de modo
+  if (routingControl) {
+    map.removeControl(routingControl);
+    routingControl = null;
+  }
+
   routingControl = L.Routing.control({
     waypoints: [
       L.latLng(userLatLng.lat, userLatLng.lng),
       L.latLng(destLat, destLng)
     ],
-    router: L.routing.osrmv1({
-      profile: currentRoutingMode // usa el modo seleccionado
+    router: L.Routing.osrmv1({
+      profile: currentRoutingMode // 'car' o 'foot'
     }),
     lineOptions: {
-      styles: [{ color: 'blue', opacity: 0.7, weight: 5 }]
+    styles: [{
+    color: currentRoutingMode === 'car' ? 'blue' : 'green',
+    opacity: 0.7,
+    weight: 5
+  }]
     },
     routeWhileDragging: false,
     addWaypoints: false,
@@ -444,8 +447,10 @@ function toggleRoute(destLat, destLng, categoryKey) {
     show: false,
     createMarker: () => null
   }).addTo(map);
-  activeRouteCategory = categoryKey; // Guarda categoría activa
+
+  activeRouteCategory = categoryKey;
 }
+
 
 
 </script>
