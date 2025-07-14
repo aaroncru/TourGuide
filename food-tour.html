@@ -430,9 +430,9 @@ function toggleRoute(destLat, destLng, categoryKey) {
       L.latLng(userLatLng.lat, userLatLng.lng),
       L.latLng(destLat, destLng)
     ],
-    router: L.Routing.osrmv1({
-      profile: currentRoutingMode // 'car' o 'foot'
-    }),
+  router: L.Routing.osrmv1({
+  serviceUrl: `https://router.project-osrm.org/route/v1/${currentRoutingMode}`
+                      });
     lineOptions: {
     styles: [{
     color: currentRoutingMode === 'car' ? 'blue' : 'green',
