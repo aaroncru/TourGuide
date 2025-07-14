@@ -410,6 +410,15 @@ function buscarLugar() {
 
 // Modifica la función toggleRoute para usar currentRoutingMode
 function toggleRoute(destLat, destLng, categoryKey) {
+  console.log("Creando ruta desde:", userLatLng.lat, userLatLng.lng, "hasta", destLat, destLng);
+if (
+  !userLatLng || isNaN(userLatLng.lat) || isNaN(userLatLng.lng) ||
+  isNaN(destLat) || isNaN(destLng)
+) {
+  console.error("Coordenadas inválidas para la ruta.");
+  return;
+}
+
   if (!userMarker) {
     alert("Ubicación no disponible aún.");
     return;
@@ -433,8 +442,8 @@ function toggleRoute(destLat, destLng, categoryKey) {
       L.latLng(destLat, destLng)
     ],
     router: L.Routing.osrmv1({
-      serviceUrl: 'https://router.project-osrm.org/route/v1/car'
-    }),
+  serviceUrl: 'https://router.project-osrm.org/route/v1'
+}),
     lineOptions: {
       styles: [{
         color: 'blue',
