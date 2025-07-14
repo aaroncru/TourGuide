@@ -101,6 +101,12 @@
   </button>
 </div>
 
+<div style="margin: 10px auto;">
+  <button class="mode-btn" data-mode="car" style="padding:8px 15px;">Drive</button>
+  <button class="mode-btn" data-mode="foot" style="padding:8px 15px;">Walk</button>
+  <button class="mode-btn" data-mode="bike" style="padding:8px 15px;">Bike</button>
+</div>
+
   <!-- Contenedor de galería con fondo desenfocado -->
 <div id="galleryModal" style="
   display: none;
@@ -392,6 +398,20 @@ function buscarLugar() {
     }
   }, 600);
 }
+let currentRoutingMode = 'car'; // Valor por defecto
+
+// Escuchar click en botones para cambiar modo
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentRoutingMode = btn.getAttribute('data-mode');
+
+    // Opcional: resalta el botón activo
+    document.querySelectorAll('.mode-btn').forEach(b => b.style.backgroundColor = '');
+    btn.style.backgroundColor = '#bb8e1e';
+  });
+});
+
+// Modifica la función toggleRoute para usar currentRoutingMode
 function toggleRoute(destLat, destLng, categoryKey) {
   if (routingControl) {
     map.removeControl(routingControl);
@@ -412,6 +432,9 @@ function toggleRoute(destLat, destLng, categoryKey) {
       L.latLng(userLatLng.lat, userLatLng.lng),
       L.latLng(destLat, destLng)
     ],
+    router: L.routing.osrmv1({
+      profile: currentRoutingMode // usa el modo seleccionado
+    }),
     lineOptions: {
       styles: [{ color: 'blue', opacity: 0.7, weight: 5 }]
     },
@@ -422,9 +445,9 @@ function toggleRoute(destLat, destLng, categoryKey) {
     show: false,
     createMarker: () => null
   }).addTo(map);
-
-  activeRouteCategory = categoryKey; // Ahora sí existe y se guarda
+  activeRouteCategory = categoryKey; // Guarda categoría activa
 }
+
 
 </script>
 
