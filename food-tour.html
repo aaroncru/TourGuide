@@ -246,13 +246,23 @@ function toggleMarkers(categoryKey) {
     </div>
     <div id="routeInfo-${item.lat}-${item.lng}" style="font-size: 14px; color: black;"></div>
     <div style="display: flex; gap: 10px;">
-      <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
-      <button onclick="toggleRoute(${item.lat}, ${item.lng}, '${categoryKey}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">➡️</button>
-    </div>
+  <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
+  <button onclick="toggleRoute(${item.lat}, ${item.lng}, '${categoryKey}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">➡️</button>
+  <button onclick="toggleFavorite('${item.name}', this)" style="background: none; border: none; cursor: pointer; font-size: 18px;" 
+    id="fav-${item.name.replace(/\s+/g, '')}" title="Agregar a favoritos">❤️</button>
+</div>
   </div>
 `;
 
       marker.bindPopup(popupHTML);
+     setTimeout(() => {
+  const favorites = JSON.parse(localStorage.getItem('favoritePlaces') || '[]');
+  if (favorites.includes(item.name)) {
+    const favBtn = document.getElementById(`fav-${item.name.replace(/\s+/g, '')}`);
+    if (favBtn) favBtn.style.color = "red";
+  }
+}, 300); // espera a que se abra el popup
+
       markers[categoryKey].push(marker);
     });
   }
@@ -476,6 +486,22 @@ routingControl.on('routesfound', function(e) {
     console.warn("Ruta no encontrada.");
   }
 });
+}
+function toggleFavorite(name, btn) {
+  const favorites = JSON.parse(localStorage.getItem('favoritePlaces') || '[]');
+  const index = favorites.indexOf(name);
+
+  if (index >= 0) {
+    // Ya es favorito, eliminarlo
+    favorites.splice(index, 1);
+    btn.style.color = ""; // color normal
+  } else {
+    // Agregar a favoritos
+    favorites.push(name);
+    btn.style.color = "red";
+  }
+
+  localStorage.setItem('favoritePlaces', JSON.stringify(favorites));
 }
 
 
