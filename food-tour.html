@@ -236,6 +236,7 @@ function toggleMarkers(categoryKey) {
           <div style="display: flex; gap: 10px;">
             <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
             <button onclick="toggleRoute(${item.lat}, ${item.lng}, '${categoryKey}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">➡️</button>
+
           </div>
         </div>
       `;
@@ -391,7 +392,7 @@ function buscarLugar() {
     }
   }, 600);
 }
-function toggleRoute(destLat, destLng) {
+function toggleRoute(destLat, destLng, categoryKey) {
   if (routingControl) {
     map.removeControl(routingControl);
     routingControl = null;
@@ -407,22 +408,24 @@ function toggleRoute(destLat, destLng) {
   const userLatLng = userMarker.getLatLng();
 
   routingControl = L.Routing.control({
-  waypoints: [
-    L.latLng(userLatLng.lat, userLatLng.lng),
-    L.latLng(destLat, destLng)
-  ],
-  lineOptions: {
-    styles: [{ color: 'blue', opacity: 0.7, weight: 5 }]
-  },
-  routeWhileDragging: false,
-  addWaypoints: false,
-  draggableWaypoints: false,
-  fitSelectedRoutes: true,
-  show: false,
-  createMarker: () => null
-}).addTo(map);
-  activeRouteCategory = categoryKey; // Guardamos la categoría activa
+    waypoints: [
+      L.latLng(userLatLng.lat, userLatLng.lng),
+      L.latLng(destLat, destLng)
+    ],
+    lineOptions: {
+      styles: [{ color: 'blue', opacity: 0.7, weight: 5 }]
+    },
+    routeWhileDragging: false,
+    addWaypoints: false,
+    draggableWaypoints: false,
+    fitSelectedRoutes: true,
+    show: false,
+    createMarker: () => null
+  }).addTo(map);
+
+  activeRouteCategory = categoryKey; // Ahora sí existe y se guarda
 }
+
 </script>
 
 </body>
