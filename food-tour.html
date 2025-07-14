@@ -14,6 +14,9 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 <script src="https://unpkg.com/lrm-openrouteservice/dist/lrm-openrouteservice.min.js"></script>
+<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-routing-machine/v3.2.12/leaflet-routing-machine.js"></script>
+<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-routing-machine/v3.2.12/Control.Geocoder.js"></script>
+
 
 
   <style>
@@ -445,29 +448,25 @@ function toggleRoute(destLat, destLng, categoryKey) {
     routingControl = null;
   }
 
-  routingControl = L.Routing.control({
-    waypoints: [
-      L.latLng(userLatLng.lat, userLatLng.lng),
-      L.latLng(destLat, destLng)
-    ],
-   router: new L.Routing.openrouteservice('eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjM4MDVmZGZkMWEyMzRkNzk5ZmRhMGE1N2U0NWE0M2E2IiwiaCI6Im11cm11cjY0In0=', {
-  profile: 'foot-walking'
-}),
+ routingControl = L.Routing.control({
+  waypoints: [
+    L.latLng(userLatLng.lat, userLatLng.lng),
+    L.latLng(destLat, destLng)
+  ],
+  router: L.Routing.mapbox('pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g', {
+    profile: 'mapbox/walking'
+  }),
+  lineOptions: {
+    styles: [{ color: 'blue', opacity: 0.7, weight: 5 }]
+  },
+  routeWhileDragging: false,
+  addWaypoints: false,
+  draggableWaypoints: false,
+  fitSelectedRoutes: true,
+  show: false,
+  createMarker: () => null
+}).addTo(map);
 
-    lineOptions: {
-      styles: [{
-        color: 'blue',
-        opacity: 0.7,
-        weight: 5
-      }]
-    },
-    routeWhileDragging: false,
-    addWaypoints: false,
-    draggableWaypoints: false,
-    fitSelectedRoutes: true,
-    show: false,
-    createMarker: () => null
-  }).addTo(map);
 
 routingControl.on('routesfound', function(e) {
   if (e.routes.length > 0) {
