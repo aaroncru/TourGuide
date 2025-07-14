@@ -97,7 +97,7 @@
   margin-bottom: 10px;
   opacity: 0.8;
 ">
-  🚗 Only drive mode available
+  🚗 Only driving directions are supported
 </p>
 
 <div style="margin: 10px auto;">
@@ -209,6 +209,7 @@
   let userMarker = null;
   let routingControl = null;
   let activeRouteCategory = null;
+  let currentDestination = null; // Nuevo: guardamos el destino de la ruta actual
 
 function toggleMarkers(categoryKey) {
   const cat = categories[categoryKey];
@@ -281,6 +282,11 @@ function toggleMarkers(categoryKey) {
         }).addTo(map).bindPopup("You Are Here!").openPopup();
         map.setView([lat, lon], 15);
       }
+      // Si hay una ruta activa, se actualiza automáticamente con la nueva posición
+if (currentDestination) {
+  toggleRoute(currentDestination.lat, currentDestination.lng, activeRouteCategory);
+}
+
     }
     const datalist = document.getElementById('restaurantList');
     const allNames = [];
@@ -412,6 +418,11 @@ function toggleRoute(destLat, destLng, categoryKey) {
 
   const userLatLng = userMarker.getLatLng();
 
+  // Guardamos el destino actual para futuros movimientos
+  currentDestination = { lat: destLat, lng: destLng };
+  activeRouteCategory = categoryKey;
+
+  // Elimina ruta anterior
   if (routingControl) {
     map.removeControl(routingControl);
     routingControl = null;
@@ -420,10 +431,10 @@ function toggleRoute(destLat, destLng, categoryKey) {
   routingControl = L.Routing.control({
     waypoints: [
       L.latLng(userLatLng.lat, userLatLng.lng),
-      L.latLng(destLat, destLat === destLng ? destLat + 0.0001 : destLng) // evitar error si son iguales
+      L.latLng(destLat, destLng)
     ],
     router: L.Routing.osrmv1({
-      serviceUrl: 'https://router.project-osrm.org/route/v1'
+      serviceUrl: 'https://router.project-osrm.org/route/v1/car'
     }),
     lineOptions: {
       styles: [{
@@ -439,17 +450,6 @@ function toggleRoute(destLat, destLng, categoryKey) {
     show: false,
     createMarker: () => null
   }).addTo(map);
-
-  routingControl.on('routesfound', function (e) {
-    console.log('Ruta encontrada:', e.routes[0]);
-  });
-
-  routingControl.on('routingerror', function (e) {
-    alert('No se pudo calcular la ruta. Intenta más tarde.');
-    console.error('Routing error:', e);
-  });
-
-  activeRouteCategory = categoryKey;
 }
 
 </script>
