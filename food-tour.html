@@ -253,41 +253,6 @@ function toggleMarkers(categoryKey) {
 `;
 
       marker.bindPopup(popupHTML);
-      marker.on('popupopen', () => {
-  if (userMarker) {
-    const userLatLng = userMarker.getLatLng();
-    const destLatLng = L.latLng(item.lat, item.lng);
-    const divId = `routeInfo-${item.lat}-${item.lng}`;
-
-    L.Routing.control({
-      waypoints: [userLatLng, destLatLng],
-      router: L.Routing.osrmv1({ serviceUrl: 'https://router.project-osrm.org/route/v1' }),
-      createMarker: () => null,
-      addWaypoints: false,
-      draggableWaypoints: false,
-      routeWhileDragging: false,
-      show: false
-    })
-    .on('routesfound', function(e) {
-      const summary = e.routes[0].summary;
-      const tiempoMin = Math.round(summary.totalTime / 60);
-      const distanciaKm = (summary.totalDistance / 1000).toFixed(1);
-      const infoDiv = document.getElementById(divId);
-      if (infoDiv) {
-        infoDiv.innerHTML = `🚗${tiempoMin}min/${distanciaKm}km`;
-      }
-    })
-    .on('routingerror', function() {
-      const infoDiv = document.getElementById(divId);
-      if (infoDiv) {
-        infoDiv.innerHTML = `🚫 Ruta no disponible`;
-      }
-    })
-    .addTo(map);
-
-  }
-});
-
       markers[categoryKey].push(marker);
     });
   }
