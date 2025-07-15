@@ -117,15 +117,17 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.1); /* fondo tenue */
+  overflow-y: auto;                /* ← Permite scroll */
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   z-index: 2000;
-  justify-content: center;
+  justify-content: flex-start;    /* ← Alinea arriba */
   align-items: center;
   flex-direction: column;
   padding-top: 60px;
 ">
+
   <!-- Botón de cerrar -->
   <button onclick="closeGallery()" style="
     position: absolute;
