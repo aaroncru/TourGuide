@@ -409,7 +409,7 @@ menuContainer.style.textAlign = 'center';
 
 const menuTitle = document.createElement('div');
 menuTitle.innerText = 'Menu';
-menuTitle.style.color = 'white';
+menuTitle.style.color = 'black';
 menuTitle.style.fontWeight = 'bold';
 menuTitle.style.marginBottom = '10px';
 menuContainer.appendChild(menuTitle);
@@ -434,7 +434,7 @@ Object.keys(visual.menu).forEach(menuType => {
   btn.style.borderRadius = '6px';
   btn.style.border = 'none';
   btn.style.backgroundColor = '#bb8e1e';
-  btn.style.color = 'black';
+  btn.style.color = 'white';
   btn.style.cursor = 'pointer';
   btn.style.fontSize = '14px';
 
@@ -460,8 +460,8 @@ Object.keys(visual.menu).forEach(menuType => {
     } else {
       img.style.position = 'relative';
       img.style.zIndex = '9999';
-      img.style.transform = 'scale(2)';
-      img.style.width = '240px';
+      img.style.transform = 'scale(1.4)';
+      img.style.width = '160px';
       img.classList.add('zoomed');
     }
   });
