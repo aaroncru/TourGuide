@@ -242,9 +242,12 @@ function toggleMarkers(categoryKey) {
     <div style="margin: 5px 0; font-size: 14px; color: black;">
       ⭐ ${item.rating ? item.rating.toFixed(1) : 'N/A'}
     </div>
-    <div style="margin: 5px 0; font-size: 14px; color: black;">
-     ⏰ ${item.hours || 'Schedule not available'}
-     </div>
+   <div onclick="toggleHorario('horario-${item.lat}-${item.lng}')" 
+         style="cursor: pointer; font-size: 18px;">⏰</div>
+    <div id="horario-${item.lat}-${item.lng}" 
+         style="display: none; font-size: 14px; color: black; margin-top: 5px;">
+      ${item.hours || 'Horario no disponible'}
+    </div>
     <div id="routeInfo-${item.lat}-${item.lng}" style="font-size: 14px; color: black;"></div>
     <div style="display: flex; gap: 10px;">
   <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
@@ -487,6 +490,12 @@ routingControl.on('routesfound', function(e) {
   }
 });
 
+}
+function toggleHorario(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
 }
 
 </script>
