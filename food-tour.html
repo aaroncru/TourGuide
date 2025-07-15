@@ -241,7 +241,7 @@ function toggleMarkers(categoryKey) {
     <div id="precio-${item.lat}-${item.lng}" style="display: none; font-size: 14px; color: black; margin-top: 5px;">
       ${item.priceRange || 'Precio no disponible'}
     </div>
-    <div style="font-size: 14px; color: black;">📞 ${item.phone || 'No disponible'}</div>
+    <div style="font-size: 14px; color: black;">📞<a href="tel:${item.phone?.replace(/[^0-9+]/g, '')}" style="color: black; text-decoration: underline;">${item.phone || 'No disponible'}</a></div>
     <div id="routeInfo-${item.lat}-${item.lng}" style="font-size: 14px; color: black;"></div>
     <div style="display: flex; gap: 10px;">
    <button onclick="openVisual('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">👁️</button>
