@@ -474,6 +474,10 @@ grid.appendChild(menuContainer);
   content.appendChild(grid);
   modal.style.display = 'flex';
 }
+function closeGallery() {
+  const modal = document.getElementById('galleryModal');
+  modal.style.display = 'none';
+}
 
 function buscarLugar() {
   const query = document.getElementById("searchInput").value.toLowerCase().trim();
