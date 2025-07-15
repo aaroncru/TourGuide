@@ -254,7 +254,7 @@ function toggleMarkers(categoryKey) {
     </div>
     <div id="routeInfo-${item.lat}-${item.lng}" style="font-size: 14px; color: black;"></div>
     <div style="display: flex; gap: 10px;">
-  <button onclick="openGallery('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">📷</button>
+   <button onclick="openVisual('${item.name}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">👁️</button>
   <button onclick="toggleRoute(${item.lat}, ${item.lng}, '${categoryKey}')" style="background: none; border: none; cursor: pointer; font-size: 18px;">➡️</button>
 </div>
   </div>
@@ -364,27 +364,117 @@ locateButton.addEventListener('click', () => {
 });
 
   });
-  function openGallery(placeName) {
+function openVisual(placeName) {
   const modal = document.getElementById('galleryModal');
   const content = document.getElementById('galleryContent');
   content.innerHTML = "";
 
-  if (placeImages[placeName]) {
-    placeImages[placeName].forEach(src => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.style.width = "150px";
-      img.style.borderRadius = "8px";
-      img.style.boxShadow = "0 0 10px white";
-      content.appendChild(img);
-    });
-    modal.style.display = 'flex';
+  // Datos visuales por lugar
+  const data = {
+    "Snow City Cafe": {
+      video: "videoSnow.mp4",
+      recommendation: "scc.jpg",
+      photo1: "scc1.jpg",
+       menu: {
+    "BREAKFAST & LUNCH": ["menuBL1.jpg", "menuBL2.jpg"],
+    "FRESH SHEET": ["menuFS1.jpg"],
+    "KIDS": ["menuK1.jpg"]
   }
+    },
+    "Simon & Seaforts": {
+      video: "videoSS.mp4",
+      recommendation: "s&s1.jpg",
+      photo1: "s&s.jpg",
+      menu: "menuSS.jpg"
+    },
+    // Agrega más lugares aquí
+  };
+
+  const visual = data[placeName];
+  if (!visual) return;
+
+  const grid = document.createElement('div');
+  grid.style.display = 'grid';
+  grid.style.gridTemplateColumns = '1fr 1fr';
+  grid.style.gridTemplateRows = 'auto auto';
+  grid.style.gap = '15px';
+  grid.style.justifyItems = 'center';
+  grid.style.alignItems = 'center';
+
+  const createSection = (title, contentHTML) => {
+    const container = document.createElement('div');
+    container.style.textAlign = 'center';
+    const titleEl = document.createElement('div');
+    titleEl.innerText = title;
+    titleEl.style.color = 'white';
+    titleEl.style.marginBottom = '5px';
+    titleEl.style.fontWeight = 'bold';
+    container.appendChild(titleEl);
+    container.innerHTML += contentHTML;
+    return container;
+  };
+
+  grid.appendChild(createSection('Video', `<video src="${visual.video}" controls style="width: 200px; border-radius: 10px;"></video>`));
+  grid.appendChild(createSection('Our Recommendation', `<img src="${visual.recommendation}" style="width: 150px; border-radius: 10px;" />`));
+  grid.appendChild(createSection('Photo', `<img src="${visual.photo1}" style="width: 150px; border-radius: 10px;" />`));
+ const menuContainer = document.createElement('div');
+menuContainer.style.textAlign = 'center';
+
+const menuTitle = document.createElement('div');
+menuTitle.innerText = 'Menu';
+menuTitle.style.color = 'white';
+menuTitle.style.fontWeight = 'bold';
+menuTitle.style.marginBottom = '10px';
+menuContainer.appendChild(menuTitle);
+
+// Contenedor de botones
+const buttonGroup = document.createElement('div');
+buttonGroup.style.display = 'flex';
+buttonGroup.style.gap = '10px';
+buttonGroup.style.marginBottom = '10px';
+buttonGroup.style.justifyContent = 'center';
+
+const imageGrid = document.createElement('div');
+imageGrid.style.display = 'flex';
+imageGrid.style.gap = '10px';
+imageGrid.style.flexWrap = 'wrap';
+imageGrid.style.justifyContent = 'center';
+
+Object.keys(visual.menu).forEach(menuType => {
+  const btn = document.createElement('button');
+  btn.innerText = menuType;
+  btn.style.padding = '6px 10px';
+  btn.style.borderRadius = '6px';
+  btn.style.border = 'none';
+  btn.style.backgroundColor = '#bb8e1e';
+  btn.style.color = 'white';
+  btn.style.cursor = 'pointer';
+  btn.style.fontSize = '14px';
+
+  btn.addEventListener('click', () => {
+    imageGrid.innerHTML = '';
+    visual.menu[menuType].forEach(imgSrc => {
+      const img = document.createElement('img');
+      img.src = imgSrc;
+      img.style.width = '120px';
+      img.style.borderRadius = '8px';
+      img.style.boxShadow = '0 0 6px white';
+      imageGrid.appendChild(img);
+    });
+  });
+
+  buttonGroup.appendChild(btn);
+});
+
+menuContainer.appendChild(buttonGroup);
+menuContainer.appendChild(imageGrid);
+grid.appendChild(menuContainer);
+
+
+  content.appendChild(grid);
+  modal.style.display = 'flex';
 }
 
-function closeGallery() {
-  document.getElementById('galleryModal').style.display = 'none';
-}
 function buscarLugar() {
   const query = document.getElementById("searchInput").value.toLowerCase().trim();
   let encontrado = false;
