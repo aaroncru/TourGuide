@@ -475,10 +475,10 @@ routingControl.on('routesfound', function(e) {
     const divId = `routeInfo-${destLat}-${destLng}`;
     const infoDiv = document.getElementById(divId);
     if (infoDiv) {
-      infoDiv.innerHTML = `🚶${tiempoMin}min/${distanciaMillas} mi`;
+      infoDiv.innerHTML = `${tiempoMin}min/${distanciaMillas} mi`;
     }
 
-    console.log(`🚗${tiempoMin}min/${distanciaMillas} mi`);
+    console.log(`${tiempoMin}min/${distanciaMillas} mi`);
   } else {
     console.warn("Ruta no encontrada.");
   }
