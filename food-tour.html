@@ -439,14 +439,35 @@ Object.keys(visual.menu).forEach(menuType => {
 
   btn.addEventListener('click', () => {
     imageGrid.innerHTML = '';
-    visual.menu[menuType].forEach(imgSrc => {
-      const img = document.createElement('img');
-      img.src = imgSrc;
+  visual.menu[menuType].forEach(imgSrc => {
+  const img = document.createElement('img');
+  img.src = imgSrc;
+  img.style.width = '120px';
+  img.style.borderRadius = '8px';
+  img.style.boxShadow = '0 0 6px white';
+  img.style.transition = 'transform 0.3s ease, width 0.3s ease';
+  img.style.cursor = 'pointer';
+
+  // Evento de click para agrandar o regresar al tamaño original
+  img.addEventListener('click', () => {
+    if (img.classList.contains('zoomed')) {
+      img.style.position = '';
+      img.style.zIndex = '';
+      img.style.transform = '';
       img.style.width = '120px';
-      img.style.borderRadius = '8px';
-      img.style.boxShadow = '0 0 6px white';
-      imageGrid.appendChild(img);
-    });
+      img.classList.remove('zoomed');
+    } else {
+      img.style.position = 'relative';
+      img.style.zIndex = '9999';
+      img.style.transform = 'scale(2)';
+      img.style.width = '240px';
+      img.classList.add('zoomed');
+    }
+  });
+
+  imageGrid.appendChild(img);
+});
+
   });
 
   buttonGroup.appendChild(btn);
