@@ -94,8 +94,8 @@
   <div id="map"></div>
 <button id="locateMe" title="Recenter my location"> 📍 </button>
 <select id="travelMode" style="padding: 6px; border-radius: 8px; font-size: 14px;">
-  <option value="walking">🚶 Caminando</option>
-  <option value="driving">🚗 En carro</option>
+  <option value="walking">🚶 Walking</option>
+  <option value="driving">🚗 Driving</option>
 </select>
 
 <div style="margin: 10px auto;">
@@ -478,7 +478,7 @@ routingControl.on('routesfound', function(e) {
       infoDiv.innerHTML = `🚶${tiempoMin}min/${distanciaMillas} mi`;
     }
 
-    console.log(`🚶${tiempoMin}min/${distanciaMillas} mi`);
+    console.log(`🚗${tiempoMin}min/${distanciaMillas} mi`);
   } else {
     console.warn("Ruta no encontrada.");
   }
