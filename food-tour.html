@@ -108,6 +108,63 @@
     Search
   </button>
 </div>
+<!-- Modal para mostrar el menú en pantalla completa con flechas -->
+<div id="menuModal" style="
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 3000;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+">
+  <button onclick="closeMenuModal()" style="
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 3100;
+  ">✖</button>
+
+  <button id="prevBtn" onclick="navigateMenuImage(-1)" style="
+    position: absolute;
+    left: 20px;
+    font-size: 48px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 3100;
+  ">◀</button>
+
+  <img id="menuModalImg" src="" alt="Menu" style="
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    box-shadow: 0 0 12px white;
+  " />
+
+  <button id="nextBtn" onclick="navigateMenuImage(1)" style="
+    position: absolute;
+    right: 20px;
+    font-size: 48px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 3100;
+  ">▶</button>
+</div>
+
 
   <!-- Contenedor de galería con fondo desenfocado -->
 <div id="galleryModal" style="
@@ -440,38 +497,20 @@ Object.keys(visual.menu).forEach(menuType => {
   btn.style.cursor = 'pointer';
   btn.style.fontSize = '14px';
 
-  btn.addEventListener('click', () => {
-    imageGrid.innerHTML = '';
-  visual.menu[menuType].forEach(imgSrc => {
-  const img = document.createElement('img');
-  img.src = imgSrc;
-  img.style.width = '120px';
-  img.style.borderRadius = '8px';
-  img.style.boxShadow = '0 0 6px white';
-  img.style.transition = 'transform 0.3s ease, width 0.3s ease';
-  img.style.cursor = 'pointer';
-
-  // Evento de click para agrandar o regresar al tamaño original
-  img.addEventListener('click', () => {
-    if (img.classList.contains('zoomed')) {
-      img.style.position = '';
-      img.style.zIndex = '';
-      img.style.transform = '';
-      img.style.width = '120px';
-      img.classList.remove('zoomed');
-    } else {
-      img.style.position = 'relative';
-      img.style.zIndex = '9999';
-      img.style.transform = 'scale(1.6)';
-      img.style.width = '200px';
-      img.classList.add('zoomed');
-    }
-  });
-
-  imageGrid.appendChild(img);
-});
-
-  });
+  if (menuType === "BREAKFAST & LUNCH") {
+    // Mostrar todas las imágenes con flechas
+    btn.addEventListener('click', () => {
+      showMenuImageCarousel(visual.menu[menuType]);
+    });
+  } else {
+    // Mostrar solo la primera imagen
+    btn.addEventListener('click', () => {
+      const firstImage = visual.menu[menuType][0];
+      if (firstImage) {
+        showMenuImageCarousel([firstImage]);
+      }
+    });
+  }
 
   buttonGroup.appendChild(btn);
 });
@@ -610,6 +649,49 @@ function togglePrecio(id) {
   if (el) {
     el.style.display = el.style.display === 'none' ? 'block' : 'none';
   }
+}
+function showMenuImage(imgSrc) {
+  const modal = document.getElementById('menuModal');
+  const img = document.getElementById('menuModalImg');
+  img.src = imgSrc;
+  modal.style.display = 'flex';
+}
+
+function closeMenuModal() {
+  document.getElementById('menuModal').style.display = 'none';
+  document.getElementById('menuModalImg').src = '';
+}
+let currentMenuImages = [];
+let currentMenuIndex = 0;
+
+function showMenuImageCarousel(images, startIndex = 0) {
+  if (!images || images.length === 0) return;
+
+  currentMenuImages = images;
+  currentMenuIndex = startIndex;
+
+  const modal = document.getElementById('menuModal');
+  const img = document.getElementById('menuModalImg');
+  img.src = currentMenuImages[currentMenuIndex];
+
+  document.getElementById('prevBtn').style.display = images.length > 1 ? 'block' : 'none';
+  document.getElementById('nextBtn').style.display = images.length > 1 ? 'block' : 'none';
+
+  modal.style.display = 'flex';
+}
+
+function navigateMenuImage(direction) {
+  if (currentMenuImages.length === 0) return;
+
+  currentMenuIndex = (currentMenuIndex + direction + currentMenuImages.length) % currentMenuImages.length;
+  document.getElementById('menuModalImg').src = currentMenuImages[currentMenuIndex];
+}
+
+function closeMenuModal() {
+  document.getElementById('menuModal').style.display = 'none';
+  document.getElementById('menuModalImg').src = '';
+  currentMenuImages = [];
+  currentMenuIndex = 0;
 }
 
 </script>
