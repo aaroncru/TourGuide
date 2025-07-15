@@ -404,7 +404,6 @@ function openVisual(placeName) {
 
   grid.appendChild(createSection('Video', `<video src="${visual.video}" controls style="width: 200px; border-radius: 10px;"></video>`));
   grid.appendChild(createSection('Our Recommendation', `<img src="${visual.recommendation}" style="width: 150px; border-radius: 10px;" />`));
-  grid.appendChild(createSection('Photo', `<img src="${visual.photo1}" style="width: 150px; border-radius: 10px;" />`));
  const menuContainer = document.createElement('div');
 menuContainer.style.textAlign = 'center';
 
@@ -435,7 +434,7 @@ Object.keys(visual.menu).forEach(menuType => {
   btn.style.borderRadius = '6px';
   btn.style.border = 'none';
   btn.style.backgroundColor = '#bb8e1e';
-  btn.style.color = 'white';
+  btn.style.color = 'black';
   btn.style.cursor = 'pointer';
   btn.style.fontSize = '14px';
 
@@ -478,7 +477,7 @@ Object.keys(visual.menu).forEach(menuType => {
 menuContainer.appendChild(buttonGroup);
 menuContainer.appendChild(imageGrid);
 grid.appendChild(menuContainer);
-
+grid.appendChild(createSection('Photo', `<img src="${visual.photo1}" style="width: 150px; border-radius: 10px;" />`));
 
   content.appendChild(grid);
   modal.style.display = 'flex';
