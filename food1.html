@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Food1</title>
   
- <style>
+  <style>
     body {
       margin: 0;
       font-family: 'Trebuchet MS', sans-serif;
@@ -16,17 +16,58 @@
       background-size: cover;
       background-color: #000;
     }
-     img[alt="Food Tour"] {
+
+    img[alt="Food Tour"] {
       width: 100%;
       max-height: 200px;
       object-fit: contain;
       display: block;
       margin: 0 auto 10px;
     }
-   </head>
-   </style>
-   <body>
-  
-    <img src="titlefood.png" alt="Food Tour">
-    </body>
+
+    /* Lista de botones a la derecha */
+    .button-list {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+      text-align: right;
+    }
+
+    .button-list button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0;
+      text-align: right;
+    }
+
+    .button-list button:hover {
+      text-decoration: underline;
+      color: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+  <img src="titlefood.png" alt="Food Tour">
+
+  <!-- Lista de "botones" estilo texto -->
+  <div class="button-list">
+    <button>Coffee</button>
+    <button>Breakfast</button>
+    <button>Lunch</button>
+    <button>Dinner</button>
+    <button>Cocktails</button>
+    <button>Quick Bites</button>
+    <button>Desserts</button>
+    <button>Locally Brewed</button>
+  </div>
+</body>
 </html>
