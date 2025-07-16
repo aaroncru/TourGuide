@@ -55,7 +55,7 @@
     }
 
     .info-boxes {
-      display: none; /* Ocultos al inicio */
+      display: none;
       margin-top: 20px;
       justify-content: center;
       gap: 20px;
@@ -67,7 +67,7 @@
       color: black;
       padding: 15px;
       border-radius: 10px;
-      width: 200px;
+      width: 220px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
       text-align: left;
     }
@@ -78,12 +78,41 @@
       border-bottom: 1px solid #ccc;
       padding-bottom: 5px;
     }
+
+    .info-details {
+      font-size: 0.8em;
+      margin-top: 10px;
+    }
+
+    .info-details a {
+      color: #003366;
+      text-decoration: none;
+    }
+
+    .info-details a:hover {
+      text-decoration: underline;
+    }
+
+    #googleReviews {
+      display: none;
+      margin-top: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .review-photo {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.4);
+    }
   </style>
 </head>
 <body>
   <img src="titlefood.png" alt="Food Tour">
 
-  <!-- Botones en horizontal -->
   <div class="button-bar-container">
     <button onclick="mostrarCoffee()">Coffee</button>
     <button>Breakfast</button>
@@ -95,11 +124,15 @@
     <button>Locally Brewed</button>
   </div>
 
-  <!-- Cuadros que aparecen con Coffee -->
+  <!-- Cuadros al hacer clic en Coffee -->
   <div class="info-boxes" id="coffeeBoxes">
     <div class="info-box">
       <h3>Snow City Cafe</h3>
       <p>Un lugar muy popular para desayunos y café artesanal.</p>
+      <div class="info-details">
+        📞 <a href="snowtel">(907) 272-2489</a><br>
+        🔎 <a href="#" onclick="mostrarReviews()">Google Reviews</a>
+      </div>
     </div>
     <div class="info-box">
       <h3>Palmeira</h3>
@@ -107,9 +140,21 @@
     </div>
   </div>
 
+  <!-- Sección oculta de fotos tipo Google Reviews -->
+  <div id="googleReviews">
+    <img src="review1.jpg" alt="Review 1" class="review-photo">
+    <img src="review2.jpg" alt="Review 2" class="review-photo">
+    <img src="review3.jpg" alt="Review 3" class="review-photo">
+  </div>
+
   <script>
     function mostrarCoffee() {
       document.getElementById("coffeeBoxes").style.display = "flex";
+      document.getElementById("googleReviews").style.display = "none";
+    }
+
+    function mostrarReviews() {
+      document.getElementById("googleReviews").style.display = "flex";
     }
   </script>
 </body>
