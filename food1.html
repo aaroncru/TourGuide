@@ -25,7 +25,7 @@
       margin: 0 auto 10px;
     }
 
-    /* Lista de botones a la derecha */
+    /* Lista de botones a la derecha con línea separadora */
     .button-list {
       position: fixed;
       top: 50%;
@@ -37,7 +37,7 @@
       z-index: 1000;
       text-align: right;
       padding-left: 15px;
-      border-left: 1px solid rgba(255, 255, 255, 0.6); /* Línea separadora */
+      border-left: 1px solid rgba(255, 255, 255, 0.6);
     }
 
     .button-list button {
@@ -49,18 +49,24 @@
       cursor: pointer;
       padding: 0;
       text-align: right;
+
+      /* Contorno blanco al texto negro */
+      -webkit-text-stroke: 0.7px white;
+      text-shadow: 0 0 1px white; /* Suaviza el borde */
     }
 
     .button-list button:hover {
       text-decoration: underline;
-      color: #ffcc00;
+      color: black;
+      -webkit-text-stroke: 1px #ffcc00;
+      text-shadow: 0 0 2px #ffcc00;
     }
   </style>
 </head>
 <body>
   <img src="titlefood.png" alt="Food Tour">
 
-  <!-- Lista de "botones" estilo texto con línea separadora -->
+  <!-- Lista de "botones" estilo texto con contorno blanco -->
   <div class="button-list">
     <button>Coffee</button>
     <button>Breakfast</button>
