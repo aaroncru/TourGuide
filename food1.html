@@ -87,26 +87,79 @@
     .info-details a {
       color: #003366;
       text-decoration: none;
+      cursor: pointer;
     }
 
     .info-details a:hover {
       text-decoration: underline;
     }
 
-    #googleReviews {
+    /* Galería fullscreen */
+    #galleryOverlay {
       display: none;
-      margin-top: 20px;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0,0,0,0.9);
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
+      align-items: center;
+      z-index: 2000;
+      flex-direction: column;
     }
 
-    .review-photo {
-      width: 150px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 6px;
-      box-shadow: 0 0 6px rgba(0,0,0,0.4);
+    #galleryImage {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 0 20px black;
+      user-select: none;
+    }
+
+    /* Controles de navegación */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      font-size: 3em;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      padding: 0 15px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 50%;
+      transform: translateY(-50%);
+      transition: background-color 0.3s;
+    }
+
+    .nav-arrow:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    #arrowLeft {
+      left: 20px;
+    }
+
+    #arrowRight {
+      right: 20px;
+    }
+
+    /* Botón cerrar */
+    #closeGallery {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2.5em;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      background: rgba(0,0,0,0.3);
+      border-radius: 50%;
+      padding: 5px 12px;
+      transition: background-color 0.3s;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    #closeGallery:hover {
+      background: rgba(255,255,255,0.3);
     }
   </style>
 </head>
@@ -124,14 +177,14 @@
     <button>Locally Brewed</button>
   </div>
 
-  <!-- Cuadros al hacer clic en Coffee -->
+  <!-- Cuadros para Coffee -->
   <div class="info-boxes" id="coffeeBoxes">
     <div class="info-box">
       <h3>Snow City Cafe</h3>
       <p>Un lugar muy popular para desayunos y café artesanal.</p>
       <div class="info-details">
-        📞 <a href="snowtel">(907) 272-2489</a><br>
-        🔎 <a href="#" onclick="mostrarReviews()">Google Reviews</a>
+        📞 <a href="tel:+19072722489">(907) 272-2489</a><br>
+        🔎 <a onclick="abrirGaleria()" style="cursor:pointer;">Google Reviews</a>
       </div>
     </div>
     <div class="info-box">
@@ -140,21 +193,53 @@
     </div>
   </div>
 
-  <!-- Sección oculta de fotos tipo Google Reviews -->
-  <div id="googleReviews">
-    <img src="review1.jpg" alt="Review 1" class="review-photo">
-    <img src="review2.jpg" alt="Review 2" class="review-photo">
-    <img src="review3.jpg" alt="Review 3" class="review-photo">
+  <!-- Overlay galería fullscreen -->
+  <div id="galleryOverlay">
+    <span id="closeGallery" onclick="cerrarGaleria()">×</span>
+    <span id="arrowLeft" class="nav-arrow" onclick="cambiarImagen(-1)">&#10094;</span>
+    <img id="galleryImage" src="" alt="Review photo">
+    <span id="arrowRight" class="nav-arrow" onclick="cambiarImagen(1)">&#10095;</span>
   </div>
 
   <script>
+    const photos = [
+      'review1.jpg',
+      'review2.jpg',
+      'review3.jpg',
+      // Pon aquí las rutas reales de tus imágenes
+    ];
+
+    let currentIndex = 0;
+
     function mostrarCoffee() {
       document.getElementById("coffeeBoxes").style.display = "flex";
-      document.getElementById("googleReviews").style.display = "none";
+      cerrarGaleria();
     }
 
-    function mostrarReviews() {
-      document.getElementById("googleReviews").style.display = "flex";
+    function abrirGaleria() {
+      currentIndex = 0;
+      actualizarImagen();
+      document.getElementById('galleryOverlay').style.display = 'flex';
+    }
+
+    function cerrarGaleria() {
+      document.getElementById('galleryOverlay').style.display = 'none';
+    }
+
+    function cambiarImagen(direccion) {
+      currentIndex += direccion;
+      if (currentIndex < 0) {
+        currentIndex = photos.length - 1;
+      } else if (currentIndex >= photos.length) {
+        currentIndex = 0;
+      }
+      actualizarImagen();
+    }
+
+    function actualizarImagen() {
+      const img = document.getElementById('galleryImage');
+      img.src = photos[currentIndex];
+      img.alt = `Review photo ${currentIndex + 1}`;
     }
   </script>
 </body>
