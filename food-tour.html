@@ -83,6 +83,48 @@
 #locateMe:hover {
   background-color: #ffad4d;
 }
+#menuModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 3000;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#menuModalImg {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 12px white;
+  position: relative; /* ✅ Esto evita que tape las flechas */
+  z-index: 3001;
+}
+
+#prevBtn, #nextBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 48px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 3100; /* ✅ Asegura que esté por encima de la imagen */
+}
+
+#prevBtn {
+  left: 20px;
+}
+
+#nextBtn {
+  right: 20px;
+}
 
 
   </style>
