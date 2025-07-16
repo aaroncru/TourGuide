@@ -493,10 +493,11 @@ menuContainer.appendChild(menuTitle);
 
 // Contenedor de botones
 const buttonGroup = document.createElement('div');
-buttonGroup.style.display = 'flex';
-buttonGroup.style.gap = '10px';
-buttonGroup.style.marginBottom = '10px';
+buttonGroup.style.display = 'grid';
+buttonGroup.style.gridTemplateColumns = 'repeat(3, auto)'; // 3 columnas
+buttonGroup.style.gridGap = '10px';
 buttonGroup.style.justifyContent = 'center';
+buttonGroup.style.marginBottom = '10px';
 
 const imageGrid = document.createElement('div');
 imageGrid.style.display = 'flex';
