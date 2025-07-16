@@ -96,6 +96,12 @@
   align-items: center;
   flex-direction: column;
 }
+    #prevBtn, #nextBtn {
+  z-index: 3100;
+  color: white;
+  display: block !important;
+}
+
 
 #menuModalImg {
   max-width: 90%;
@@ -150,20 +156,8 @@
     Search
   </button>
 </div>
-<!-- Modal para mostrar el menú en pantalla completa con flechas -->
-<div id="menuModal" style="
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.9);
-  z-index: 3000;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-">
+<div id="menuModal">
+
   <button onclick="closeMenuModal()" style="
     position: absolute;
     top: 15px;
