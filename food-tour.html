@@ -718,9 +718,12 @@ function showMenuImageCarousel(images, startIndex = 0) {
   currentMenuImages = images;
   currentMenuIndex = startIndex;
 
-  const modal = document.getElementById('menuModal');
-  const img = document.getElementById('menuModalImg');
-  img.src = currentMenuImages[currentMenuIndex];
+   const modal = document.getElementById('menuModal');
+   const img = document.getElementById('menuModalImg');
+   img.src = currentMenuImages[currentMenuIndex];
+   img.style.position = "relative";
+   img.style.zIndex = "3001";
+
 
   document.getElementById('prevBtn').style.display = images.length > 1 ? 'block' : 'none';
   document.getElementById('nextBtn').style.display = images.length > 1 ? 'block' : 'none';
