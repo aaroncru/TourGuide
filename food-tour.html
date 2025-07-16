@@ -344,19 +344,10 @@ function toggleMarkers(categoryKey) {
 `;
 
       marker.bindPopup(popupHTML);
-     setTimeout(() => {
-  const favorites = JSON.parse(localStorage.getItem('favoritePlaces') || '[]');
-  if (favorites.includes(item.name)) {
-    const favBtn = document.getElementById(`fav-${item.name.replace(/\s+/g, '')}`);
-    if (favBtn) favBtn.style.color = "red";
-  }
-}, 300); // espera a que se abra el popup
-
       markers[categoryKey].push(marker);
     });
   }
 }
-
 
   document.addEventListener('DOMContentLoaded', () => {
     map = L.map('map').setView([61.2176, -149.8997], 14);
@@ -539,20 +530,24 @@ Object.keys(visual.menu).forEach(menuType => {
   btn.style.cursor = 'pointer';
   btn.style.fontSize = '14px';
 
-  if (menuType === "BREAKFAST & LUNCH") {
-    // Mostrar todas las imágenes con flechas
-    btn.addEventListener('click', () => {
-      showMenuImageCarousel(visual.menu[menuType]);
-    });
-  } else {
-    // Mostrar solo la primera imagen
-    btn.addEventListener('click', () => {
-      const firstImage = visual.menu[menuType][0];
-      if (firstImage) {
-        showMenuImageCarousel([firstImage]);
-      }
-    });
-  }
+Object.keys(visual.menu).forEach(menuType => {
+  const btn = document.createElement('button');
+  btn.innerText = menuType;
+  btn.style.padding = '6px 10px';
+  btn.style.borderRadius = '6px';
+  btn.style.border = 'none';
+  btn.style.backgroundColor = '#bb8e1e';
+  btn.style.color = 'white';
+  btn.style.cursor = 'pointer';
+  btn.style.fontSize = '14px';
+
+  // Mostrar TODAS las imágenes del menú seleccionado (no solo la primera)
+  btn.addEventListener('click', () => {
+    const images = visual.menu[menuType];
+    if (images && images.length > 0) {
+      showMenuImageCarousel(images);
+    }
+  });
 
   buttonGroup.appendChild(btn);
 });
