@@ -117,12 +117,15 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: 48px;
-  color: white;
+  color: rgba(255, 255, 255, 0.4); /* 🔸 Blanco opaco */
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 3100; /* ✅ Asegura que esté por encima de la imagen */
+  z-index: 3100;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* 🔸 Brillo difuminado */
+  transition: color 0.3s, text-shadow 0.3s;
 }
+
 
 #prevBtn {
   left: 20px;
