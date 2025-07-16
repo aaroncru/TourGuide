@@ -530,17 +530,6 @@ Object.keys(visual.menu).forEach(menuType => {
   btn.style.cursor = 'pointer';
   btn.style.fontSize = '14px';
 
-Object.keys(visual.menu).forEach(menuType => {
-  const btn = document.createElement('button');
-  btn.innerText = menuType;
-  btn.style.padding = '6px 10px';
-  btn.style.borderRadius = '6px';
-  btn.style.border = 'none';
-  btn.style.backgroundColor = '#bb8e1e';
-  btn.style.color = 'white';
-  btn.style.cursor = 'pointer';
-  btn.style.fontSize = '14px';
-
   // Mostrar TODAS las imágenes del menú seleccionado (no solo la primera)
   btn.addEventListener('click', () => {
     const images = visual.menu[menuType];
