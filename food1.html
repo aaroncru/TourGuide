@@ -25,19 +25,24 @@
       margin: 0 auto 10px;
     }
 
-    /* Lista de botones a la derecha con línea separadora */
-    .button-list {
+    /* Contenedor del cuadro gris */
+    .button-list-container {
       position: fixed;
       top: 50%;
       right: 20px;
       transform: translateY(-50%);
+      background-color: rgba(100, 100, 100, 0.4); /* gris semitransparente */
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 1000;
+    }
+
+    /* Botones estilo texto */
+    .button-list {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      z-index: 1000;
       text-align: right;
-      padding-left: 15px;
-      border-left: 1px solid rgba(255, 255, 255, 0.6);
     }
 
     .button-list button {
@@ -49,15 +54,12 @@
       cursor: pointer;
       padding: 0;
       text-align: right;
-
-      /* Contorno blanco al texto negro */
-      -webkit-text-stroke: 0.2px white;
-      text-shadow: 0 0 1px white; /* Suaviza el borde */
+      -webkit-text-stroke: 0.15px white;
+      text-shadow: 0 0 1px white;
     }
 
     .button-list button:hover {
       text-decoration: underline;
-      color: black;
       -webkit-text-stroke: 1px #ffcc00;
       text-shadow: 0 0 2px #ffcc00;
     }
@@ -66,16 +68,18 @@
 <body>
   <img src="titlefood.png" alt="Food Tour">
 
-  <!-- Lista de "botones" estilo texto con contorno blanco -->
-  <div class="button-list">
-    <button>Coffee</button>
-    <button>Breakfast</button>
-    <button>Lunch</button>
-    <button>Dinner</button>
-    <button>Cocktails</button>
-    <button>Quick Bites</button>
-    <button>Desserts</button>
-    <button>Locally Brewed</button>
+  <!-- Cuadro gris con los botones dentro -->
+  <div class="button-list-container">
+    <div class="button-list">
+      <button>Coffee</button>
+      <button>Breakfast</button>
+      <button>Lunch</button>
+      <button>Dinner</button>
+      <button>Cocktails</button>
+      <button>Quick Bites</button>
+      <button>Desserts</button>
+      <button>Locally Brewed</button>
+    </div>
   </div>
 </body>
 </html>
