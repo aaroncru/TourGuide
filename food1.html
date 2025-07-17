@@ -4,7 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Food1</title>
-  
+  <!-- Leaflet CSS y JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Leaflet Routing Machine (para trazar ruta) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -348,6 +355,25 @@
 .arrow.right {
   right: 10px;
 }
+.blue-arrow-button {
+  background-color: #007bff; /* Azul brillante */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: background-color 0.3s;
+}
+
+.blue-arrow-button:hover {
+  background-color: #0056b3;
+}
 
   </style>
 </head>
@@ -404,6 +430,17 @@
 <div id="kidsModal" class="fullscreen-modal" style="display: none;">
   <span class="close-btn" onclick="cerrarKids()">✖</span>
   <img id="kidsImage" class="modal-image" src="menuK1.JPG" alt="Kids Menu">
+</div>
+<!-- Botón azul con flecha -->
+<div style="margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapa()">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+<!-- Contenedor del mapa -->
+<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
+  <div id="map" style="height: 100%; width: 100%;"></div>
+  <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
 </div>
 
     </div>
@@ -528,6 +565,48 @@
 
   function cerrarKids() {
     document.getElementById("kidsModal").style.display = "none";
+  }
+  let mapInstance;
+
+  function mostrarMapa() {
+    document.getElementById('mapContainer').style.display = 'block';
+
+    if (!mapInstance) {
+      mapInstance = L.map('map').setView([61.2176, -149.8997], 13); // Centro de Anchorage
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap'
+      }).addTo(mapInstance);
+
+      // Detectar ubicación actual
+      mapInstance.locate({ setView: true, maxZoom: 16 });
+
+      mapInstance.on('locationfound', function(e) {
+        const userLatLng = e.latlng;
+        L.marker(userLatLng).addTo(mapInstance).bindPopup("Tú estás aquí").openPopup();
+
+        // Lugar destino: Ejemplo - Snow City Cafe
+        const destino = L.latLng(61.2175, -149.9034);
+
+        // Agregar la ruta
+        L.Routing.control({
+          waypoints: [
+            userLatLng,
+            destino
+          ],
+          routeWhileDragging: false
+        }).addTo(mapInstance);
+      });
+
+      mapInstance.on('locationerror', function() {
+        alert("No se pudo obtener tu ubicación.");
+      });
+    }
+  }
+
+  function cerrarMapa() {
+    document.getElementById('mapContainer').style.display = 'none';
   }
   </script>
 </body>
