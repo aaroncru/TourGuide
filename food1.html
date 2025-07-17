@@ -297,6 +297,57 @@
 .menu-buttons button:hover {
   background-color: #aaa;
 }
+.fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-image {
+  max-width: 100%;
+  max-height: 80%;
+  object-fit: contain;
+  margin-top: 40px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+.arrow {
+  position: absolute;
+  bottom: 50px;
+  background: none;
+  border: none;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 10000;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
 
   </style>
 </head>
@@ -334,9 +385,15 @@
   </video>
 </div>
 <div class="menu-buttons">
-  <button onclick="mostrarMenu('breakfast')">Breakfast & Lunch</button>
+  <button onclick="mostrarBreakfast()">Breakfast & Lunch</button>
   <button onclick="mostrarMenu('fresh')">Fresh Sheet</button>
   <button onclick="mostrarMenu('kids')">Kids</button>
+</div>
+<div id="breakfastModal" class="fullscreen-modal" style="display: none;">
+  <span class="close-btn" onclick="cerrarBreakfast()">✖</span>
+  <img id="breakfastImage" class="modal-image" src="breakfast1.jpg" alt="Breakfast Image">
+  <button class="arrow left" onclick="cambiarBreakfast(-1)">❮</button>
+  <button class="arrow right" onclick="cambiarBreakfast(1)">❯</button>
 </div>
 
     </div>
@@ -427,6 +484,27 @@
   function cerrarImagen() {
     document.getElementById("fullscreenImage").style.display = "none";
   }
+    
+  const breakfastImages = ["menuBL1.jpeg", "menuBL2.JPG"]; // Tus imágenes
+  let breakfastIndex = 0;
+
+  function mostrarBreakfast() {
+    breakfastIndex = 0;
+    document.getElementById("breakfastImage").src = breakfastImages[breakfastIndex];
+    document.getElementById("breakfastModal").style.display = "flex";
+  }
+
+  function cerrarBreakfast() {
+    document.getElementById("breakfastModal").style.display = "none";
+  }
+
+  function cambiarBreakfast(direccion) {
+    breakfastIndex += direccion;
+    if (breakfastIndex < 0) breakfastIndex = breakfastImages.length - 1;
+    if (breakfastIndex >= breakfastImages.length) breakfastIndex = 0;
+    document.getElementById("breakfastImage").src = breakfastImages[breakfastIndex];
+  }
+
   </script>
 </body>
 </html>
