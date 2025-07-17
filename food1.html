@@ -272,6 +272,31 @@
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.6);
 }
+.menu-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.menu-buttons button {
+  background-color: #ccc;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.3s;
+}
+
+.menu-buttons button:hover {
+  background-color: #aaa;
+}
 
   </style>
 </head>
@@ -307,6 +332,11 @@
     <source src="videoSnow.mp4" type="video/mp4">
     Tu navegador no soporta el video.
   </video>
+</div>
+<div class="menu-buttons">
+  <button onclick="mostrarMenu('breakfast')">Breakfast & Lunch</button>
+  <button onclick="mostrarMenu('fresh')">Fresh Sheet</button>
+  <button onclick="mostrarMenu('kids')">Kids</button>
 </div>
 
     </div>
