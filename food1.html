@@ -258,6 +258,20 @@
   cursor: pointer;
   color: white;
 }
+.video-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.video-container video {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
 
   </style>
 </head>
@@ -287,6 +301,12 @@
   <button class="extra-btn" onclick="mostrarImagen('awarded')">Awarded</button>
   <button class="extra-btn" onclick="mostrarImagen('local')">Locally Sourced</button>
   <button class="extra-btn" onclick="mostrarImagen('wild')">Wild Card</button>
+</div>
+<div class="video-container">
+  <video controls autoplay muted loop>
+    <source src="videoSnow.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
 </div>
 
     </div>
