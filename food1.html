@@ -386,14 +386,24 @@
 </div>
 <div class="menu-buttons">
   <button onclick="mostrarBreakfast()">Breakfast & Lunch</button>
-  <button onclick="mostrarMenu('fresh')">Fresh Sheet</button>
-  <button onclick="mostrarMenu('kids')">Kids</button>
+  <button onclick="mostrarFresh()">Fresh Sheet</button>
+  <button onclick="mostrarKids()">Kids</button>
 </div>
 <div id="breakfastModal" class="fullscreen-modal" style="display: none;">
   <span class="close-btn" onclick="cerrarBreakfast()">✖</span>
   <img id="breakfastImage" class="modal-image" src="breakfast1.jpg" alt="Breakfast Image">
   <button class="arrow left" onclick="cambiarBreakfast(-1)">❮</button>
   <button class="arrow right" onclick="cambiarBreakfast(1)">❯</button>
+</div>
+
+<div id="freshModal" class="fullscreen-modal" style="display: none;">
+  <span class="close-btn" onclick="cerrarFresh()">✖</span>
+  <img id="freshImage" class="modal-image" src="freshsheet.jpg" alt="Fresh Sheet">
+</div>
+
+<div id="kidsModal" class="fullscreen-modal" style="display: none;">
+  <span class="close-btn" onclick="cerrarKids()">✖</span>
+  <img id="kidsImage" class="modal-image" src="kids.jpg" alt="Kids Menu">
 </div>
 
     </div>
@@ -504,7 +514,21 @@
     if (breakfastIndex >= breakfastImages.length) breakfastIndex = 0;
     document.getElementById("breakfastImage").src = breakfastImages[breakfastIndex];
   }
+  function mostrarFresh() {
+    document.getElementById("freshModal").style.display = "flex";
+  }
 
+  function cerrarFresh() {
+    document.getElementById("freshModal").style.display = "none";
+  }
+
+  function mostrarKids() {
+    document.getElementById("kidsModal").style.display = "flex";
+  }
+
+  function cerrarKids() {
+    document.getElementById("kidsModal").style.display = "none";
+  }
   </script>
 </body>
 </html>
