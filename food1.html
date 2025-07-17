@@ -13,7 +13,7 @@
 
 
   <style>
-    body {
+   body {
       margin: 0;
       font-family: 'Trebuchet MS', sans-serif;
       color: white;
@@ -80,10 +80,9 @@
       color: black;
       padding: 15px;
       border-radius: 10px;
-      width: 350px;
+      width: 290px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
       text-align: left;
-      margin: 0 auto;
     }
 
     .info-box h3 {
@@ -177,9 +176,7 @@
       background: rgba(255,255,255,0.3);
     }
  .extra-btn {
- background-color: #b8aa99;
-  display: flex;
-  justify-content: center;
+  background-color: rgba(200, 200, 200, 0.9); /* gris claro */
   border: none;
   border-radius: 6px;
   color: black;
@@ -189,8 +186,6 @@
   padding: 4px 10px;
   margin: 5px;
   transition: background-color 0.3s;
-  gap: 10px;
-  margin-top: 20px;
 }
 
 .extra-btn:hover {
@@ -251,6 +246,7 @@
   box-sizing: border-box;
 }
 
+
  .fullscreen img {
   max-width: 90vw;
   max-height: 60vh;
@@ -266,6 +262,15 @@
   font-size: 0.9em;
 }
 
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: white;
+}
 .video-container {
   width: 100%;
   display: flex;
@@ -375,7 +380,6 @@
 .blue-arrow-button:hover {
   background-color: #0056b3;
 }
-
   </style>
 </head>
 <body>
@@ -401,7 +405,7 @@
         📞 <a href="tel:+19072722489">(907) 272-2489</a><br>
         🔎 <a onclick="abrirGaleria()" style="cursor:pointer;">Google Reviews</a>
       </div>
-  <div id="extraButtons" class="extra-btn" style="display: none;">
+    <div id="extraButtons" style="display: none; margin-top: 20px;">
   <button class="extra-btn" onclick="mostrarImagen('awarded')">Awarded</button>
   <button class="extra-btn" onclick="mostrarImagen('local')">Locally Sourced</button>
   <button class="extra-btn" onclick="mostrarImagen('wild')">Wild Card</button>
