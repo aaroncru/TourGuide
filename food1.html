@@ -178,6 +178,45 @@
 .extra-btn:hover {
   background-color: rgba(160, 160, 160, 0.9); /* gris más oscuro al pasar el mouse */
 }
+.extra-popup {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .extra-popup img {
+    max-width: 90%;
+    max-height: 70vh;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  .extra-popup p {
+    color: white;
+    font-size: 1em;
+    margin: 0;
+  }
+
+  .extra-close {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 10001;
+  }
 
 
   .fullscreen {
@@ -212,7 +251,7 @@
   .close-btn {
     position: absolute;
     top: 15px;
-    right: 25px;
+    right: 50px;
     font-size: 1.5em;
     cursor: pointer;
     color: white;
@@ -247,12 +286,6 @@
   <button class="extra-btn" onclick="mostrarImagen('wild')">Wild Card</button>
 </div>
 
-<!-- Contenedor para imagen a pantalla completa -->
-<div id="fullscreenImage" class="fullscreen" style="display: none;">
-  <span class="close-btn" onclick="cerrarImagen()">❌</span>
-  <img id="imagenMostrada" src="" alt="Imagen" />
-  <p id="textoImagen"></p>
-</div>
     </div>
     
     <div class="info-box">
@@ -268,7 +301,11 @@
     <img id="galleryImage" src="" alt="Review photo">
     <span id="arrowRight" class="nav-arrow" onclick="cambiarImagen(1)">&#10095;</span>
   </div>
-
+<div id="fullscreenImage" class="fullscreen" style="display: none;">
+  <span class="close-btn" onclick="cerrarImagen()">❌</span>
+  <img id="imagenMostrada" src="" alt="Imagen" />
+  <p id="textoImagen"></p>
+</div>
   <script>
     const photos = [
       'review1.JPG',
