@@ -7,19 +7,9 @@
   <!-- Leaflet CSS y JS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<!-- Leaflet Routing Machine (para trazar ruta) -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
-<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
-  <link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
-/>
+  
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-<link
-  href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
-  rel="stylesheet"
-/>
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet"/>
 
 
   <style>
@@ -585,46 +575,60 @@
   function cerrarKids() {
     document.getElementById("kidsModal").style.display = "none";
   }
-  let mapInstance;
+ let mapInstance;
+let markerUsuario = null;
+let ruta = null;
+const destino = [61.218522, -149.903407]; // Ejemplo: Snow City Cafe
 
-  function mostrarMapa() {
-    document.getElementById('mapContainer').style.display = 'block';
+function mostrarMapa() {
+  document.getElementById('mapContainer').style.display = 'block';
 
-    if (!mapInstance) {
-      mapInstance = L.map('map').setView([61.2176, -149.8997], 13); // Centro de Anchorage
+  if (!mapInstance) {
+    mapInstance = L.map('map').setView([61.2176, -149.8997], 13); // Centro de Anchorage
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '© OpenStreetMap'
-      }).addTo(mapInstance);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© OpenStreetMap'
+    }).addTo(mapInstance);
 
-      // Detectar ubicación actual
-      mapInstance.locate({ setView: true, maxZoom: 16 });
+    L.marker(destino).addTo(mapInstance).bindPopup("Destino");
 
-      mapInstance.on('locationfound', function(e) {
-        const userLatLng = e.latlng;
-        L.marker(userLatLng).addTo(mapInstance).bindPopup("You are here!").openPopup();
+    // Ver ubicación continuamente
+    navigator.geolocation.watchPosition(pos => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
 
-        // Lugar destino: Ejemplo - Snow City Cafe
-        const destino = L.latLng(61.218522, -149.903407);
+      if (markerUsuario) {
+        markerUsuario.setLatLng([lat, lon]);
+      } else {
+        markerUsuario = L.marker([lat, lon]).addTo(mapInstance).bindPopup("You are here!").openPopup();
+      }
 
-      L.Routing.control({
-              waypoints: [userLatLng, destino],
-              router: L.Routing.mapbox('pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g', { profile: 'mapbox/walking' }),
-             routeWhileDragging: false
-             }).addTo(mapInstance);
+      const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${lon},${lat};${destino[1]},${destino[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
 
-      });
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
+          if (ruta) mapInstance.removeLayer(ruta);
+          ruta = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstance);
+          mapInstance.fitBounds(ruta.getBounds());
+        });
 
-      mapInstance.on('locationerror', function() {
-        alert("No se pudo obtener tu ubicación.");
-      });
-    }
+    }, err => {
+      console.error("Error obteniendo ubicación:", err);
+    }, {
+      enableHighAccuracy: true,
+      maximumAge: 5000,
+      timeout: 10000
+    });
   }
+}
 
-  function cerrarMapa() {
-    document.getElementById('mapContainer').style.display = 'none';
-  }
+function cerrarMapa() {
+  document.getElementById('mapContainer').style.display = 'none';
+}
+
   </script>
 </body>
 </html>
