@@ -177,9 +177,18 @@
       background: rgba(255,255,255,0.3);
     }
  .extra-btn {
-  background-color: #b8aa99;
+ background-color: #b8aa99;
   display: flex;
   justify-content: center;
+  border: none;
+  border-radius: 6px;
+  color: black;
+  font-size: 0.65em;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px 10px;
+  margin: 5px;
+  transition: background-color 0.3s;
   gap: 10px;
   margin-top: 20px;
 }
@@ -242,7 +251,6 @@
   box-sizing: border-box;
 }
 
-
  .fullscreen img {
   max-width: 90vw;
   max-height: 60vh;
@@ -258,15 +266,6 @@
   font-size: 0.9em;
 }
 
-
-.close-btn {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  font-size: 1.5em;
-  cursor: pointer;
-  color: white;
-}
 .video-container {
   width: 100%;
   display: flex;
