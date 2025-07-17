@@ -162,6 +162,58 @@
     #closeGallery:hover {
       background: rgba(255,255,255,0.3);
     }
+    .extra-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid white;
+    border-radius: 8px;
+    margin: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.8em;
+  }
+
+  .extra-btn:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.9);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .fullscreen img {
+    max-width: 90%;
+    max-height: 70%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px black;
+  }
+
+  .fullscreen p {
+    margin-top: 15px;
+    font-size: 1em;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: white;
+  }
   </style>
 </head>
 <body>
@@ -187,7 +239,20 @@
         📞 <a href="tel:+19072722489">(907) 272-2489</a><br>
         🔎 <a onclick="abrirGaleria()" style="cursor:pointer;">Google Reviews</a>
       </div>
+      <div id="extraButtons" style="display: none; margin-top: 20px;">
+  <button class="extra-btn" onclick="mostrarImagen('awarded')">Awarded</button>
+  <button class="extra-btn" onclick="mostrarImagen('local')">Locally Sourced</button>
+  <button class="extra-btn" onclick="mostrarImagen('wild')">Wild Card</button>
+</div>
+
+<!-- Contenedor para imagen a pantalla completa -->
+<div id="fullscreenImage" class="fullscreen" style="display: none;">
+  <span class="close-btn" onclick="cerrarImagen()">❌</span>
+  <img id="imagenMostrada" src="" alt="Imagen" />
+  <p id="textoImagen"></p>
+</div>
     </div>
+    
     <div class="info-box">
       <h3>Palmeira</h3>
       <p>Café local con ambiente relajado y excelente panadería.</p>
@@ -243,6 +308,32 @@
       img.src = photos[currentIndex];
       img.alt = `Review photo ${currentIndex + 1}`;
     }
+    function mostrarReviews() {
+    document.getElementById("googleReviews").style.display = "flex";
+    document.getElementById("extraButtons").style.display = "block";
+  }
+
+  function mostrarImagen(tipo) {
+    const imagen = document.getElementById("imagenMostrada");
+    const texto = document.getElementById("textoImagen");
+
+    if (tipo === 'awarded') {
+      imagen.src = "awarded.jpeg";
+      texto.innerText = "Premiado por excelencia culinaria local.";
+    } else if (tipo === 'local') {
+      imagen.src = "locally.jpg";
+      texto.innerText = "Ingredientes 100% locales y sostenibles.";
+    } else if (tipo === 'wild') {
+      imagen.src = "wild.jpg";
+      texto.innerText = "Una experiencia gastronómica inesperada.";
+    }
+
+    document.getElementById("fullscreenImage").style.display = "flex";
+  }
+
+  function cerrarImagen() {
+    document.getElementById("fullscreenImage").style.display = "none";
+  }
   </script>
 </body>
 </html>
