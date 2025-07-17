@@ -11,6 +11,16 @@
 <!-- Leaflet Routing Machine (para trazar ruta) -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
 <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
+  <link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
+/>
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<link
+  href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
+  rel="stylesheet"
+/>
+
 
   <style>
     body {
@@ -584,19 +594,17 @@
 
       mapInstance.on('locationfound', function(e) {
         const userLatLng = e.latlng;
-        L.marker(userLatLng).addTo(mapInstance).bindPopup("Tú estás aquí").openPopup();
+        L.marker(userLatLng).addTo(mapInstance).bindPopup("You are here!").openPopup();
 
         // Lugar destino: Ejemplo - Snow City Cafe
         const destino = L.latLng(61.218522, -149.903407);
 
-        // Agregar la ruta
-        L.Routing.control({
-          waypoints: [
-            userLatLng,
-            destino
-          ],
-          routeWhileDragging: false
-        }).addTo(mapInstance);
+      L.Routing.control({
+              waypoints: [userLatLng, destino],
+              router: L.Routing.mapbox('pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g', { profile: 'mapbox/walking' }),
+             routeWhileDragging: false
+             }).addTo(mapInstance);
+
       });
 
       mapInstance.on('locationerror', function() {
