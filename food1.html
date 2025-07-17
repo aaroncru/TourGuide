@@ -60,7 +60,6 @@
   transform: scale(1.05);
 }
 
-
     .button-bar-container button:hover {
       background-color: rgba(255, 204, 0, 0.4);
       -webkit-text-stroke: 1px #ffcc00;
@@ -76,14 +75,59 @@
     }
 
     .info-box {
-      background-color: rgba(255, 255, 255, 0.9);
-      color: black;
-      padding: 15px;
-      border-radius: 10px;
-      width: 290px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      text-align: left;
-    }
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto; /* CENTRA el infobox */
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+  }
+    .info-box h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+  }
+
+  .info-box p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .info-buttons {
+    display: flex;
+    justify-content: center; /* CENTRA los botones */
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .info-buttons button {
+    background-color: #eee;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .info-buttons button:hover {
+    background-color: #ddd;
+  }
+
+  .take-me-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .take-me-button:hover {
+    background-color: #0056b3;
+  }
 
     .info-box h3 {
       margin-top: 0;
@@ -410,8 +454,6 @@
   <button class="extra-btn" onclick="mostrarImagen('local')">Locally Sourced</button>
   <button class="extra-btn" onclick="mostrarImagen('wild')">Wild Card</button>
 </div>
-
-</div>
 <div class="video-container">
   <video controls muted loop>
     <source src="videoSnow.mp4" type="video/mp4">
@@ -451,14 +493,14 @@
   <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
 </div>
 
-    </div>
-    
+</div>
+
     <div class="info-box">
       <h3>Palmeira</h3>
       <p>Café local con ambiente relajado y excelente panadería.</p>
     </div>
   </div>
-
+ </div>
   <!-- Overlay galería fullscreen -->
   <div id="galleryOverlay">
     <span id="closeGallery" onclick="cerrarGaleria()">×</span>
