@@ -743,11 +743,11 @@ function cerrarMapa() {
     document.getElementById("fullscreenImage").style.display = "none";
   }
     const MenuPalmeirasImage = ["menuPal.JPG", "menuPal2.JPG", "menuPal3.JPG", "menuPal4.JPG", "menuPal5.JPG", "menuPal6.JPG", "menuPal7.JPG", "menuPal8.JPG", "menuPal9.JPG", "menuPal10.JPG", "menuPal11.JPG", "menuPal2.JPG", "menuPal3.JPG"]; // Tus imágenes
-  let breakfastIndex = 0;
+    let MenuPalmeirasIndex = 0;
 
   function mostrarMenuPalmeiras() {
-    breakfastIndex = 0;
-    document.getElementById("MenuPalmeirasImage").src = MenuPalmeirasImage[breakfastIndex];
+    MenuPalmeirasIndex = 0;
+    document.getElementById("MenuPalmeirasImage").src = MenuPalmeirasImage[MenuPalmeirasIndex];
     document.getElementById("breakfastModal").style.display = "flex";
   }
 
@@ -756,10 +756,10 @@ function cerrarMapa() {
   }
 
   function cambiarBreakfast(direccion) {
-    breakfastIndex += direccion;
-    if (breakfastIndex < 0) breakfastIndex = breakfastImages.length - 1;
-    if (breakfastIndex >= breakfastImages.length) breakfastIndex = 0;
-    document.getElementById("MenuPalmeirasImage").src = breakfastImages[breakfastIndex];
+    MenuPalmeirasIndex += direccion;
+    if (MenuPalmeirasIndex < 0) breakfastIndex = breakfastImages.length - 1;
+    if (MenuPalmeirasIndex >= breakfastImages.length) MenuPalmeirasIndex = 0;
+    document.getElementById("MenuPalmeirasImage").src = breakfastImages[MenuPalmeirasIndex];
   }
 let mapInstance;
 let markerUsuario = null;
