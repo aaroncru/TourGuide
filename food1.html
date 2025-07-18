@@ -484,12 +484,49 @@
 
 </div>
 
-    <div class="info-box">
-      <h3>Palmeira</h3>
-      <p>Café local con ambiente relajado y excelente panadería.</p>
-    </div>
+   <div class="info-box">
+  <h3>Palmeira</h3>
+  <p>Café local con ambiente relajado y excelente panadería.</p>
+  <div class="info-details">
+    📞 <a href="tel:+9076692626">(907) 669-2626</a><br>
+    🔎 <a onclick="abrirGaleriaPalmeira()" style="cursor:pointer;">Google Reviews</a><br>
+    <span style="display: block; margin-top: 20px; font-weight: bold;">Recommendations</span>
   </div>
- </div>
+
+  <!-- Botones extra -->
+  <div id="extraButtonsPalmeira" style="margin-top: 20px;">
+    <button class="extra-btn" onclick="mostrarImagenPalmeira('awarded')">Awarded</button>
+    <button class="extra-btn" onclick="mostrarImagenPalmeira('local')">Locally Sourced</button>
+    <button class="extra-btn" onclick="mostrarImagenPalmeira('wild')">Wild Card</button>
+  </div>
+
+  <!-- Video -->
+  <div class="video-container" style="margin-top: 20px;">
+    <video controls muted loop>
+      <source src="videopalmeira.mp4" type="video/mp4">
+      Tu navegador no soporta el video.
+    </video>
+  </div>
+
+  <!-- Botón de menú -->
+  <div class="menu-buttons" style="margin-top: 20px;">
+    <button onclick="mostrarMenuPalmeira()">MENU</button>
+  </div>
+<div id="menuPalmeiraModal" class="fullscreen-modal" style="display: none;">
+  <span class="close-btn" onclick="cerrarMenuPalmeira()">✖</span>
+  <img id="palmeiraMenuImage" class="modal-image" src="menuPal.JPG" alt="Palmeira Menu">
+  <button class="arrow left" onclick="cambiarMenuPalmeira(-1)">❮</button>
+  <button class="arrow right" onclick="cambiarMenuPalmeira(1)">❯</button>
+</div>
+
+  <!-- Botón Take Me There -->
+  <div style="display: flex; justify-content: center; margin-top: 20px;">
+    <button class="blue-arrow-button" onclick="mostrarMapaPalmeira()">
+      <span>Take me there!</span> ➜
+    </button>
+  </div>
+</div>
+</div>
   <!-- Overlay galería fullscreen -->
   <div id="galleryOverlay">
     <span id="closeGallery" onclick="cerrarGaleria()">×</span>
@@ -666,6 +703,61 @@ function mostrarMapa() {
 function cerrarMapa() {
   document.getElementById('mapContainer').style.display = 'none';
 }
+<script>
+function mostrarMapaPalmeira() {
+  const mapContainer = document.getElementById("mapContainer");
+  mapContainer.style.display = "block";
+
+  const map = L.map('map').setView([61.218774, -149.881082], 16); // Cambia coordenadas si es necesario
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data © OpenStreetMap contributors',
+  }).addTo(map);
+
+  L.marker([61.2176, -149.8966]).addTo(map)
+    .bindPopup('Palmeira Café')
+    .openPopup();
+}
+
+let imagenesPalmeira = ['menuPal1.JPG', 'menuPal2.JPG', 'menuPal3.JPG', 'menuPal4.JPG', 'menuPal5.JPG', 'menuPal6.JPG', 'menuPal7.JPG', 'menuPal8.JPG', 'menuPal9.JPG', 'menuPal10.JPG', 'menuPal11.JPG', 'menuPal2.JPG', 'menuPal3.JPG'];
+let indicePalmeira = 0;
+
+function mostrarMenuPalmeira() {
+  document.getElementById("menuPalmeiraModal").style.display = "block";
+  document.getElementById("palmeiraMenuImage").src = imagenesPalmeira[indicePalmeira];
+}
+
+function cerrarMenuPalmeira() {
+  document.getElementById("menuPalmeiraModal").style.display = "none";
+}
+
+function cambiarMenuPalmeira(direccion) {
+  indicePalmeira += direccion;
+  if (indicePalmeira < 0) indicePalmeira = imagenesPalmeira.length - 1;
+  if (indicePalmeira >= imagenesPalmeira.length) indicePalmeira = 0;
+  document.getElementById("palmeiraMenuImage").src = imagenesPalmeira[indicePalmeira];
+}
+
+let imagenesPalmeiraGaleria = ["reviewPal1.JPG", "reviewPal2.JPG", "reviewPal3.JPG", "reviewPal4.JPG",];
+let indicePalmeiraGaleria = 0;
+
+function abrirGaleriaPalmeira() {
+  document.getElementById("galeriaPalmeira").style.display = "flex";
+  document.getElementById("imagenGaleriaPalmeira").src = imagenesPalmeiraGaleria[indicePalmeiraGaleria];
+}
+
+function cerrarGaleriaPalmeira() {
+  document.getElementById("galeriaPalmeira").style.display = "none";
+}
+
+function cambiarImagenPalmeira(direccion) {
+  indicePalmeiraGaleria += direccion;
+  if (indicePalmeiraGaleria < 0) indicePalmeiraGaleria = imagenesPalmeiraGaleria.length - 1;
+  if (indicePalmeiraGaleria >= imagenesPalmeiraGaleria.length) indicePalmeiraGaleria = 0;
+  document.getElementById("imagenGaleriaPalmeira").src = imagenesPalmeiraGaleria[indicePalmeiraGaleria];
+}
+
+</script>
 
   </script>
 </body>
