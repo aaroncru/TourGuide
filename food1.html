@@ -537,6 +537,18 @@
   <img id="imagenMostrada" src="" alt="Imagen" />
   <p id="textoImagen"></p>
 </div>
+    <!-- Overlay galería fullscreen -->
+  <div id="galleryOverlaypalmeiras">
+    <span id="closeGallerypalmeiras" onclick="cerrarGaleriapalmeiras()">×</span>
+    <span id="arrowLeft" class="nav-arrow" onclick="cambiarImagenpalmeiras(-1)">&#10094;</span>
+    <img id="galleryImagepalmeiras" src="" alt="Review photo">
+    <span id="arrowRight" class="nav-arrow" onclick="cambiarImagenpalmeiras(1)">&#10095;</span>
+  </div>
+<div id="fullscreenImage" class="fullscreen" style="display: none;">
+  <span class="close-btn" onclick="cerrarImagenpalmeiras()">❌</span>
+  <img id="imagenMostrada" src="" alt="Imagen" />
+  <p id="textoImagen"></p>
+</div>
   <script>
     const photos = [
       'review1.JPG',
@@ -545,21 +557,30 @@
       'review4.JPG',
       // Pon aquí las rutas reales de tus imágenes
     ];
+    const photospalmeiras = [
+      'reviewPal1.JPG',
+      'reviewPal2.JPG',
+      'reviewPal3.JPG',
+      'reviewPal4.JPG',
+      // Pon aquí las rutas reales de tus imágenes
+    ];
 
     let currentIndex = 0;
 
 function mostrarCoffee() {
   const coffeeBoxes = document.getElementById("coffeeBoxes");
   const extraButtonsSnow = document.getElementById("extraButtonsSnow");
-
+  const extraButtonsPalmeiras = document.getElementById("extraButtonsPalmeiras");
   const isVisible = window.getComputedStyle(coffeeBoxes).display !== "none";
 
   if (isVisible) {
     coffeeBoxes.style.display = "none";
     extraButtonsSnow.style.display = "none";
+    extraButtonsPalmeiras.style.display = "none";
   } else {
     coffeeBoxes.style.display = "flex";
     extraButtonsSnow.style.display = "block";
+    extraButtonsPalmeiras.style.display = "block";
   }
 }
     function abrirGaleria() {
@@ -697,43 +718,44 @@ function mostrarMapa() {
 function cerrarMapa() {
   document.getElementById('mapContainer').style.display = 'none';
 }
+    let currentpalmeirasIndex = 0;
       function abrirGaleriaPalmeiras() {
-      currentIndex = 0;
+      currentpalmeirasIndex = 0;
       actualizarImagenPalmeiras();
-      document.getElementById('galleryOverlay').style.display = 'flex';
+      document.getElementById('galleryOverlaypalmeiras').style.display = 'flex';
     }
 
     function cerrarGaleriaPalmeiras() {
-      document.getElementById('galleryOverlay').style.display = 'none';
+      document.getElementById('galleryOverlaypalmeiras').style.display = 'none';
     }
     function cambiarImagenPalmeiras(direccion) {
-      currentIndex += direccion;
-      if (currentIndex < 0) {
-        currentIndex = photos.length - 1;
-      } else if (currentIndex >= photos.length) {
+      currentpalmeirasIndex += direccion;
+      if (currentpalmeirasIndex < 0) {
+        currentpalmeirasIndex = photospalmeiras.length - 1;
+      } else if (currentpalmeirasIndex >= photospalmeiras.length) {
         currentIndex = 0;
       }
       actualizarImagenPalmeiras();
     }
 
     function actualizarImagenPalmeiras() {
-      const img = document.getElementById('galleryImage');
-      img.src = photos[currentIndex];
-      img.alt = `Review photo ${currentIndex + 1}`;
+      const imgpalmeiras = document.getElementById('galleryImagepalmeiras');
+      imgpalmeiras.src = photospalmeiras[currentpalmeirasIndex];
+      imgpalmeiras.alt = `Review photo ${currentpalmeirasIndex + 1}`;
     }
      function mostrarImagenPalmeiras(tipo) {
-    const imagen = document.getElementById("imagenMostrada");
-    const texto = document.getElementById("textoImagen");
+    const imagenpalmeiras = document.getElementById("imagenMostradapalmeiras");
+    const textopalmeiras = document.getElementById("textoImagenpalmeiras");
 
     if (tipo === 'awarded') {
-      imagen.src = "awardedPalmeiras.jpg";
-      texto.innerText = "Premiado por excelencia culinaria local.";
+      imagenpalmeiras.src = "awardedPalmeiras.jpg";
+      textopalmeiras.innerText = "Premiado por excelencia culinaria local.";
     } else if (tipo === 'local') {
-      imagen.src = "locallyPalmeiras.jpg";
-      texto.innerText = "Ingredientes 100% locales y sostenibles.";
+      imagenpalmeiras.src = "locallyPalmeiras.jpg";
+      textopalmeiras.innerText = "Ingredientes 100% locales y sostenibles.";
     } else if (tipo === 'wild') {
-      imagen.src = "wildPalmeiras.jpg";
-      texto.innerText = "Una experiencia gastronómica inesperada.";
+      imagenpalmeiras.src = "wildPalmeiras.jpg";
+      textopalmeiras.innerText = "Una experiencia gastronómica inesperada.";
     }
 
     document.getElementById("fullscreenImage").style.display = "flex";
@@ -764,7 +786,7 @@ function cerrarMapa() {
 let mapInstancepalmeiras;
 let markerUsuariopalmeiras = null;
 let rutapalmeiras = null;
-const destinopalmeiras = [61.218774, -149.881104]; // Ejemplo: Snow City Cafe
+const destinopalmeiras = [61.218774, -149.881104]; // Ejemplo: Palmeiras
 
 function mostrarMapaPalmeiras() {
   document.getElementById('mapContainer').style.display = 'block';
@@ -796,7 +818,7 @@ function mostrarMapaPalmeiras() {
         .then(res => res.json())
         .then(data => {
           const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
-          if (ruta) mapInstancepalmeiras.removeLayer(ruta);
+          if (rutapalmeiras) mapInstancepalmeiras.removeLayer(ruta);
           rutapalmeiras = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstancepalmeiras);
           mapInstancepalmeiras.fitBounds(ruta.getBounds());
         });
