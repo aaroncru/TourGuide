@@ -487,42 +487,6 @@
    <div class="info-box">
   <h3>Palmeira</h3>
   <p>Café local con ambiente relajado y excelente panadería.</p>
-  <div class="info-details">
-        📞 <a href="tel:+9076692626">(907) 669-2626</a><br>
-        🔎 <a onclick="abrirGaleriaPalmeiras()" style="cursor:pointer;">Google Reviews</a>
-         <span style="display: block; margin-top: 20px; font-weight: bold;">Recommendations</span>
-  </div>
-     <div id="extraButtonsPalmeiras" style="display: none; margin-top: 20px;">
-  <button class="extra-btn" onclick="mostrarImagenPalmeiras('awarded')">Awarded</button>
-  <button class="extra-btn" onclick="mostrarImagenPalmeiras('local')">Locally Sourced</button>
-  <button class="extra-btn" onclick="mostrarImagenPalmeiras('wild')">Wild Card</button>
-</div>
-<div class="video-container">
-  <video controls muted loop>
-    <source src="videopalmeira.mp4" type="video/mp4">
-    Tu navegador no soporta el video.
-  </video>
-</div>
-     <div class="menu-buttons">
-  <button onclick="mostrarmenuPalmeiras()">MENU</button>
-     </div>
-     <div id="breakfastModal" class="fullscreen-modal" style="display: none;">
-      <img id="MenuPalmeirasImage" class="modal-image" src="menuPal1.JPG" alt="Breakfast Image">
-  <span class="close-btn" onclick="cerrarmenuPalmeiras()">✖</span>
-  <button class="arrow left" onclick="cambiarPameiras(-1)">❮</button>
-  <button class="arrow right" onclick="cambiarPalmeiras(1)">❯</button>
-</div>
-     <!-- Botón azul con flecha -->
-<div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button class="blue-arrow-button" onclick="mostrarMapaPalmeiras()">
-    <span>Take me there!</span> ➜
-  </button>
-</div>
-<!-- Contenedor del mapa -->
-<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
-  <div id="map" style="height: 100%; width: 100%;"></div>
-  <button onclick="cerrarMapaPalmeiras()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
-</div>
    </div>
 </div>
   <!-- Overlay galería fullscreen -->
@@ -537,18 +501,6 @@
   <img id="imagenMostrada" src="" alt="Imagen" />
   <p id="textoImagen"></p>
 </div>
-    <!-- Overlay galería fullscreen -->
-  <div id="galleryOverlaypalmeiras">
-    <span id="closeGallerypalmeiras" onclick="cerrarGaleriapalmeiras()">×</span>
-    <span id="arrowLeft" class="nav-arrow" onclick="cambiarImagenpalmeiras(-1)">&#10094;</span>
-    <img id="galleryImagepalmeiras" src="" alt="Review photo">
-    <span id="arrowRight" class="nav-arrow" onclick="cambiarImagenpalmeiras(1)">&#10095;</span>
-  </div>
-<div id="fullscreenImage" class="fullscreen" style="display: none;">
-  <span class="close-btn" onclick="cerrarImagenpalmeiras()">❌</span>
-  <img id="imagenMostrada" src="" alt="Imagen" />
-  <p id="textoImagen"></p>
-</div>
   <script>
     const photos = [
       'review1.JPG',
@@ -557,30 +509,21 @@
       'review4.JPG',
       // Pon aquí las rutas reales de tus imágenes
     ];
-    const photospalmeiras = [
-      'reviewPal1.JPG',
-      'reviewPal2.JPG',
-      'reviewPal3.JPG',
-      'reviewPal4.JPG',
-      // Pon aquí las rutas reales de tus imágenes
-    ];
 
     let currentIndex = 0;
 
 function mostrarCoffee() {
   const coffeeBoxes = document.getElementById("coffeeBoxes");
-  const extraButtonsSnow = document.getElementById("extraButtonsSnow");
-  const extraButtonsPalmeiras = document.getElementById("extraButtonsPalmeiras");
+  const extraButtons = document.getElementById("extraButtons");
   const isVisible = window.getComputedStyle(coffeeBoxes).display !== "none";
 
   if (isVisible) {
     coffeeBoxes.style.display = "none";
-    extraButtonsSnow.style.display = "none";
-    extraButtonsPalmeiras.style.display = "none";
+    extraButtons.style.display = "none";
+  
   } else {
     coffeeBoxes.style.display = "flex";
-    extraButtonsSnow.style.display = "block";
-    extraButtonsPalmeiras.style.display = "block";
+    extraButtons.style.display = "block";
   }
 }
     function abrirGaleria() {
@@ -718,124 +661,7 @@ function mostrarMapa() {
 function cerrarMapa() {
   document.getElementById('mapContainer').style.display = 'none';
 }
-    let currentpalmeirasIndex = 0;
-      function abrirGaleriaPalmeiras() {
-      currentpalmeirasIndex = 0;
-      actualizarImagenPalmeiras();
-      document.getElementById('galleryOverlaypalmeiras').style.display = 'flex';
-    }
 
-    function cerrarGaleriapalmeiras() {
-      document.getElementById('galleryOverlaypalmeiras').style.display = 'none';
-    }
-    function cambiarImagenPalmeiras(direccion) {
-      currentpalmeirasIndex += direccion;
-      if (currentpalmeirasIndex < 0) {
-        currentpalmeirasIndex = photospalmeiras.length - 1;
-      } else if (currentpalmeirasIndex >= photospalmeiras.length) {
-        currentIndex = 0;
-      }
-      actualizarImagenPalmeiras();
-    }
-
-    function actualizarImagenPalmeiras() {
-      const imgpalmeiras = document.getElementById('galleryImagepalmeiras');
-      imgpalmeiras.src = photospalmeiras[currentpalmeirasIndex];
-      imgpalmeiras.alt = `Review photo ${currentpalmeirasIndex + 1}`;
-    }
-     function mostrarImagenPalmeiras(tipo) {
-    const imagenpalmeiras = document.getElementById("imagenMostradapalmeiras");
-    const textopalmeiras = document.getElementById("textoImagenpalmeiras");
-
-    if (tipo === 'awarded') {
-      imagenpalmeiras.src = "awardedPalmeiras.jpg";
-      textopalmeiras.innerText = "Premiado por excelencia culinaria local.";
-    } else if (tipo === 'local') {
-      imagenpalmeiras.src = "locallyPalmeiras.jpg";
-      textopalmeiras.innerText = "Ingredientes 100% locales y sostenibles.";
-    } else if (tipo === 'wild') {
-      imagenpalmeiras.src = "wildPalmeiras.jpg";
-      textopalmeiras.innerText = "Una experiencia gastronómica inesperada.";
-    }
-
-    document.getElementById("fullscreenImage").style.display = "flex";
-  }
-
-  function cerrarImagenPalmeiras() {
-    document.getElementById("fullscreenImage").style.display = "none";
-  }
-    const MenuPalmeirasImage = ["menuPal.JPG", "menuPal2.JPG", "menuPal3.JPG", "menuPal4.JPG", "menuPal5.JPG", "menuPal6.JPG", "menuPal7.JPG", "menuPal8.JPG", "menuPal9.JPG", "menuPal10.JPG", "menuPal11.JPG", "menuPal2.JPG", "menuPal3.JPG"]; // Tus imágenes
-    let MenuPalmeirasIndex = 0;
-
-  function mostrarMenuPalmeiras() {
-    MenuPalmeirasIndex = 0;
-    document.getElementById("MenuPalmeirasImage").src = MenuPalmeirasImage[MenuPalmeirasIndex];
-    document.getElementById("breakfastModal").style.display = "flex";
-  }
-
-  function cerrarBreakfast() {
-    document.getElementById("breakfastModal").style.display = "none";
-  }
-
-  function cambiarBreakfast(direccion) {
-    MenuPalmeirasIndex += direccion;
-    if (MenuPalmeirasIndex < 0) breakfastIndex = breakfastImages.length - 1;
-    if (MenuPalmeirasIndex >= breakfastImages.length) MenuPalmeirasIndex = 0;
-    document.getElementById("MenuPalmeirasImage").src = breakfastImages[MenuPalmeirasIndex];
-  }
-let mapInstancepalmeiras;
-let markerUsuariopalmeiras = null;
-let rutapalmeiras = null;
-const destinopalmeiras = [61.218774, -149.881104]; // Ejemplo: Palmeiras
-
-function mostrarMapaPalmeiras() {
-  document.getElementById('mapContainer').style.display = 'block';
-
-  if (!mapInstancepalmeiras) {
-    mapInstancepalmeiras = L.map('map').setView([61.2176, -149.8997], 13); // Centro de Anchorage
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '© OpenStreetMap'
-    }).addTo(mapInstancepalmeiras);
-
-    L.marker(destinopalmeiras).addTo(mapInstancepalmeiras).bindPopup("Destino");
-
-    // Ver ubicación continuamente
-    navigator.geolocation.watchPosition(pos => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-
-      if (markerUsuariopalmeiras) {
-        markerUsuariopalmeiras.setLatLng([lat, lon]);
-      } else {
-        markerUsuariopalmeiras = L.marker([lat, lon]).addTo(mapInstancepalmeiras).bindPopup("You are here!").openPopup();
-      }
-
-      const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${lon},${lat};${destino[1]},${destino[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
-
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
-          if (rutapalmeiras) mapInstancepalmeiras.removeLayer(ruta);
-          rutapalmeiras = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstancepalmeiras);
-          mapInstancepalmeiras.fitBounds(ruta.getBounds());
-        });
-
-    }, err => {
-      console.error("Error obteniendo ubicación:", err);
-    }, {
-      enableHighAccuracy: true,
-      maximumAge: 5000,
-      timeout: 10000
-    });
-  }
-}
-
-function cerrarMapaPalmeiras() {
-  document.getElementById('mapContainer').style.display = 'none';
-}
   </script>
 </body>
 </html>
