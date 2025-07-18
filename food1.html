@@ -438,7 +438,7 @@
         🔎 <a onclick="abrirGaleria()" style="cursor:pointer;">Google Reviews</a>
          <span style="display: block; margin-top: 20px; font-weight: bold;">Recommendations</span>
       </div>
-    <div id="extraButtons" style="display: none; margin-top: 20px;">
+    <div id="extraButtonsSnow" style="display: none; margin-top: 20px;">
   <button class="extra-btn" onclick="mostrarImagen('awarded')">Awarded</button>
   <button class="extra-btn" onclick="mostrarImagen('local')">Locally Sourced</button>
   <button class="extra-btn" onclick="mostrarImagen('wild')">Wild Card</button>
@@ -492,7 +492,7 @@
         🔎 <a onclick="abrirGaleriaPalmeiras()" style="cursor:pointer;">Google Reviews</a>
          <span style="display: block; margin-top: 20px; font-weight: bold;">Recommendations</span>
   </div>
-     <div id="extraButtons" style="display: none; margin-top: 20px;">
+     <div id="extraButtonsPalmeiras" style="display: none; margin-top: 20px;">
   <button class="extra-btn" onclick="mostrarImagenPalmeiras('awarded')">Awarded</button>
   <button class="extra-btn" onclick="mostrarImagenPalmeiras('local')">Locally Sourced</button>
   <button class="extra-btn" onclick="mostrarImagenPalmeiras('wild')">Wild Card</button>
@@ -550,16 +550,16 @@
 
 function mostrarCoffee() {
   const coffeeBoxes = document.getElementById("coffeeBoxes");
-  const extraButtons = document.getElementById("extraButtons");
+  const extraButtonsSnow = document.getElementById("extraButtonsSnow");
 
   const isVisible = window.getComputedStyle(coffeeBoxes).display !== "none";
 
   if (isVisible) {
     coffeeBoxes.style.display = "none";
-    extraButtons.style.display = "none";
+    extraButtonsSnow.style.display = "none";
   } else {
     coffeeBoxes.style.display = "flex";
-    extraButtons.style.display = "block";
+    extraButtonsSnow.style.display = "block";
   }
 }
     function abrirGaleria() {
