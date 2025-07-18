@@ -550,19 +550,20 @@
 
     let currentIndex = 0;
 
-  function mostrarCoffee() {
+ function mostrarCoffee() {
   const coffeeBoxes = document.getElementById("coffeeBoxes");
   const extraButtons = document.getElementById("extraButtons");
 
-  if (coffeeBoxes.style.display === "flex") {
+  const isVisible = window.getComputedStyle(coffeeBoxes).display !== "none";
+
+  if (isVisible) {
     coffeeBoxes.style.display = "none";
     extraButtons.style.display = "none";
   } else {
     coffeeBoxes.style.display = "flex";
-    extraButtons.style.display = "block"; // <-- Mostrar los botones aquí
+    extraButtons.style.display = "block";
   }
 }
-
 
     function abrirGaleria() {
       currentIndex = 0;
