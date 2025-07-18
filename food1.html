@@ -761,33 +761,33 @@ function cerrarMapa() {
     if (MenuPalmeirasIndex >= breakfastImages.length) MenuPalmeirasIndex = 0;
     document.getElementById("MenuPalmeirasImage").src = breakfastImages[MenuPalmeirasIndex];
   }
-let mapInstance;
-let markerUsuario = null;
-let ruta = null;
-const destino = [61.218774, -149.881104]; // Ejemplo: Snow City Cafe
+let mapInstancepalmeiras;
+let markerUsuariopalmeiras = null;
+let rutapalmeiras = null;
+const destinopalmeiras = [61.218774, -149.881104]; // Ejemplo: Snow City Cafe
 
 function mostrarMapaPalmeiras() {
   document.getElementById('mapContainer').style.display = 'block';
 
-  if (!mapInstance) {
-    mapInstance = L.map('map').setView([61.2176, -149.8997], 13); // Centro de Anchorage
+  if (!mapInstancepalmeiras) {
+    mapInstancepalmeiras = L.map('map').setView([61.2176, -149.8997], 13); // Centro de Anchorage
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: '© OpenStreetMap'
-    }).addTo(mapInstance);
+    }).addTo(mapInstancepalmeiras);
 
-    L.marker(destino).addTo(mapInstance).bindPopup("Destino");
+    L.marker(destinopalmeiras).addTo(mapInstancepalmeiras).bindPopup("Destino");
 
     // Ver ubicación continuamente
     navigator.geolocation.watchPosition(pos => {
       const lat = pos.coords.latitude;
       const lon = pos.coords.longitude;
 
-      if (markerUsuario) {
-        markerUsuario.setLatLng([lat, lon]);
+      if (markerUsuariopalmeiras) {
+        markerUsuariopalmeiras.setLatLng([lat, lon]);
       } else {
-        markerUsuario = L.marker([lat, lon]).addTo(mapInstance).bindPopup("You are here!").openPopup();
+        markerUsuariopalmeiras = L.marker([lat, lon]).addTo(mapInstancepalmeiras).bindPopup("You are here!").openPopup();
       }
 
       const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${lon},${lat};${destino[1]},${destino[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
@@ -796,9 +796,9 @@ function mostrarMapaPalmeiras() {
         .then(res => res.json())
         .then(data => {
           const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
-          if (ruta) mapInstance.removeLayer(ruta);
-          ruta = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstance);
-          mapInstance.fitBounds(ruta.getBounds());
+          if (ruta) mapInstancepalmeiras.removeLayer(ruta);
+          rutapalmeiras = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstancepalmeiras);
+          mapInstancepalmeiras.fitBounds(ruta.getBounds());
         });
 
     }, err => {
