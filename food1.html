@@ -584,7 +584,7 @@
       // Pon aquí las rutas reales de tus imágenes
     ];
 
-    let currentIndex = 0;
+    let coffeeIndex = 0;
 
 function mostrarCoffee() {
   const coffeeBoxes = document.getElementById("coffeeBoxes");
@@ -601,7 +601,7 @@ function mostrarCoffee() {
   }
 }
     function abrirGaleria() {
-      currentIndex = 0;
+      coffeeIndex = 0;
       actualizarImagen();
       document.getElementById('galleryOverlay').style.display = 'flex';
     }
@@ -611,11 +611,11 @@ function mostrarCoffee() {
     }
 
     function cambiarImagen(direccion) {
-      currentIndex += direccion;
-      if (currentIndex < 0) {
-        currentIndex = photos.length - 1;
-      } else if (currentIndex >= photos.length) {
-        currentIndex = 0;
+      coffeeIndex += direccion;
+      if (coffeeIndex < 0) {
+        coffeeIndex = photos.length - 1;
+      } else if (coffeeIndex >= photos.length) {
+        coffeeIndex = 0;
       }
       actualizarImagen();
     }
