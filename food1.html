@@ -448,9 +448,9 @@
 .close-gallery {
   position: absolute;
   top: -80px;
-  right: -80px;
+  right: -20px;
   font-size: 24px;
-  background: white;
+  background: #b4aca1;
   border-radius: 50%;
   padding: 2px 8px;
   cursor: pointer;
@@ -533,14 +533,14 @@
 
   <!-- Teléfono clicable -->
   <p>
-    <a href="tel:9076692626" style="color: blue; text-decoration: underline;">
+    <a href="tel:9076692626" style="color: #003366; text-decoration: underline;">
    📞 (907) 669-2626
     </a>
   </p>
 
   <!-- Google Reviews clicable -->
   <p>
-    <a href="#" onclick="openGallery(); return false;" style="color: blue; text-decoration: underline;">
+    <a href="#" onclick="openGallery(); return false;" style="color: #003366; text-decoration: underline;">
       ⭐ Google Reviews
     </a>
   </p>
@@ -567,8 +567,8 @@
     <span class="close-gallery" onclick="closeGallery()">✖</span>
     <img id="gallery-img" src="reviewPal1.JPG" alt="Review" />
     <div class="gallery-nav">
-      <button onclick="prevImage()"> ⬅ </button>
-      <button onclick="nextImage()"> ⮕ </button>
+      <button onclick="prevImage()"> → </button>
+      <button onclick="nextImage()"> ← </button>
     </div>
   </div>
 </div>
