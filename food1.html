@@ -528,14 +528,26 @@
 
 </div>
 
-   <div class="info-box">
+  <div class="info-box">
   <h3>Palmeira</h3>
   <p>Café local con ambiente relajado y excelente panadería.</p>
-  <p><a href="tel:+526461234567" style="color: blue; text-decoration: underline;">📞 (907) 669-2626</a></p>
-  <p><a href="#" onclick="openGallery(); return false;" style="color: blue; text-decoration: underline;">🔎 Google Reviews</a></p>
 
-     
-   </div>
+  <!-- Teléfono clicable -->
+  <p>
+    <a href="tel:9076692626" style="color: blue; text-decoration: underline;">
+   📞 (907) 669-2626
+    </a>
+  </p>
+
+  <!-- Google Reviews clicable -->
+  <p>
+    <a href="#" onclick="openGallery(); return false;" style="color: blue; text-decoration: underline;">
+      ⭐ Google Reviews
+    </a>
+  </p>
+</div>
+
+  
 </div>
   <!-- Overlay galería fullscreen -->
   <div id="galleryOverlay">
@@ -550,7 +562,8 @@
   <p id="textoImagen"></p>
 </div>
   <!-- palmeiras -->
-  <div id="gallery-overlay" style="display:none;">
+<!-- Galería de imágenes tipo popup -->
+<div id="gallery-overlay" style="display:none;">
   <div id="gallery-content">
     <span class="close-gallery" onclick="closeGallery()">✕</span>
     <img id="gallery-img" src="img/palmeiras/review1.jpg" alt="Review" />
@@ -560,6 +573,7 @@
     </div>
   </div>
 </div>
+
 
   <script>
     const photos = [
@@ -721,7 +735,7 @@ function mostrarMapa() {
 function cerrarMapa() {
   document.getElementById('mapContainer').style.display = 'none';
 }
-    <script>
+ /*Palmeiras*/
   const reviewImages = [
     "reviewPal1.JPG',
     'reviewPal2.JPG',
@@ -747,8 +761,6 @@ function cerrarMapa() {
     currentIndex = (currentIndex - 1 + reviewImages.length) % reviewImages.length;
     document.getElementById('gallery-img').src = reviewImages[currentIndex];
   }
-</script>
-
 
   </script>
 </body>
