@@ -478,7 +478,7 @@
       <p> Example text bla bla its a good place to eaty bla bla</p>
       <div class="info-details">
         📞 <a href="tel:+19072722489">(907) 272-2489</a><br>
-        🔎 <a onclick="abrirGaleria()" style="cursor:pointer;">Google Reviews</a>
+        ⭐ <a onclick="abrirGaleria()" style="cursor:pointer;">Google Reviews</a>
          <span style="display: block; margin-top: 20px; font-weight: bold;">Recommendations</span>
       </div>
     <div id="extraButtons" style="display: none; margin-top: 20px;">
@@ -530,22 +530,20 @@
   <div class="info-box">
   <h3>Palmeira</h3>
   <p>Café local con ambiente relajado y excelente panadería.</p>
-
   <!-- Teléfono clicable -->
   <p><a href="tel:9076692626" style="color: #003366; text-decoration: underline;"> 📞 (907) 669-2626 </a></p>
-
   <!-- Google Reviews clicable -->
   <p><a href="#" onclick="openGallery(); return false;" style="color: #003366; text-decoration: underline;">  ⭐ Google Reviews</a></p>
   <p><strong>Recommendations</strong></p>
 <div id="botonesPalmeiras">
-    <button onclick="abrirOverlayPalmeiras('awarded')">Awarded</button>
-    <button onclick="abrirOverlayPalmeiras('locally')">Locally</button>
-    <button onclick="abrirOverlayPalmeiras('wild')">Wild</button>
+    <button class="extra-btn" onclick="abrirOverlayPalmeiras('awarded')">Awarded</button>
+    <button class="extra-btn" onclick="abrirOverlayPalmeiras('locally')">Locally</button>
+    <button class="extra-btn" onclick="abrirOverlayPalmeiras('wild')">Wild</button>
 </div>
 
 
   </div>
-  
+  </div>
 </div>
   <!-- Overlay galería fullscreen -->
   <div id="galleryOverlay">
@@ -555,7 +553,7 @@
     <span id="arrowRight" class="nav-arrow" onclick="cambiarImagen(1)">&#10095;</span>
   </div>
 <div id="fullscreenImage" class="fullscreen" style="display: none;">
-  <span class="close-btn" onclick="cerrarImagen()">❌</span>
+  <span class="close-btn" onclick="cerrarImagen()">✖</span>
   <img id="imagenMostrada" src="" alt="Imagen" />
   <p id="textoImagen"></p>
 </div>
@@ -576,7 +574,7 @@
   width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.9); z-index: 9999;
   display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;">
   
-  <span onclick="cerrarOverlayPalmeiras()" style="position: absolute; top: 20px; right: 30px; font-size: 30px; color: white; cursor: pointer;">✖</span>
+  <span onclick="cerrarOverlayPalmeiras()" style="position: absolute; top: 20px; right: 50px; font-size: 30px; color: white; cursor: pointer;">✖</span>
 
   <img id="imagenOverlayPalmeiras" src="" alt="Imagen" style="max-width: 80%; max-height: 60vh; margin-bottom: 20px;">
   <p id="textoOverlayPalmeiras" style="color: white; font-size: 18px;"></p>
