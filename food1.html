@@ -537,8 +537,21 @@
   <!-- Google Reviews clicable -->
   <p><a href="#" onclick="openGallery(); return false;" style="color: #003366; text-decoration: underline;">  ⭐ Google Reviews</a></p>
   <p><strong>Recommendations</strong></p>
+ <div id="botonesPalmeiras">
+   <button onclick="mostrarRecomendacion('awarded')">Awarded</button>
+   <button onclick="mostrarRecomendacion('locally')">Locally Sourced</button>
+   <button onclick="mostrarRecomendacion('wild')">Wild Card</button>
+  </div>
 
-</div>
+  <!-- Contenedor de imagen y texto -->
+  <div id="contenidoRecomendacion" style="margin-top: 10px;">
+    <img id="imagenRecomendacion" src="" alt="" style="max-width: 100%; display: none;">
+    <p id="textoRecomendacion" style="display: none;"></p>
+  </div>
+
+
+    
+  </div>
   
 </div>
   <!-- Overlay galería fullscreen -->
@@ -753,7 +766,24 @@ function cerrarMapa() {
     currentIndex = (currentIndex - 1 + reviewImages.length) % reviewImages.length;
     document.getElementById('gallery-img').src = reviewImages[currentIndex];
   }
+  function mostrarRecomendacion(tipo) {
+    const img = document.getElementById("imagenRecomendacion");
+    const texto = document.getElementById("textoRecomendacion");
 
+    if (tipo === 'wild') {
+      img.src = "wild_palmeiras.jpg";
+      texto.textContent = "Una experiencia salvaje en medio de un entorno natural.";
+    } else if (tipo === 'awarded') {
+      img.src = "awarded_palmeiras.jpg";
+      texto.textContent = "Ganador del premio local al mejor café artesanal.";
+    } else if (tipo === 'locally') {
+      img.src = "locally_palmeiras.jpeg";
+      texto.textContent = "Ingredientes frescos y de origen local en cada platillo.";
+    }
+
+    img.style.display = "block";
+    texto.style.display = "block";
+  }
   </script>
 </body>
 </html>
