@@ -537,20 +537,13 @@
   <!-- Google Reviews clicable -->
   <p><a href="#" onclick="openGallery(); return false;" style="color: #003366; text-decoration: underline;">  ⭐ Google Reviews</a></p>
   <p><strong>Recommendations</strong></p>
- <div id="botonesPalmeiras">
-   <button onclick="mostrarRecomendacion('awarded')">Awarded</button>
-   <button onclick="mostrarRecomendacion('locally')">Locally Sourced</button>
-   <button onclick="mostrarRecomendacion('wild')">Wild Card</button>
-  </div>
-
-  <!-- Contenedor de imagen y texto -->
-  <div id="contenidoRecomendacion" style="margin-top: 10px;">
-    <img id="imagenRecomendacion" src="" alt="" style="max-width: 100%; display: none;">
-    <p id="textoRecomendacion" style="display: none;"></p>
-  </div>
+<div id="botonesPalmeiras">
+    <button onclick="abrirOverlayPalmeiras('awarded')">Awarded</button>
+    <button onclick="abrirOverlayPalmeiras('locally')">Locally</button>
+    <button onclick="abrirOverlayPalmeiras('wild')">Wild</button>
+</div>
 
 
-    
   </div>
   
 </div>
@@ -577,6 +570,16 @@
       <button onclick="nextImage()"> → </button>
     </div>
   </div>
+</div>
+<!-- Overlay fullscreen para recomendaciones -->
+<div id="overlayPalmeiras" style="display: none; position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.9); z-index: 9999;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;">
+  
+  <span onclick="cerrarOverlayPalmeiras()" style="position: absolute; top: 20px; right: 30px; font-size: 30px; color: white; cursor: pointer;">✖</span>
+
+  <img id="imagenOverlayPalmeiras" src="" alt="Imagen" style="max-width: 80%; max-height: 60vh; margin-bottom: 20px;">
+  <p id="textoOverlayPalmeiras" style="color: white; font-size: 18px;"></p>
 </div>
 
 
@@ -766,24 +769,29 @@ function cerrarMapa() {
     currentIndex = (currentIndex - 1 + reviewImages.length) % reviewImages.length;
     document.getElementById('gallery-img').src = reviewImages[currentIndex];
   }
-  function mostrarRecomendacion(tipo) {
-    const img = document.getElementById("imagenRecomendacion");
-    const texto = document.getElementById("textoRecomendacion");
+  function abrirOverlayPalmeiras(tipo) {
+    const overlay = document.getElementById("overlayPalmeiras");
+    const imagen = document.getElementById("imagenOverlayPalmeiras");
+    const texto = document.getElementById("textoOverlayPalmeiras");
 
     if (tipo === 'wild') {
-      img.src = "wild_palmeiras.jpg";
-      texto.textContent = "Una experiencia salvaje en medio de un entorno natural.";
+      imagen.src = 'wild_palmeiras.jpeg';
+      texto.textContent = 'Una experiencia salvaje en medio de un entorno natural.';
     } else if (tipo === 'awarded') {
-      img.src = "awarded_palmeiras.jpg";
-      texto.textContent = "Ganador del premio local al mejor café artesanal.";
+      imagen.src = 'awarded_palmeiras.jpg';
+      texto.textContent = 'Ganador del premio local al mejor café artesanal.';
     } else if (tipo === 'locally') {
-      img.src = "locally_palmeiras.jpeg";
-      texto.textContent = "Ingredientes frescos y de origen local en cada platillo.";
+      imagen.src = 'locally_palmeiras.jpeg';
+      texto.textContent = 'Ingredientes frescos y de origen local en cada platillo.';
     }
 
-    img.style.display = "block";
-    texto.style.display = "block";
+    overlay.style.display = 'flex';
   }
+
+  function cerrarOverlayPalmeiras() {
+    document.getElementById("overlayPalmeiras").style.display = 'none';
+  }
+
   </script>
 </body>
 </html>
