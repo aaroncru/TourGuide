@@ -548,9 +548,9 @@
   <h3>Palmeira</h3>
   <p>Café local con ambiente relajado y excelente panadería.</p>
   <!-- Teléfono clicable -->
-  <p><a href="tel:9076692626" style="color: #003366; text-decoration: underline;"> 📞 (907) 669-2626 </a></p>
+  <p><a href="tel:9076692626" style="color: #003366; text-decoration: underline;">📞 (907) 669-2626</a></p>
   <!-- Google Reviews clicable -->
-  <p><a href="#" onclick="openGallery(); return false;" style="color: #003366; text-decoration: underline;">  ⭐ Google Reviews</a></p>
+  <p><a href="#" onclick="openGallery(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
   <p><strong>Recommendations</strong></p>
 <div id="botonesPalmeiras">
     <button class="extra-btn" onclick="abrirOverlayPalmeiras('awarded')">Awarded</button>
@@ -565,11 +565,18 @@
   </video>
 </div>
     <button class="recommendation-btn" onclick="abrirMenuPalmeiras()">MENU</button>
+<!-- Botón azul con flecha -->
 <div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button class="blue-arrow-button" onclick="takeMeToPalmeiras()"> <span>Take me there!</span> ➜ </button>
+  <button class="blue-arrow-button" onclick="mostrarMapapalmeiras()">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+<!-- Contenedor del mapa -->
+<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
+  <div id="map" style="height: 100%; width: 100%;"></div>
+  <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
 </div>
     
-  </div>
   </div>
 </div>
   <!-- Overlay galería fullscreen -->
@@ -837,45 +844,59 @@ function cerrarMapa() {
     if (menuPalmeirasIndex >= menuPalmeirasImgs.length) menuPalmeirasIndex = 0;
     document.getElementById("menuImagenPalmeiras").src = menuPalmeirasImgs[menuPalmeirasIndex];
   }
- let rutaUsuarioPalmeiras; // Línea entre tú y el destino
+ let mapInstancePalmeiras;
+let markerUsuarioPalmeiras = null;
+let rutapalmeiras = null;
+const destinopalmeiras = [61.218778, -149.881083]; //Palmeiras
 
-function takeMeToPalmeiras() {
-  const destinoPalmeiras = [61.218781, -149.881085]; // Coordenadas exactas de Palmeiras
+function mostrarMapapalmeiras() {
+  document.getElementById('mapContainer').style.display = 'block';
 
-  if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(
-      function (position) {
-        const origen = [position.coords.latitude, position.coords.longitude];
+  if (!mapInstancePalmeiras) {
+    mapInstancePalmeiras = L.map('map').setView([61.2176, -149.8997], 13); // Centro de Anchorage
 
-        // Centrar el mapa en la ubicación del usuario
-        map.setView(origen, 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© OpenStreetMap'
+    }).addTo(mapInstancePalmeiras);
 
-        // Eliminar ruta previa si ya existía
-        if (rutaUsuarioPalmeiras) {
-          map.removeLayer(rutaUsuarioPalmeiras);
-        }
+    L.marker(destinopalmeiras).addTo(mapInstancePalmeiras).bindPopup("Destino");
 
-        // Dibujar nueva ruta
-        rutaUsuarioPalmeiras = L.polyline([origen, destinoPalmeiras], {
-          color: 'blue',
-          weight: 4,
-          dashArray: '5, 10'
-        }).addTo(map);
-      },
-      function (error) {
-        alert("No se pudo obtener tu ubicación.");
-      },
-      {
-        enableHighAccuracy: true,
-        maximumAge: 1000,
-        timeout: 5000
+    // Ver ubicación continuamente
+    navigator.geolocation.watchPosition(pos => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+
+      if (markerUsuarioPalmeiras) {
+        markerUsuarioPalmeiras.setLatLng([lat, lon]);
+      } else {
+        markerUsuarioPalmeiras = L.marker([lat, lon]).addTo(mapInstancePalmeiras).bindPopup("You are here!").openPopup();
       }
-    );
-  } else {
-    alert("Tu navegador no permite geolocalización.");
+
+      const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${lon},${lat};${destino[1]},${destino[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
+          if (rutapalmeiras) mapInstancePalmeiras.removeLayer(rutapalmeiras);
+          rutapalmeiras = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstancePalmeiras);
+          mapInstancePalmeiras.fitBounds(rutapalmeiras.getBounds());
+        });
+
+    }, err => {
+      console.error("Error obteniendo ubicación:", err);
+    }, {
+      enableHighAccuracy: true,
+      maximumAge: 5000,
+      timeout: 10000
+    });
   }
 }
 
+function cerrarMapa() {
+  document.getElementById('mapContainer').style.display = 'none';
+}
   </script>
 </body>
 </html>
