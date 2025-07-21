@@ -572,8 +572,8 @@
   </button>
 </div>
 <!-- Contenedor del mapa -->
-<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
-  <div id="map" style="height: 100%; width: 100%;"></div>
+<div id="mapContainerPalmeiras" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
+  <div id="mapPalmeiras" style="height: 100%; width: 100%;"></div>
   <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
 </div>
     
@@ -850,10 +850,10 @@ let rutapalmeiras = null;
 const destinopalmeiras = [61.218778, -149.881083]; //Palmeiras
 
 function mostrarMapapalmeiras() {
-  document.getElementById('mapContainer').style.display = 'block';
+  document.getElementById('mapContainerPalmeiras').style.display = 'block';
 
   if (!mapInstancePalmeiras) {
-    mapInstancePalmeiras = L.map('map').setView([61.2176, -149.8997], 13); // Centro de Anchorage
+    mapInstancePalmeiras = L.map('mapPalmeiras').setView([61.2176, -149.8997], 13); // Centro de Anchorage
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
@@ -895,7 +895,7 @@ function mostrarMapapalmeiras() {
 }
 
 function cerrarMapa() {
-  document.getElementById('mapContainer').style.display = 'none';
+  document.getElementById('mapContainerPalmeiras').style.display = 'none';
 }
   </script>
 </body>
