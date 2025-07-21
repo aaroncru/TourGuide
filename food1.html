@@ -570,13 +570,10 @@
   </div>
 </div>
 <!-- Overlay fullscreen para recomendaciones -->
-<div id="overlayPalmeiras" style="display: none; position: fixed; top: 0; left: 0;
-  width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.9); z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;">
-  
-  <span onclick="cerrarOverlayPalmeiras()" style="position: absolute; top: 20px; right: 50px; font-size: 30px; color: white; cursor: pointer;">✖</span>
-
-  <img id="imagenOverlayPalmeiras" src="" alt="Imagen" style="max-width: 80%; max-height: 60vh; margin-bottom: 20px;">
-  <p id="textoOverlayPalmeiras" style="color: white; font-size: 18px;"></p>
+<div id="overlayPalmeiras" style="  display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.9); z-index: 9999; flex-direction: column; justify-content: center; align-items: center;text-align: center; padding: 20px;box-sizing: border-box; overflow-y: auto;">
+  <span onclick="cerrarOverlayPalmeiras()" style="position: absolute;top: 20px;right: 30px;font-size: 30px;color: white;cursor: pointer;z-index: 10000;">✖</span>
+  <img id="imagenOverlayPalmeiras" src="" alt="Imagen" style="max-width: 90%;max-height: 50vh;margin-bottom: 20px;object-fit: contain; ">
+  <p id="textoOverlayPalmeiras" style=" color: white;font-size: 16px; padding: 0 10px; "></p>
 </div>
 
 
