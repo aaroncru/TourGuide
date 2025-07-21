@@ -853,7 +853,7 @@ function mostrarMapapalmeiras() {
   document.getElementById('mapContainerPalmeiras').style.display = 'block';
 
   if (!mapInstancePalmeiras) {
-    mapInstancePalmeiras = L.map('mapPalmeiras').setView([61.2176, -149.8997], 13); // Centro de Anchorage
+    mapInstancePalmeiras = L.mapPalmeiras('mapPalmeiras').setView([61.2176, -149.8997], 13); // Centro de Anchorage
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
@@ -864,23 +864,23 @@ function mostrarMapapalmeiras() {
 
     // Ver ubicación continuamente
     navigator.geolocation.watchPosition(pos => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
+      const latPal = pos.coords.latitude;
+      const lonPal = pos.coords.longitude;
 
       if (markerUsuarioPalmeiras) {
-        markerUsuarioPalmeiras.setLatLng([lat, lon]);
+        markerUsuarioPalmeiras.setLatLng([latPal, lonPal]);
       } else {
-        markerUsuarioPalmeiras = L.marker([lat, lon]).addTo(mapInstancePalmeiras).bindPopup("You are here!").openPopup();
+        markerUsuarioPalmeiras = L.marker([latPal, lonPal]).addTo(mapInstancePalmeiras).bindPopup("You are here!").openPopup();
       }
 
-      const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${lon},${lat};${destino[1]},${destino[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
+      const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${lonPal},${latPal};${destinopalmeiras[1]},${destinopalmeiras[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
 
       fetch(url)
         .then(res => res.json())
         .then(data => {
-          const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
+          const coordsPal = data.routes[0].geometry.coordinates.mapPalmeiras(p => [p[1], p[0]]);
           if (rutapalmeiras) mapInstancePalmeiras.removeLayer(rutapalmeiras);
-          rutapalmeiras = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstancePalmeiras);
+          rutapalmeiras = L.polyline(coordsPal, { color: 'blue', weight: 4 }).addTo(mapInstancePalmeiras);
           mapInstancePalmeiras.fitBounds(rutapalmeiras.getBounds());
         });
 
