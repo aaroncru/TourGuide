@@ -837,39 +837,42 @@ function cerrarMapa() {
     if (menuPalmeirasIndex >= menuPalmeirasImgs.length) menuPalmeirasIndex = 0;
     document.getElementById("menuImagenPalmeiras").src = menuPalmeirasImgs[menuPalmeirasIndex];
   }
-  let rutaUsuario; // línea que mostrará la ruta
+ let rutaUsuarioPalmeiras; // Línea entre tú y el destino
 
 function takeMeToPalmeiras() {
-  const destino = [61.218781, -149.881085]; // Coordenadas de Palmeiras
+  const destinoPalmeiras = [61.218781, -149.881085]; // Coordenadas exactas de Palmeiras
 
   if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(function (position) {
-      const origen = [position.coords.latitude, position.coords.longitude];
+    navigator.geolocation.watchPosition(
+      function (position) {
+        const origen = [position.coords.latitude, position.coords.longitude];
 
-      // Centra el mapa en el usuario
-      map.setView(origen, 16);
+        // Centrar el mapa en la ubicación del usuario
+        map.setView(origen, 16);
 
-      // Elimina la línea anterior si existe
-      if (rutaUsuario) {
-        map.removeLayer(rutaUsuario);
+        // Eliminar ruta previa si ya existía
+        if (rutaUsuarioPalmeiras) {
+          map.removeLayer(rutaUsuarioPalmeiras);
+        }
+
+        // Dibujar nueva ruta
+        rutaUsuarioPalmeiras = L.polyline([origen, destinoPalmeiras], {
+          color: 'blue',
+          weight: 4,
+          dashArray: '5, 10'
+        }).addTo(map);
+      },
+      function (error) {
+        alert("No se pudo obtener tu ubicación.");
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: 1000,
+        timeout: 5000
       }
-
-      // Dibuja nueva línea entre usuario y destino
-      rutaUsuario = L.polyline([origen, destino], {
-        color: 'blue',
-        weight: 4,
-        dashArray: '5, 10'
-      }).addTo(map);
-
-    }, function (error) {
-      alert("No se pudo obtener tu ubicación en tiempo real.");
-    }, {
-      enableHighAccuracy: true,
-      maximumAge: 1000,
-      timeout: 5000
-    });
+    );
   } else {
-    alert("Tu navegador no soporta geolocalización.");
+    alert("Tu navegador no permite geolocalización.");
   }
 }
 
