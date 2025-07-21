@@ -863,9 +863,9 @@ function mostrarMapapalmeiras() {
     L.marker(destinopalmeiras).addTo(mapInstancePalmeiras).bindPopup("Destino");
 
     // Ver ubicación continuamente
-    navigator.geolocation.watchPosition(pos => {
-      const latPal = pos.coords.latitude;
-      const lonPal = pos.coords.longitude;
+    navigator.geolocation.watchPosition(posPal => {
+      const latPal = posPal.coordsPal.latitude;
+      const lonPal = posPal.coordsPal.longitude;
 
       if (markerUsuarioPalmeiras) {
         markerUsuarioPalmeiras.setLatLng([latPal, lonPal]);
@@ -873,12 +873,12 @@ function mostrarMapapalmeiras() {
         markerUsuarioPalmeiras = L.marker([latPal, lonPal]).addTo(mapInstancePalmeiras).bindPopup("You are here!").openPopup();
       }
 
-      const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${lonPal},${latPal};${destinopalmeiras[1]},${destinopalmeiras[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
+      const urlpal = `https://api.mapbox.com/directions/v5/mapbox/walking/${lonPal},${latPal};${destinopalmeiras[1]},${destinopalmeiras[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
 
       fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          const coordsPal = data.routes[0].geometry.coordinates.mapPalmeiras(p => [p[1], p[0]]);
+        .then(respal => respal.json())
+        .then(datapal => {
+          const coordsPal = datapal.routes[0].geometry.coordinates.mapPalmeiras(ppal => [ppal[1], ppal[0]]);
           if (rutapalmeiras) mapInstancePalmeiras.removeLayer(rutapalmeiras);
           rutapalmeiras = L.polyline(coordsPal, { color: 'blue', weight: 4 }).addTo(mapInstancePalmeiras);
           mapInstancePalmeiras.fitBounds(rutapalmeiras.getBounds());
