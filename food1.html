@@ -547,7 +547,8 @@
     Tu navegador no soporta el video.
   </video>
 </div>
-    
+    <button onclick="abrirMenuPalmeiras()">MENU</button>
+
   </div>
   </div>
 </div>
@@ -580,6 +581,12 @@
   <span onclick="cerrarOverlayPalmeiras()" style="position: absolute;top: 20px;right: 30px;font-size: 30px;color: white;cursor: pointer;z-index: 10000;">✖</span>
   <img id="imagenOverlayPalmeiras" src="" alt="Imagen" style="max-width: 90%;max-height: 50vh;margin-bottom: 20px;object-fit: contain; ">
   <p id="textoOverlayPalmeiras" style=" color: white;font-size: 16px; padding: 0 10px; "></p>
+</div>
+<div id="menuOverlayPalmeiras" style=" display: none;position: fixed; top: 0; left: 0;width: 100vw;height: 100vh;background-color: rgba(0,0,0,0.95);  z-index: 9999;justify-content: center; align-items: center; flex-direction: column; text-align: center;overflow: hidden;padding: 20px; box-sizing: border-box;">
+  <span onclick="cerrarMenuPalmeiras()" style=" position: absolute;top: 20px; right: 30px;font-size: 30px;color: white;cursor: pointer;z-index: 10000;">✖</span>
+  <button onclick="cambiarMenuPalmeiras(-1)" style=" position: absolute;left: 20px; font-size: 30px; background: none; border: none; color: white; cursor: pointer;">◀</button>
+  <img id="menuImagenPalmeiras" src="" alt="Menú Palmeiras" style=" max-width: 90%; max-height: 80vh; object-fit: contain; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.3);">
+  <button onclick="cambiarMenuPalmeiras(1)" style=" position: absolute; right: 20px;font-size: 30px; background: none; border: none; color: white; cursor: pointer;">▶</button>
 </div>
 
 
@@ -792,6 +799,24 @@ function cerrarMapa() {
     document.getElementById("overlayPalmeiras").style.display = 'none';
   }
 
+  const menuPalmeirasImgs = ["menuPal.JPG", "menuPal1.JPG", "menuPal2.JPG", "menuPal3.JPG","menuPal4.JPG", "menuPal5.JPG","menuPal6.JPG", "menuPal7.JPG","menuPal8.JPG", "menuPal9.JPG","menuPal10.JPG", "menuPal11.JPG","menuPal12.JPG", "menuPal13.JPG",]; // Cambia los nombres según tus imágenes
+  let menuPalmeirasIndex = 0;
+
+  function abrirMenuPalmeiras() {
+    document.getElementById("menuOverlayPalmeiras").style.display = "flex";
+    document.getElementById("menuImagenPalmeiras").src = menuPalmeirasImgs[menuPalmeirasIndex];
+  }
+
+  function cerrarMenuPalmeiras() {
+    document.getElementById("menuOverlayPalmeiras").style.display = "none";
+  }
+
+  function cambiarMenuPalmeiras(direccion) {
+    menuPalmeirasIndex += direccion;
+    if (menuPalmeirasIndex < 0) menuPalmeirasIndex = menuPalmeirasImgs.length - 1;
+    if (menuPalmeirasIndex >= menuPalmeirasImgs.length) menuPalmeirasIndex = 0;
+    document.getElementById("menuImagenPalmeiras").src = menuPalmeirasImgs[menuPalmeirasIndex];
+  }
   </script>
 </body>
 </html>
