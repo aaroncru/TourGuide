@@ -565,7 +565,10 @@
   </video>
 </div>
     <button class="recommendation-btn" onclick="abrirMenuPalmeiras()">MENU</button>
-
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="irAPalmeiras()"> <span>Take me there!</span> ➜ </button>
+</div>
+    
   </div>
   </div>
 </div>
@@ -834,6 +837,42 @@ function cerrarMapa() {
     if (menuPalmeirasIndex >= menuPalmeirasImgs.length) menuPalmeirasIndex = 0;
     document.getElementById("menuImagenPalmeiras").src = menuPalmeirasImgs[menuPalmeirasIndex];
   }
+  let rutaUsuario; // línea que mostrará la ruta
+
+function takeMeToPalmeiras() {
+  const destino = [61.218781, -149.881085]; // Coordenadas de Palmeiras
+
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(function (position) {
+      const origen = [position.coords.latitude, position.coords.longitude];
+
+      // Centra el mapa en el usuario
+      map.setView(origen, 16);
+
+      // Elimina la línea anterior si existe
+      if (rutaUsuario) {
+        map.removeLayer(rutaUsuario);
+      }
+
+      // Dibuja nueva línea entre usuario y destino
+      rutaUsuario = L.polyline([origen, destino], {
+        color: 'blue',
+        weight: 4,
+        dashArray: '5, 10'
+      }).addTo(map);
+
+    }, function (error) {
+      alert("No se pudo obtener tu ubicación en tiempo real.");
+    }, {
+      enableHighAccuracy: true,
+      maximumAge: 1000,
+      timeout: 5000
+    });
+  } else {
+    alert("Tu navegador no soporta geolocalización.");
+  }
+}
+
   </script>
 </body>
 </html>
