@@ -479,7 +479,7 @@
 
   <div class="button-bar-container">
     <button onclick="mostrarCoffee()">Coffee</button>
-    <button>Breakfast</button>
+    <button> onclick="mostrarBreakfast1()">Breakfast</button>
     <button>Lunch</button>
     <button>Dinner</button>
     <button>Cocktails</button>
@@ -578,6 +578,52 @@
 </div>
     
   </div>
+</div>
+  <!--BRAKFAST-->
+   <div class="info-boxes" id="breakfastboxes" style="display: none;">
+    <div class="info-box">
+      <h3>restaurant example1</h3>
+      <p>Example text bla bla its a good place to eaty bla bla</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryBreakfast(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+       <div class="info-box">
+      <h3>restaurant example2</h3>
+      <p>Example text bla bla its a good place to eaty bla bla2</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryBreakfast(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+</div>
+  
+<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
+  <div id="map" style="height: 100%; width: 100%;"></div>
+  <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
 </div>
   <!-- Overlay galería fullscreen -->
   <div id="galleryOverlay">
@@ -853,7 +899,20 @@ function cerrarMapa() {
     if (menuPalmeirasIndex >= menuPalmeirasImgs.length) menuPalmeirasIndex = 0;
     document.getElementById("menuImagenPalmeiras").src = menuPalmeirasImgs[menuPalmeirasIndex];
   }
+function mostrarBreakfast1() {
+  const breakfastboxes = document.getElementById("breakfastboxes");
+  const extraButtons = document.getElementById("extraButtons");
+  const isVisible = window.getComputedStyle(breakfastboxes).display !== "none";
 
+  if (isVisible) {
+    breakfastboxes.style.display = "none";
+    extraButtons.style.display = "none";
+  
+  } else {
+    breakfastboxes.style.display = "flex";
+    extraButtons.style.display = "block";
+  }
+}
   </script>
 </body>
 </html>
