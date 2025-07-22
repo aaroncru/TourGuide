@@ -480,7 +480,7 @@
   <div class="button-bar-container">
     <button onclick="mostrarCoffee()">Coffee</button>
     <button onclick="mostrarBreakfast1()">Breakfast</button>
-    <button>Lunch</button>
+    <button onclick="mostrarLunch()">Lunch</button>
     <button>Dinner</button>
     <button>Cocktails</button>
     <button>Quick Bites</button>
@@ -620,6 +620,47 @@
 </div>
 </div>
 </div>
+ <!--LUNCH-->
+   <div class="info-boxes" id="lunchboxes" style="display: none;">
+    <div class="info-box">
+      <h3>restaurant example3</h3>
+      <p>Example text bla bla its a good place to eaty bla bla3</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryLunch(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+       <div class="info-box">
+      <h3>restaurant example4</h3>
+      <p>Example text bla bla its a good place to eaty bla bla4</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryLunch(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+</div>
   
 <div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
   <div id="map" style="height: 100%; width: 100%;"></div>
@@ -679,6 +720,7 @@ function mostrarCoffee() {
   const extraButtons = document.getElementById("extraButtons");
   const isVisible = window.getComputedStyle(coffeeBoxes).display !== "none";
   breakfastboxes.style.display = "none";
+  lunchboxes.style.display = "none";
   if (isVisible) {
     coffeeBoxes.style.display = "none";
     extraButtons.style.display = "none";
@@ -904,12 +946,28 @@ function mostrarBreakfast1() {
   const extraButtons = document.getElementById("extraButtons");
   const isVisible = window.getComputedStyle(breakfastboxes).display !== "none";
   coffeeBoxes.style.display = "none";
+  lunchboxes.style.display = "none";
   if (isVisible) {
     breakfastboxes.style.display = "none";
     extraButtons.style.display = "none";
   
   } else {
     breakfastboxes.style.display = "flex";
+    extraButtons.style.display = "block";
+  }
+}
+    function mostrarLunch() {
+  const lunchboxes = document.getElementById("lunchboxes");
+  const extraButtons = document.getElementById("extraButtons");
+  const isVisible = window.getComputedStyle(lunchboxes).display !== "none";
+  coffeeBoxes.style.display = "none";
+  breakfastoxes.style.display = "none";
+  if (isVisible) {
+    lunchboxes.style.display = "none";
+    extraButtons.style.display = "none";
+  
+  } else {
+    lunchboxes.style.display = "flex";
     extraButtons.style.display = "block";
   }
 }
