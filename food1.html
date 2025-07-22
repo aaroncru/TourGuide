@@ -678,7 +678,7 @@ function mostrarCoffee() {
   const coffeeBoxes = document.getElementById("coffeeBoxes");
   const extraButtons = document.getElementById("extraButtons");
   const isVisible = window.getComputedStyle(coffeeBoxes).display !== "none";
-
+  breakfastboxes.style.display = "none";
   if (isVisible) {
     coffeeBoxes.style.display = "none";
     extraButtons.style.display = "none";
