@@ -567,7 +567,7 @@
     <button class="recommendation-btn" onclick="abrirMenuPalmeiras()">MENU</button>
 <!-- Botón azul con flecha -->
 <div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button class="blue-arrow-button" onclick="mostrarMapapalmeiras()">
+  <button class="blue-arrow-button" onclick="takeMeToPalmeiras()">
     <span>Take me there!</span> ➜
   </button>
 </div>
@@ -844,54 +844,53 @@ function cerrarMapa() {
     if (menuPalmeirasIndex >= menuPalmeirasImgs.length) menuPalmeirasIndex = 0;
     document.getElementById("menuImagenPalmeiras").src = menuPalmeirasImgs[menuPalmeirasIndex];
   }
- let mapInstancePalmeiras;
-let markerUsuarioPalmeiras = null;
-let rutapalmeiras = null;
-const destinopalmeiras = [61.218778, -149.881083]; //Palmeiras
+let routingControlPalmeiras = null;
+let watchIdPalmeiras = null;
+const palmeirasCoords = L.latLng(61.218778, -149.881083);
 
-function mostrarMapapalmeiras() {
-  document.getElementById('mapContainerPalmeiras').style.display = 'block';
+function takeMeToPalmeiras() {
+  if (!navigator.geolocation) {
+    alert("Geolocalización no disponible en este dispositivo.");
+    return;
+  }
 
-  if (!mapInstancePalmeiras) {
-    mapInstancePalmeiras = L.mapPalmeiras('mapPalmeiras').setView([61.2176, -149.8997], 13); // Centro de Anchorage
+  // Borra rutas anteriores si existen
+  if (routingControlPalmeiras) {
+    map.removeControl(routingControlPalmeiras);
+  }
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '© OpenStreetMap'
-    }).addTo(mapInstancePalmeiras);
+  // Comienza a observar la posición en tiempo real
+  watchIdPalmeiras = navigator.geolocation.watchPosition(
+    function (position) {
+      const userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
 
-    L.marker(destinopalmeiras).addTo(mapInstancePalmeiras).bindPopup("Destino");
+      // Centra el mapa en el usuario
+      map.setView(userLatLng, 15);
 
-    // Ver ubicación continuamente
-    navigator.geolocation.watchPosition(posPal => {
-      const latPal = posPal.coordsPal.latitude;
-      const lonPal = posPal.coordsPal.longitude;
-
-      if (markerUsuarioPalmeiras) {
-        markerUsuarioPalmeiras.setLatLng([latPal, lonPal]);
-      } else {
-        markerUsuarioPalmeiras = L.marker([latPal, lonPal]).addTo(mapInstancePalmeiras).bindPopup("You are here!").openPopup();
+      // Borra la ruta anterior si ya había una
+      if (routingControlPalmeiras) {
+        map.removeControl(routingControlPalmeiras);
       }
 
-      const urlpal = `https://api.mapbox.com/directions/v5/mapbox/walking/${lonPal},${latPal};${destinopalmeiras[1]},${destinopalmeiras[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
-
-      fetch(url)
-        .then(respal => respal.json())
-        .then(datapal => {
-          const coordsPal = datapal.routes[0].geometry.coordinates.mapPalmeiras(ppal => [ppal[1], ppal[0]]);
-          if (rutapalmeiras) mapInstancePalmeiras.removeLayer(rutapalmeiras);
-          rutapalmeiras = L.polyline(coordsPal, { color: 'blue', weight: 4 }).addTo(mapInstancePalmeiras);
-          mapInstancePalmeiras.fitBounds(rutapalmeiras.getBounds());
-        });
-
-    }, err => {
-      console.error("Error obteniendo ubicación:", err);
-    }, {
+      // Dibuja nueva ruta
+      routingControlPalmeiras = L.Routing.control({
+        waypoints: [
+          userLatLng,
+          palmeirasCoords
+        ],
+        routeWhileDragging: false,
+        createMarker: () => null
+      }).addTo(map);
+    },
+    function (error) {
+      alert("Error obteniendo la ubicación: " + error.message);
+    },
+    {
       enableHighAccuracy: true,
-      maximumAge: 5000,
+      maximumAge: 0,
       timeout: 10000
-    });
-  }
+    }
+  );
 }
 
 function cerrarMapaPalmeiras() {
