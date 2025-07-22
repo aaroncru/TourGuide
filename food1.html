@@ -874,12 +874,10 @@ function takeMeToPalmeiras() {
 
       // Dibuja nueva ruta
       routingControlPalmeiras = L.Routing.control({
-        waypoints: [
-          userLatLng,
-          palmeirasCoords
-        ],
-        routeWhileDragging: false,
-        createMarker: () => null
+      waypoints: [userLatLng, palmeirasCoords],
+      router: L.Routing.mapbox('pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g'),
+      routeWhileDragging: false,
+      createMarker: () => null
       }).addTo(map);
     },
     function (error) {
