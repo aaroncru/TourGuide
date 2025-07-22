@@ -572,8 +572,8 @@
   </button>
 </div>
 <!-- Contenedor del mapa -->
-<div id="mapContainerPalmeiras" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
-  <div id="mapPalmeiras" style="height: 100%; width: 100%;"></div>
+<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
+  <div id="map" style="height: 100%; width: 100%;"></div>
   <button onclick="cerrarMapaPalmeiras()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
 </div>
     
@@ -892,7 +892,7 @@ function takeMeToPalmeiras() {
 }
 
 function cerrarMapaPalmeiras() {
-  document.getElementById('mapContainerPalmeiras').style.display = 'none';
+  document.getElementById('mapContainer').style.display = 'none';
 }
   </script>
 </body>
