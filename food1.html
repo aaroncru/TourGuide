@@ -532,7 +532,7 @@
 </div>
 <!-- Botón azul con flecha -->
 <div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button class="blue-arrow-button" onclick="mostrarMapa()">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Snow City Cafe', [61.218487, -149.903404])">
     <span>Take me there!</span> ➜
   </button>
 </div>
@@ -567,14 +567,14 @@
     <button class="recommendation-btn" onclick="abrirMenuPalmeiras()">MENU</button>
 <!-- Botón azul con flecha -->
 <div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button class="blue-arrow-button" onclick="takeMeToPalmeiras()">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
     <span>Take me there!</span> ➜
   </button>
 </div>
 <!-- Contenedor del mapa -->
 <div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
   <div id="map" style="height: 100%; width: 100%;"></div>
-  <button onclick="cerrarMapaPalmeiras()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
+  <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
 </div>
     
   </div>
@@ -724,59 +724,68 @@ function mostrarCoffee() {
   function cerrarKids() {
     document.getElementById("kidsModal").style.display = "none";
   }
- let mapInstance;
+let mapInstance;
 let markerUsuario = null;
 let ruta = null;
-const destino = [61.218522, -149.903407]; // Ejemplo: Snow City Cafe
+let markerDestino = null;
+let destinoActual = null;
 
-function mostrarMapa() {
+function mostrarMapaDestino(destinoNombre, destinoCoords) {
   document.getElementById('mapContainer').style.display = 'block';
 
   if (!mapInstance) {
-    mapInstance = L.map('map').setView([61.2176, -149.8997], 13); // Centro de Anchorage
+    mapInstance = L.map('map').setView([61.2176, -149.8997], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: '© OpenStreetMap'
     }).addTo(mapInstance);
-
-    L.marker(destino).addTo(mapInstance).bindPopup("Destino");
-
-    // Ver ubicación continuamente
-    navigator.geolocation.watchPosition(pos => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-
-      if (markerUsuario) {
-        markerUsuario.setLatLng([lat, lon]);
-      } else {
-        markerUsuario = L.marker([lat, lon]).addTo(mapInstance).bindPopup("You are here!").openPopup();
-      }
-
-      const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${lon},${lat};${destino[1]},${destino[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
-
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
-          if (ruta) mapInstance.removeLayer(ruta);
-          ruta = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstance);
-          mapInstance.fitBounds(ruta.getBounds());
-        });
-
-    }, err => {
-      console.error("Error obteniendo ubicación:", err);
-    }, {
-      enableHighAccuracy: true,
-      maximumAge: 5000,
-      timeout: 10000
-    });
   }
+
+  // Elimina marcador de destino anterior si existe
+  if (markerDestino) {
+    mapInstance.removeLayer(markerDestino);
+  }
+
+  // Agrega nuevo marcador de destino
+  destinoActual = destinoCoords;
+  markerDestino = L.marker(destinoCoords).addTo(mapInstance).bindPopup(destinoNombre).openPopup();
+
+  // Comienza o actualiza geolocalización
+  navigator.geolocation.watchPosition(pos => {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+
+    if (markerUsuario) {
+      markerUsuario.setLatLng([lat, lon]);
+    } else {
+      markerUsuario = L.marker([lat, lon]).addTo(mapInstance).bindPopup("You are here!").openPopup();
+    }
+
+    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${lon},${lat};${destinoCoords[1]},${destinoCoords[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
+        if (ruta) mapInstance.removeLayer(ruta);
+        ruta = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstance);
+        mapInstance.fitBounds(ruta.getBounds());
+      });
+
+  }, err => {
+    console.error("Error obteniendo ubicación:", err);
+  }, {
+    enableHighAccuracy: true,
+    maximumAge: 5000,
+    timeout: 10000
+  });
 }
 
 function cerrarMapa() {
   document.getElementById('mapContainer').style.display = 'none';
 }
+
  /*Palmeiras*/
   const reviewImages = [
     'reviewPal1.JPG',
@@ -844,61 +853,7 @@ function cerrarMapa() {
     if (menuPalmeirasIndex >= menuPalmeirasImgs.length) menuPalmeirasIndex = 0;
     document.getElementById("menuImagenPalmeiras").src = menuPalmeirasImgs[menuPalmeirasIndex];
   }
-let routingControlPalmeiras = null;
-let watchIdPalmeiras = null;
-const palmeirasCoords = L.latLng(61.218778, -149.881083);
 
-function takeMeToPalmeiras() {
-   document.getElementById('mapContainer').style.display = 'none';
-  const palmeirasCoords = [61.218778, -149.881083];
-  document.getElementById('mapContainerPalmeiras').style.display = 'block';
-
-  if (!mapInstance) {
-    mapInstance = L.map('map').setView(palmeirasCoords, 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '© OpenStreetMap'
-    }).addTo(mapInstance);
-  }
-
-  L.marker(palmeirasCoords).addTo(mapInstance).bindPopup("Palmeiras");
-
-  if (routingControlPalmeiras) {
-    mapInstance.removeControl(routingControlPalmeiras);
-  }
-
-  navigator.geolocation.watchPosition(pos => {
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
-
-    const userLatLng = L.latLng(lat, lon);
-
-    if (markerUsuario) {
-      markerUsuario.setLatLng(userLatLng);
-    } else {
-      markerUsuario = L.marker(userLatLng).addTo(mapInstance).bindPopup("You are here").openPopup();
-    }
-
-    routingControlPalmeiras = L.Routing.control({
-      waypoints: [userLatLng, palmeirasCoords],
-      router: L.Routing.mapbox('pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g'),
-      routeWhileDragging: false,
-      createMarker: () => null
-    }).addTo(mapInstance);
-
-  }, err => {
-    alert("No se pudo obtener tu ubicación: " + err.message);
-  }, {
-    enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: 10000
-  });
-}
-
-
-function cerrarMapaPalmeiras() {
-  document.getElementById('mapContainer').style.display = 'none';
-}
   </script>
 </body>
 </html>
