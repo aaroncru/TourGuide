@@ -854,31 +854,39 @@ function takeMeToPalmeiras() {
     return;
   }
 
-  // Borra rutas anteriores si existen
-  if (routingControlPalmeiras) {
-    map.removeControl(routingControlPalmeiras);
+  document.getElementById('mapContainer').style.display = 'block';
+
+  // Si el mapa no está creado aún, créalo
+  if (!mapInstance) {
+    mapInstance = L.map('map').setView([61.2176, -149.8997], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© OpenStreetMap'
+    }).addTo(mapInstance);
   }
 
-  // Comienza a observar la posición en tiempo real
+  // Borra rutas anteriores si existen
+  if (routingControlPalmeiras) {
+    mapInstance.removeControl(routingControlPalmeiras);
+  }
+
   watchIdPalmeiras = navigator.geolocation.watchPosition(
     function (position) {
       const userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
 
-      // Centra el mapa en el usuario
-      map.setView(userLatLng, 15);
+      mapInstance.setView(userLatLng, 15);
 
-      // Borra la ruta anterior si ya había una
+      // Borra ruta anterior si hay
       if (routingControlPalmeiras) {
-        map.removeControl(routingControlPalmeiras);
+        mapInstance.removeControl(routingControlPalmeiras);
       }
 
-      // Dibuja nueva ruta
       routingControlPalmeiras = L.Routing.control({
-      waypoints: [userLatLng, palmeirasCoords],
-      router: L.Routing.mapbox('pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g'),
-      routeWhileDragging: false,
-      createMarker: () => null
-      }).addTo(map);
+        waypoints: [userLatLng, palmeirasCoords],
+        router: L.Routing.mapbox('pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g'),
+        routeWhileDragging: false,
+        createMarker: () => null
+      }).addTo(mapInstance);
     },
     function (error) {
       alert("Error obteniendo la ubicación: " + error.message);
