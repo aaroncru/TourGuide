@@ -849,8 +849,9 @@ let watchIdPalmeiras = null;
 const palmeirasCoords = L.latLng(61.218778, -149.881083);
 
 function takeMeToPalmeiras() {
+   document.getElementById('mapContainer').style.display = 'none';
   const palmeirasCoords = [61.218778, -149.881083];
-  document.getElementById('mapContainer').style.display = 'block';
+  document.getElementById('mapContainerPalmeiras').style.display = 'block';
 
   if (!mapInstance) {
     mapInstance = L.map('map').setView(palmeirasCoords, 13);
