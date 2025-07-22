@@ -903,7 +903,7 @@ function mostrarBreakfast1() {
   const breakfastboxes = document.getElementById("breakfastboxes");
   const extraButtons = document.getElementById("extraButtons");
   const isVisible = window.getComputedStyle(breakfastboxes).display !== "none";
-
+  coffeeBoxes.style.display = "none";
   if (isVisible) {
     breakfastboxes.style.display = "none";
     extraButtons.style.display = "none";
