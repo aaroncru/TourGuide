@@ -532,7 +532,7 @@
 </div>
 <!-- Botón azul con flecha -->
 <div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Snow City Cafe', [61.218487, -149.903404])">
+  <button class="blue-arrow-button" onclick="mostrarRutaDestino(61.218487, -149.903404)">
     <span>Take me there!</span> ➜
   </button>
 </div>
@@ -567,7 +567,7 @@
     <button class="recommendation-btn" onclick="abrirMenuPalmeiras()">MENU</button>
 <!-- Botón azul con flecha -->
 <div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+  <button class="blue-arrow-button" onclick="mostrarRutaDestino(61.218776, -149.881068)">
     <span>Take me there!</span> ➜
   </button>
 </div>
@@ -602,7 +602,7 @@
        <button class="recommendation-btn" onclick="abrirMenuBreakfast1()">MENU</button>
 <!-- Botón azul con flecha -->
 <div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button class="blue-arrow-button" onclick="mostrarMapaDestino('49th State Brewing', [61.219589, -149.895735])">
+  <button class="blue-arrow-button" onclick="mostrarRutaDestino(61.219589, -149.895735)">
     <span>Take me there!</span> ➜
   </button>
 </div>
@@ -1037,48 +1037,58 @@ function mostrarCoffee() {
 let mapInstance;
 let markerUsuario = null;
 let ruta = null;
-let markerDestino = null;
-let destinoActual = null;
+let marcadorDestino = null;
+let watchId = null;
 
-function mostrarMapaDestino(destinoNombre, destinoCoords) {
+function mostrarRutaDestino(lat, lon) {
   document.getElementById('mapContainer').style.display = 'block';
 
+  // Crear mapa si no existe
   if (!mapInstance) {
-    mapInstance = L.map('map').setView([61.2176, -149.8997], 13);
-
+    mapInstance = L.map('map').setView([lat, lon], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: '© OpenStreetMap'
     }).addTo(mapInstance);
   }
 
-  // Elimina marcador de destino anterior si existe
-  if (markerDestino) {
-    mapInstance.removeLayer(markerDestino);
+  // Eliminar ruta anterior si existe
+  if (ruta) {
+    mapInstance.removeLayer(ruta);
+    ruta = null;
   }
 
-  // Agrega nuevo marcador de destino
-  destinoActual = destinoCoords;
-  markerDestino = L.marker(destinoCoords).addTo(mapInstance).bindPopup(destinoNombre).openPopup();
+  // Eliminar marcador destino anterior
+  if (marcadorDestino) {
+    mapInstance.removeLayer(marcadorDestino);
+  }
 
-  // Comienza o actualiza geolocalización
-  navigator.geolocation.watchPosition(pos => {
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
+  // Agregar nuevo destino
+  marcadorDestino = L.marker([lat, lon]).addTo(mapInstance).bindPopup("Destino");
+
+  // Eliminar watcher anterior
+  if (watchId) {
+    navigator.geolocation.clearWatch(watchId);
+  }
+
+  // Iniciar nueva geolocalización
+  watchId = navigator.geolocation.watchPosition(pos => {
+    const userLat = pos.coords.latitude;
+    const userLon = pos.coords.longitude;
 
     if (markerUsuario) {
-      markerUsuario.setLatLng([lat, lon]);
+      markerUsuario.setLatLng([userLat, userLon]);
     } else {
-      markerUsuario = L.marker([lat, lon]).addTo(mapInstance).bindPopup("You are here!").openPopup();
+      markerUsuario = L.marker([userLat, userLon]).addTo(mapInstance).bindPopup("You are here!").openPopup();
     }
 
-    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${lon},${lat};${destinoCoords[1]},${destinoCoords[0]}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kM3FwcHBwMDdpZzJrb2hqZ3FpMWltMyJ9.mhmqWlj1VOYF0T9HPnZk_g`;
+    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${userLon},${userLat};${lon},${lat}?geometries=geojson&access_token=TU_API_KEY`;
 
     fetch(url)
       .then(res => res.json())
       .then(data => {
         const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
-        if (ruta) mapInstance.removeLayer(ruta);
+        if (ruta) mapInstance.removeLayer(ruta); // por si llegó antes otro resultado
         ruta = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstance);
         mapInstance.fitBounds(ruta.getBounds());
       });
@@ -1094,6 +1104,8 @@ function mostrarMapaDestino(destinoNombre, destinoCoords) {
 
 function cerrarMapa() {
   document.getElementById('mapContainer').style.display = 'none';
+  if (ruta) mapInstance.removeLayer(ruta);
+  if (marcadorDestino) mapInstance.removeLayer(marcadorDestino);
 }
 
  /*Palmeiras*/
