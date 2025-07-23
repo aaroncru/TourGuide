@@ -481,11 +481,11 @@
     <button onclick="mostrarCoffee()">Coffee</button>
     <button onclick="mostrarBreakfast1()">Breakfast</button>
     <button onclick="mostrarLunch()">Lunch</button>
-    <button>Dinner</button>
-    <button>Cocktails</button>
-    <button>Quick Bites</button>
-    <button>Desserts</button>
-    <button>Locally Brewed</button>
+    <button onclick="mostrarDinner()">Dinner</button>
+    <button onclick="mostrarCocktails()">Cocktails</button>
+    <button onclick="mostrarQuickbites()">Quick Bites</button>
+    <button onclick="mostrarDesserts()">Desserts</button>
+    <button onclick="mostrarLocallybrewed()">Locally Brewed</button>
   </div>
 
   <!-- Cuadros para Coffee -->
@@ -661,7 +661,211 @@
 </div>
 </div>
 </div>
-  
+  <!--Dinner-->
+   <div class="info-boxes" id="dinnerboxes" style="display: none;">
+    <div class="info-box">
+      <h3>restaurant example5</h3>
+      <p>Example text bla bla its a good place to eaty bla bla5</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryDinner(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+       <div class="info-box">
+      <h3>restaurant example6</h3>
+      <p>Example text bla bla its a good place to eaty bla bla6</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryLunch(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+</div>
+  <!--Cocktails-->
+   <div class="info-boxes" id="cocktailsboxes" style="display: none;">
+    <div class="info-box">
+      <h3>restaurant example7</h3>
+      <p>Example text bla bla its a good place to eaty bla bla7</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryCocktails(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+       <div class="info-box">
+      <h3>restaurant example8</h3>
+      <p>Example text bla bla its a good place to eaty bla bla8</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryCocktails(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+</div>
+   <!--Quick bites-->
+   <div class="info-boxes" id="quickbitesboxes" style="display: none;">
+    <div class="info-box">
+      <h3>restaurant example9</h3>
+      <p>Example text bla bla its a good place to eaty bla bla3</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryQuickBites(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+       <div class="info-box">
+      <h3>restaurant example10</h3>
+      <p>Example text bla bla its a good place to eaty bla bla10</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryQuickBites(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+</div>
+   <!--Desserts-->
+   <div class="info-boxes" id="dessertsboxes" style="display: none;">
+    <div class="info-box">
+      <h3>restaurant example11</h3>
+      <p>Example text bla bla its a good place to eaty bla bla11</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryDesserts(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+       <div class="info-box">
+      <h3>restaurant example12</h3>
+      <p>Example text bla bla its a good place to eaty bla bla12</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryDesserts(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+</div>
+   <!--Locally Brewed-->
+   <div class="info-boxes" id="locallybrewedboxes" style="display: none;">
+    <div class="info-box">
+      <h3>restaurant example13</h3>
+      <p>Example text bla bla its a good place to eaty bla bla13</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryLocallyBrewed(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+       <div class="info-box">
+      <h3>restaurant example14</h3>
+      <p>Example text bla bla its a good place to eaty bla bla14</p>
+ <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
+  <!-- Google Reviews clicable -->
+  <p><a href="#" onclick="openGalleryLocallyBrewed(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><strong>Recommendations</strong></p>
+      <div class="video-container">
+  <video controls muted loop>
+    <source src="videopalmeira.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
+    <span>Take me there!</span> ➜
+  </button>
+</div>
+</div>
+</div>
 <div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
   <div id="map" style="height: 100%; width: 100%;"></div>
   <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
@@ -719,7 +923,13 @@ function mostrarCoffee() {
   const coffeeBoxes = document.getElementById("coffeeBoxes");
   const extraButtons = document.getElementById("extraButtons");
   const isVisible = window.getComputedStyle(coffeeBoxes).display !== "none";
+  coffeeBoxes.style.display = "none";
   breakfastboxes.style.display = "none";
+  dinnerboxes.style.display = "none";
+  quickbitesboxes.style.display = "none";
+  dessertsboxes.style.display = "none";
+  locallybrewedboxes.style.display = "none";
+  cocktailsboxes.style.display = "none";
   lunchboxes.style.display = "none";
   if (isVisible) {
     coffeeBoxes.style.display = "none";
@@ -946,6 +1156,11 @@ function mostrarBreakfast1() {
   const extraButtons = document.getElementById("extraButtons");
   const isVisible = window.getComputedStyle(breakfastboxes).display !== "none";
   coffeeBoxes.style.display = "none";
+  dinnerboxes.style.display = "none";
+  quickbitesboxes.style.display = "none";
+  dessertsboxes.style.display = "none";
+  locallybrewedboxes.style.display = "none";
+  cocktailsboxes.style.display = "none";
   lunchboxes.style.display = "none";
   if (isVisible) {
     breakfastboxes.style.display = "none";
@@ -962,12 +1177,117 @@ function mostrarBreakfast1() {
   const isVisible = window.getComputedStyle(lunchboxes).display !== "none";
   coffeeBoxes.style.display = "none";
   breakfastboxes.style.display = "none";
+  dinnerboxes.style.display = "none";
+  quickbitesboxes.style.display = "none";
+  dessertsboxes.style.display = "none";
+  locallybrewedboxes.style.display = "none";
+  cocktailsboxes.style.display = "none";
   if (isVisible) {
     lunchboxes.style.display = "none";
     extraButtons.style.display = "none";
   
   } else {
     lunchboxes.style.display = "flex";
+    extraButtons.style.display = "block";
+  }
+}
+      function mostrarDinner() {
+  const dinnerboxes = document.getElementById("dinnerboxes");
+  const extraButtons = document.getElementById("extraButtons");
+  const isVisible = window.getComputedStyle(dinnerboxes).display !== "none";
+  coffeeBoxes.style.display = "none";
+  breakfastboxes.style.display = "none";
+  lunchboxes.style.display = "none";
+  quickbitesboxes.style.display = "none";
+  dessertsboxes.style.display = "none";
+  locallybrewedboxes.style.display = "none";
+  cocktailsboxes.style.display = "none";
+  if (isVisible) {
+    dinnerboxes.style.display = "none";
+    extraButtons.style.display = "none";
+  
+  } else {
+    dinnerboxes.style.display = "flex";
+    extraButtons.style.display = "block";
+  }
+}
+     function mostrarCocktails() {
+  const cocktailsboxes = document.getElementById("cockstailsboxes");
+  const extraButtons = document.getElementById("extraButtons");
+  const isVisible = window.getComputedStyle(cocktailsboxes).display !== "none";
+  coffeeBoxes.style.display = "none";
+  breakfastboxes.style.display = "none";
+  lunchboxes.style.display = "none";
+  dinnerboxes.style.display = "none";
+  quickbitesboxes.style.display = "none";
+  dessertsboxes.style.display = "none";
+  locallybrewedboxes.style.display = "none";
+  if (isVisible) {
+    cocktails.style.display = "none";
+    extraButtons.style.display = "none";
+  
+  } else {
+    cocktails.style.display = "flex";
+    extraButtons.style.display = "block";
+  }
+}
+     function mostrarQuickbites() {
+  const quickbitesboxes = document.getElementById("quickbitesboxes");
+  const extraButtons = document.getElementById("extraButtons");
+  const isVisible = window.getComputedStyle(quickbitesboxes).display !== "none";
+  coffeeBoxes.style.display = "none";
+  breakfastboxes.style.display = "none";
+  lunchboxes.style.display = "none";
+  cocktailsboxes.style.display = "none";
+  dinnerboxes.style.display = "none";
+  dessertsboxes.style.display = "none";
+  locallybrewedboxes.style.display = "none";
+  if (isVisible) {
+    quickbitesboxes.style.display = "none";
+    extraButtons.style.display = "none";
+  
+  } else {
+    quickbitesboxes.style.display = "flex";
+    extraButtons.style.display = "block";
+  }
+}
+     function mostrarDesserts() {
+  const dessertsboxes = document.getElementById("dessertsboxes");
+  const extraButtons = document.getElementById("extraButtons");
+  const isVisible = window.getComputedStyle(dessertsboxes).display !== "none";
+  coffeeBoxes.style.display = "none";
+  breakfastboxes.style.display = "none";
+  lunchboxes.style.display = "none";
+  cocktailsboxes.style.display = "none";
+  dinnerboxes.style.display = "none";
+  locallybrewedboxes.style.display = "none";
+  quickbitesboxes.style.display = "none";
+  if (isVisible) {
+    dessertsboxes.style.display = "none";
+    extraButtons.style.display = "none";
+  
+  } else {
+    dessertsboxes.style.display = "flex";
+    extraButtons.style.display = "block";
+  }
+}
+     function mostrarLocallybrewed() {
+  const locallybrewedboxes = document.getElementById("locallybrewedboxes");
+  const extraButtons = document.getElementById("extraButtons");
+  const isVisible = window.getComputedStyle(locallybrewedboxes).display !== "none";
+  coffeeBoxes.style.display = "none";
+  breakfastboxes.style.display = "none";
+  lunchboxes.style.display = "none";
+  cocktailsboxes.style.display = "none";
+  dinnerboxes.style.display = "none";
+  dessertsboxes.style.display = "none";
+  quickbitesboxes.style.display = "none";
+  if (isVisible) {
+    locallybrewedboxes.style.display = "none";
+    extraButtons.style.display = "none";
+  
+  } else {
+    locallybrewedboxes.style.display = "flex";
     extraButtons.style.display = "block";
   }
 }
