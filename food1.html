@@ -1230,6 +1230,24 @@ function mostrarBreakfast1() {
   function cerrarOverlayBreakfast1() {
     document.getElementById("overlayPalmeiras").style.display = 'none';
   }
+     const menuBF1Imgs = ["menuPal.JPG", "menuPal1.JPG", "menuPal2.JPG", "menuPal3.JPG","menuPal4.JPG", "menuPal5.JPG","menuPal6.JPG", "menuPal7.JPG","menuPal8.JPG", "menuPal9.JPG","menuPal10.JPG", "menuPal11.JPG","menuPal12.JPG", "menuPal13.JPG",]; // Cambia los nombres según tus imágenes
+  let menuBF1Index = 0;
+
+  function abrirMenuBreakfast1() {
+    document.getElementById("menuOverlayPalmeiras").style.display = "flex";
+    document.getElementById("menuImagenPalmeiras").src = menuBF1Imgs[menuBF1Index];
+  }
+
+  function cerrarMenuBreakfast1() {
+    document.getElementById("menuOverlayPalmeiras").style.display = "none";
+  }
+
+  function cambiarMenuBF1(direccion) {
+    menuBF1Index += direccion;
+    if (menuBF1Index < 0) menuBF1Index = menuBF1Imgs.length - 1;
+    if (menuBF1Index >= menuBF1Imgs.length) menuBF1Index = 0;
+    document.getElementById("menuImagenPalmeiras").src = menuBF1Imgs[menuBF1Index];
+  }
     function mostrarLunch() {
   const lunchboxes = document.getElementById("lunchboxes");
   const extraButtons = document.getElementById("extraButtons");
