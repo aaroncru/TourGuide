@@ -1041,7 +1041,15 @@ let marcadorDestino = null;
 let watchId = null;
 
 function mostrarRutaDestino(lat, lon) {
-  document.getElementById('mapContainer').style.display = 'block';
+  const container = document.getElementById('mapContainer');
+  container.style.display = 'block';
+
+  // Si ya existe el mapa, invalida su tamaño para que se renderice bien
+  if (mapInstance) {
+    setTimeout(() => {
+      mapInstance.invalidateSize();
+    }, 200);
+  }
 
   // Crear mapa si no existe
   if (!mapInstance) {
@@ -1052,7 +1060,7 @@ function mostrarRutaDestino(lat, lon) {
     }).addTo(mapInstance);
   }
 
-  // Eliminar ruta anterior si existe
+  // Eliminar ruta anterior
   if (ruta) {
     mapInstance.removeLayer(ruta);
     ruta = null;
@@ -1066,12 +1074,12 @@ function mostrarRutaDestino(lat, lon) {
   // Agregar nuevo destino
   marcadorDestino = L.marker([lat, lon]).addTo(mapInstance).bindPopup("Destino");
 
-  // Eliminar watcher anterior
+  // Eliminar geolocalización anterior
   if (watchId) {
     navigator.geolocation.clearWatch(watchId);
   }
 
-  // Iniciar nueva geolocalización
+  // Nueva geolocalización y ruta
   watchId = navigator.geolocation.watchPosition(pos => {
     const userLat = pos.coords.latitude;
     const userLon = pos.coords.longitude;
@@ -1088,7 +1096,7 @@ function mostrarRutaDestino(lat, lon) {
       .then(res => res.json())
       .then(data => {
         const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
-        if (ruta) mapInstance.removeLayer(ruta); // por si llegó antes otro resultado
+        if (ruta) mapInstance.removeLayer(ruta);
         ruta = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstance);
         mapInstance.fitBounds(ruta.getBounds());
       });
