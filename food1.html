@@ -1212,7 +1212,7 @@ function mostrarBreakfast1() {
   }
 }
      function mostrarCocktails() {
-  const cocktailsboxes = document.getElementById("cockstailsboxes");
+  const cocktailsboxes = document.getElementById("cocktailsboxes");
   const extraButtons = document.getElementById("extraButtons");
   const isVisible = window.getComputedStyle(cocktailsboxes).display !== "none";
   coffeeBoxes.style.display = "none";
@@ -1223,11 +1223,11 @@ function mostrarBreakfast1() {
   dessertsboxes.style.display = "none";
   locallybrewedboxes.style.display = "none";
   if (isVisible) {
-    cocktails.style.display = "none";
+    cocktailsboxes.style.display = "none";
     extraButtons.style.display = "none";
   
   } else {
-    cocktails.style.display = "flex";
+    cocktailsboxes.style.display = "flex";
     extraButtons.style.display = "block";
   }
 }
