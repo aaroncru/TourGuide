@@ -554,8 +554,8 @@
   <p><strong>Recommendations</strong></p>
 <div id="botonesPalmeiras">
     <button class="extra-btn" onclick="abrirOverlayPalmeiras('awarded')">Awarded</button>
-    <button class="extra-btn" onclick="abrirOverlayPalmeiras('locally')">Locally</button>
-    <button class="extra-btn" onclick="abrirOverlayPalmeiras('wild')">Wild</button>
+    <button class="extra-btn" onclick="abrirOverlayPalmeiras('locally')">Locally Sourced</button>
+    <button class="extra-btn" onclick="abrirOverlayPalmeiras('wild')">Wild Card</button>
 </div>
 
 <div class="video-container">
@@ -579,26 +579,37 @@
     
   </div>
 </div>
-  <!--BRAKFAST-->
+  <!--BREAKFAST-->
    <div class="info-boxes" id="breakfastboxes" style="display: none;">
     <div class="info-box">
       <h3>restaurant example1</h3>
       <p>Example text bla bla its a good place to eaty bla bla</p>
  <p><a href="tel:12345456" style="color: #003366; text-decoration: underline;">📞 (907) 122323454</a></p>
   <!-- Google Reviews clicable -->
-  <p><a href="#" onclick="openGalleryBreakfast(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
+  <p><a href="#" onclick="openGalleryBreakfast1(); return false;" style="color: #003366; text-decoration: underline;">⭐ Google Reviews</a></p>
   <p><strong>Recommendations</strong></p>
+      <div id="botonesBreakfast1">
+    <button class="extra-btn" onclick="abrirOverlayBreakfast1('awarded')">Awarded</button>
+    <button class="extra-btn" onclick="abrirOverlayBreakfast1('locally')">Locally Sourced</button>
+    <button class="extra-btn" onclick="abrirOverlayBreakfast1('wild')">Wild Card</button>
+</div>
       <div class="video-container">
   <video controls muted loop>
     <source src="videopalmeira.mp4" type="video/mp4">
     Tu navegador no soporta el video.
   </video>
 </div>
-      <div style="display: flex; justify-content: center; margin-top: 20px;">
+       <button class="recommendation-btn" onclick="abrirMenuBreakfast1()">MENU</button>
+<!-- Botón azul con flecha -->
+<div style="display: flex; justify-content: center; margin-top: 20px;">
   <button class="blue-arrow-button" onclick="mostrarMapaDestino('Palmeiras', [61.218776, -149.881068])">
     <span>Take me there!</span> ➜
   </button>
 </div>
+<!-- Contenedor del mapa -->
+<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
+  <div id="map" style="height: 100%; width: 100%;"></div>
+  <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
 </div>
        <div class="info-box">
       <h3>restaurant example2</h3>
@@ -1171,6 +1182,54 @@ function mostrarBreakfast1() {
     extraButtons.style.display = "block";
   }
 }
+     /*Breakfast1*/
+  const reviewImagesBF1 = [
+    'reviewPal1.JPG',
+    'reviewPal2.JPG',
+    'reviewPal3.JPG'
+  ];
+  let BF1Index = 0;
+
+  function openGalleryBreakfast1() {
+    document.getElementById('gallery-overlay').style.display = 'flex';
+    document.getElementById('gallery-img').src = reviewImagesBF1[BF1Index];
+  }
+
+  function closeGallery() {
+    document.getElementById('gallery-overlay').style.display = 'none';
+  }
+
+  function nextImageBF1() {
+    BF2Index = (BF2Index + 1) % reviewImagesBF1.length;
+    document.getElementById('gallery-img').src = reviewImagesBF1[BF1Index];
+  }
+
+  function prevImageBF1() {
+    BF1Index = (BF1Index - 1 + reviewImagesBF1.length) % reviewImagesBF1.length;
+    document.getElementById('gallery-img').src = reviewImagesBF1[BF1Index];
+  }
+  function abrirOverlayBreakfast1(tipo) {
+    const overlayBF1 = document.getElementById("overlayPalmeiras");
+    const imagenBF1 = document.getElementById("imagenOverlayPalmeiras");
+    const textoBF1 = document.getElementById("textoOverlayPalmeiras");
+
+    if (tipo === 'wild') {
+      imagenBF1.src = 'wild_palmeiras.jpeg';
+      textoBF1.textContent = 'Wild Card Breakfast1.';
+    } else if (tipo === 'awarded') {
+      imagenBF1.src = 'awarded_palmeiras.jpg';
+      textoBF1.textContent = 'Awarded Breakfast1.';
+    } else if (tipo === 'locally') {
+      imagenBF1.src = 'locally_palmeiras.jpeg';
+      textoBF1.textContent = 'Locally Sourced Breakfast1.';
+    }
+
+    overlayBF1.style.display = 'flex';
+  }
+
+  function cerrarOverlayBreakfast1() {
+    document.getElementById("overlayPalmeiras").style.display = 'none';
+  }
     function mostrarLunch() {
   const lunchboxes = document.getElementById("lunchboxes");
   const extraButtons = document.getElementById("extraButtons");
