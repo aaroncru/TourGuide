@@ -1090,7 +1090,7 @@ function mostrarRutaDestino(lat, lon) {
       markerUsuario = L.marker([userLat, userLon]).addTo(mapInstance).bindPopup("You are here!").openPopup();
     }
 
-    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${userLon},${userLat};${lon},${lat}?geometries=geojson&access_token=sk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kZ2lsYWMyMHBheTJ3cHFrMHc0MGZpZCJ9.XmGKEGj2mZJ2vxTHxoZCFA`;
+    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${userLon},${userLat};${lon},${lat}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kZ2pjeDF1MDNiYTJxb2dibWw2Z2J6eCJ9.du-ro4y6fz92Vh1DyrU7fg`;
 
     fetch(url)
       .then(res => res.json())
