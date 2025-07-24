@@ -484,7 +484,7 @@
     <button onclick="mostrarCategoria('cocktailsboxes')">Cocktails</button>
     <button onclick="mostrarCategoria('quickbitesboxes')">Quickbites</button>
     <button onclick="mostrarCategoria('dessertsboxes')">Desserts</button>
-    <button onclick="mostrarCategoria('locallybrewedboxes')">Desserts</button>
+    <button onclick="mostrarCategoria('locallybrewedboxes')">Locally Brewed</button>
   </div>
 
   <!-- Cuadros para Coffee -->
@@ -927,6 +927,16 @@
       'review4.JPG',
       // Pon aquí las rutas reales de tus imágenes
     ];
+const categorias = [
+  "coffeeBoxes",
+  "breakfastboxes",
+  "lunchboxes",
+  "dinnerboxes",
+  "quickbitesboxes",
+  "dessertsboxes",
+  "locallybrewedboxes",
+  "cocktailsboxes"
+];
 
  function mostrarCategoria(idCategoria) {
   const extraButtons = document.getElementById("extraButtons");
