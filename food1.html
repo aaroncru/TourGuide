@@ -477,14 +477,14 @@
   <img src="titlefood.png" alt="Food Tour">
 
   <div class="button-bar-container">
-    <button onclick="mostrarCoffee()">Coffee</button>
-    <button onclick="mostrarBreakfast1()">Breakfast</button>
-    <button onclick="mostrarLunch()">Lunch</button>
-    <button onclick="mostrarDinner()">Dinner</button>
-    <button onclick="mostrarCocktails()">Cocktails</button>
-    <button onclick="mostrarQuickbites()">Quick Bites</button>
-    <button onclick="mostrarDesserts()">Desserts</button>
-    <button onclick="mostrarLocallybrewed()">Locally Brewed</button>
+    <button onclick="mostrarCategoria('coffeeBoxes')">Coffee</button>
+    <button onclick="mostrarCategoria('breakfastboxes')">Breakfast</button>
+    <button onclick="mostrarCategoria('lunchboxes')">Lunch</button>
+    <button onclick="mostrarCategoria('dinnerboxes')">Dinner</button>
+    <button onclick="mostrarCategoria('cocktailsboxes')">Cocktails</button>
+    <button onclick="mostrarCategoria('quickbitesboxes')">Quickbites</button>
+    <button onclick="mostrarCategoria('dessertsboxes')">Desserts</button>
+    <button onclick="mostrarCategoria('locallybrewedboxes')">Desserts</button>
   </div>
 
   <!-- Cuadros para Coffee -->
@@ -928,29 +928,23 @@
       // Pon aquí las rutas reales de tus imágenes
     ];
 
-    let coffeeIndex = 0;
-
-function mostrarCoffee() {
-  const coffeeBoxes = document.getElementById("coffeeBoxes");
+ function mostrarCategoria(idCategoria) {
   const extraButtons = document.getElementById("extraButtons");
-  const isVisible = window.getComputedStyle(coffeeBoxes).display !== "none";
-  coffeeBoxes.style.display = "none";
-  breakfastboxes.style.display = "none";
-  dinnerboxes.style.display = "none";
-  quickbitesboxes.style.display = "none";
-  dessertsboxes.style.display = "none";
-  locallybrewedboxes.style.display = "none";
-  cocktailsboxes.style.display = "none";
-  lunchboxes.style.display = "none";
-  if (isVisible) {
-    coffeeBoxes.style.display = "none";
-    extraButtons.style.display = "none";
-  
-  } else {
-    coffeeBoxes.style.display = "flex";
-    extraButtons.style.display = "block";
-  }
+
+  categorias.forEach(id => {
+    const box = document.getElementById(id);
+    if (id === idCategoria) {
+      // Si es la categoría que se pidió mostrar, alterna su visibilidad
+      const isVisible = box.style.display === "flex";
+      box.style.display = isVisible ? "none" : "flex";
+      extraButtons.style.display = isVisible ? "none" : "block";
+    } else {
+      // Oculta las demás categorías
+      box.style.display = "none";
+    }
+  });
 }
+
     function abrirGaleria() {
       coffeeIndex = 0;
       actualizarImagen();
@@ -1180,26 +1174,7 @@ window.addEventListener('load', inicializarMapa);
     if (menuPalmeirasIndex >= menuPalmeirasImgs.length) menuPalmeirasIndex = 0;
     document.getElementById("menuImagenPalmeiras").src = menuPalmeirasImgs[menuPalmeirasIndex];
   }
-function mostrarBreakfast1() {
-  const breakfastboxes = document.getElementById("breakfastboxes");
-  const extraButtons = document.getElementById("extraButtons");
-  const isVisible = window.getComputedStyle(breakfastboxes).display !== "none";
-  coffeeBoxes.style.display = "none";
-  dinnerboxes.style.display = "none";
-  quickbitesboxes.style.display = "none";
-  dessertsboxes.style.display = "none";
-  locallybrewedboxes.style.display = "none";
-  cocktailsboxes.style.display = "none";
-  lunchboxes.style.display = "none";
-  if (isVisible) {
-    breakfastboxes.style.display = "none";
-    extraButtons.style.display = "none";
-  
-  } else {
-    breakfastboxes.style.display = "flex";
-    extraButtons.style.display = "block";
-  }
-}
+
      /*Breakfast1*/
   const reviewImagesBF1 = [
     'reviewPal1.JPG',
@@ -1266,126 +1241,7 @@ function mostrarBreakfast1() {
     if (menuBF1Index >= menuBF1Imgs.length) menuBF1Index = 0;
     document.getElementById("menuImagenPalmeiras").src = menuBF1Imgs[menuBF1Index];
   }
-    function mostrarLunch() {
-  const lunchboxes = document.getElementById("lunchboxes");
-  const extraButtons = document.getElementById("extraButtons");
-  const isVisible = window.getComputedStyle(lunchboxes).display !== "none";
-  coffeeBoxes.style.display = "none";
-  breakfastboxes.style.display = "none";
-  dinnerboxes.style.display = "none";
-  quickbitesboxes.style.display = "none";
-  dessertsboxes.style.display = "none";
-  locallybrewedboxes.style.display = "none";
-  cocktailsboxes.style.display = "none";
-  if (isVisible) {
-    lunchboxes.style.display = "none";
-    extraButtons.style.display = "none";
   
-  } else {
-    lunchboxes.style.display = "flex";
-    extraButtons.style.display = "block";
-  }
-}
-      function mostrarDinner() {
-  const dinnerboxes = document.getElementById("dinnerboxes");
-  const extraButtons = document.getElementById("extraButtons");
-  const isVisible = window.getComputedStyle(dinnerboxes).display !== "none";
-  coffeeBoxes.style.display = "none";
-  breakfastboxes.style.display = "none";
-  lunchboxes.style.display = "none";
-  quickbitesboxes.style.display = "none";
-  dessertsboxes.style.display = "none";
-  locallybrewedboxes.style.display = "none";
-  cocktailsboxes.style.display = "none";
-  if (isVisible) {
-    dinnerboxes.style.display = "none";
-    extraButtons.style.display = "none";
-  
-  } else {
-    dinnerboxes.style.display = "flex";
-    extraButtons.style.display = "block";
-  }
-}
-     function mostrarCocktails() {
-  const cocktailsboxes = document.getElementById("cocktailsboxes");
-  const extraButtons = document.getElementById("extraButtons");
-  const isVisible = window.getComputedStyle(cocktailsboxes).display !== "none";
-  coffeeBoxes.style.display = "none";
-  breakfastboxes.style.display = "none";
-  lunchboxes.style.display = "none";
-  dinnerboxes.style.display = "none";
-  quickbitesboxes.style.display = "none";
-  dessertsboxes.style.display = "none";
-  locallybrewedboxes.style.display = "none";
-  if (isVisible) {
-    cocktailsboxes.style.display = "none";
-    extraButtons.style.display = "none";
-  
-  } else {
-    cocktailsboxes.style.display = "flex";
-    extraButtons.style.display = "block";
-  }
-}
-     function mostrarQuickbites() {
-  const quickbitesboxes = document.getElementById("quickbitesboxes");
-  const extraButtons = document.getElementById("extraButtons");
-  const isVisible = window.getComputedStyle(quickbitesboxes).display !== "none";
-  coffeeBoxes.style.display = "none";
-  breakfastboxes.style.display = "none";
-  lunchboxes.style.display = "none";
-  cocktailsboxes.style.display = "none";
-  dinnerboxes.style.display = "none";
-  dessertsboxes.style.display = "none";
-  locallybrewedboxes.style.display = "none";
-  if (isVisible) {
-    quickbitesboxes.style.display = "none";
-    extraButtons.style.display = "none";
-  
-  } else {
-    quickbitesboxes.style.display = "flex";
-    extraButtons.style.display = "block";
-  }
-}
-     function mostrarDesserts() {
-  const dessertsboxes = document.getElementById("dessertsboxes");
-  const extraButtons = document.getElementById("extraButtons");
-  const isVisible = window.getComputedStyle(dessertsboxes).display !== "none";
-  coffeeBoxes.style.display = "none";
-  breakfastboxes.style.display = "none";
-  lunchboxes.style.display = "none";
-  cocktailsboxes.style.display = "none";
-  dinnerboxes.style.display = "none";
-  locallybrewedboxes.style.display = "none";
-  quickbitesboxes.style.display = "none";
-  if (isVisible) {
-    dessertsboxes.style.display = "none";
-    extraButtons.style.display = "none";
-  
-  } else {
-    dessertsboxes.style.display = "flex";
-    extraButtons.style.display = "block";
-  }
-}
-     function mostrarLocallybrewed() {
-  const locallybrewedboxes = document.getElementById("locallybrewedboxes");
-  const extraButtons = document.getElementById("extraButtons");
-  const isVisible = window.getComputedStyle(locallybrewedboxes).display !== "none";
-  coffeeBoxes.style.display = "none";
-  breakfastboxes.style.display = "none";
-  lunchboxes.style.display = "none";
-  cocktailsboxes.style.display = "none";
-  dinnerboxes.style.display = "none";
-  dessertsboxes.style.display = "none";
-  quickbitesboxes.style.display = "none";
-  if (isVisible) {
-    locallybrewedboxes.style.display = "none";
-    extraButtons.style.display = "none";
-  
-  } else {
-    locallybrewedboxes.style.display = "flex";
-    extraButtons.style.display = "block";
-  }
-}
   </script>
 </body>
 </html>
