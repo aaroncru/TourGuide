@@ -535,12 +535,6 @@
     <span>Take me there!</span> ➜
   </button>
 </div>
-<!-- Contenedor del mapa -->
-<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
-  <div id="map" style="height: 100%; width: 100%;"></div>
-  <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
-</div>
-
 </div>
 
   <div class="info-box">
@@ -569,13 +563,7 @@
   <button class="blue-arrow-button" onclick="mostrarRutaDestino(61.218776, -149.881068)">
     <span>Take me there!</span> ➜
   </button>
-</div>
-<!-- Contenedor del mapa -->
-<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
-  <div id="map" style="height: 100%; width: 100%;"></div>
-  <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
-</div>
-    
+</div> 
   </div>
 </div>
   <!--BREAKFAST-->
@@ -605,12 +593,7 @@
     <span>Take me there!</span> ➜
   </button>
 </div>
-<!-- Contenedor del mapa -->
-<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
-  <div id="map" style="height: 100%; width: 100%;"></div>
-  <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
 </div>
-      </div>
        <div class="info-box">
       <h3>restaurant example2</h3>
       <p>Example text bla bla its a good place to eaty bla bla2</p>
@@ -877,10 +860,7 @@
 </div>
 </div>
 </div>
-<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
-  <div id="map" style="height: 100%; width: 100%;"></div>
-  <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
-</div>
+
   <!-- Overlay galería fullscreen -->
   <div id="galleryOverlay">
     <span id="closeGallery" onclick="cerrarGaleria()">×</span>
@@ -918,7 +898,11 @@
   <button onclick="cambiarMenuPalmeiras(1)" style=" position: absolute; right: 20px;font-size: 30px; background: none; border: none; color: white; cursor: pointer;">▶</button>
 </div>
 
-
+<!-- Contenedor del mapa -->
+<div id="mapContainer" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 9999;">
+  <div id="map" style="height: 100%; width: 100%;"></div>
+  <button onclick="cerrarMapa()" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: red; color: white; border: none; border-radius: 5px; padding: 8px 12px;">✕</button>
+</div>
   <script>
     const photos = [
       'review1.JPG',
