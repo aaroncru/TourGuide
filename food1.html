@@ -1040,24 +1040,26 @@ let marcadorDestino = null;
 let watchId = null;
 
 function mostrarRutaDestino(lat, lon) {
-  const container = document.getElementById('mapContainer');
-  container.style.display = 'block';
+const container = document.getElementById('mapContainer');
+container.style.display = 'block';
 
-  // Si ya existe el mapa, invalida su tamaño para que se renderice bien
+// Esperar a que el contenedor esté visible antes de redimensionar
+setTimeout(() => {
   if (mapInstance) {
-    setTimeout(() => {
-      mapInstance.invalidateSize();
-    }, 200);
+    mapInstance.invalidateSize();
   }
-if (mapInstance) {
-  mapInstance.remove();
-  mapInstance = null;
-}
-mapInstance = L.map('map').setView([lat, lon], 13);
+}, 200);
+
+  // Crear mapa si no existe
+  if (!mapInstance) {
+    mapInstance = L.map('map').setView([lat, lon], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: '© OpenStreetMap'
     }).addTo(mapInstance);
+  } else {
+    mapInstance.invalidateSize();
+  }
   
   // Eliminar ruta anterior
   if (ruta) {
