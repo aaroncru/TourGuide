@@ -1049,16 +1049,16 @@ function mostrarRutaDestino(lat, lon) {
       mapInstance.invalidateSize();
     }, 200);
   }
-
-  // Crear mapa si no existe
-  if (!mapInstance) {
-    mapInstance = L.map('map').setView([lat, lon], 13);
+if (mapInstance) {
+  mapInstance.remove();
+  mapInstance = null;
+}
+mapInstance = L.map('map').setView([lat, lon], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: '© OpenStreetMap'
     }).addTo(mapInstance);
-  }
-
+  
   // Eliminar ruta anterior
   if (ruta) {
     mapInstance.removeLayer(ruta);
