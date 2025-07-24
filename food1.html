@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Food1</title>
   <!-- Leaflet CSS y JS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet"/>
+<!-- Leaflet Routing Machine -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
 
   <style>
@@ -1036,20 +1034,12 @@ function mostrarCoffee() {
   }
 let mapInstance;
 let markerUsuario = null;
-let ruta = null;
 let marcadorDestino = null;
-let watchId = null;
+let routingControl = null;
 
 function mostrarRutaDestino(lat, lon) {
   const container = document.getElementById('mapContainer');
   container.style.display = 'block';
-
-  // Si ya existe el mapa, invalida su tamaño para que se renderice bien
-  if (mapInstance) {
-    setTimeout(() => {
-      mapInstance.invalidateSize();
-    }, 200);
-  }
 
   // Crear mapa si no existe
   if (!mapInstance) {
@@ -1058,61 +1048,54 @@ function mostrarRutaDestino(lat, lon) {
       maxZoom: 18,
       attribution: '© OpenStreetMap'
     }).addTo(mapInstance);
+  } else {
+    mapInstance.invalidateSize();
   }
 
-  // Eliminar ruta anterior
-  if (ruta) {
-    mapInstance.removeLayer(ruta);
-    ruta = null;
+  // Quitar ruta anterior si existe
+  if (routingControl) {
+    mapInstance.removeControl(routingControl);
   }
 
-  // Eliminar marcador destino anterior
+  // Quitar marcador anterior
   if (marcadorDestino) {
     mapInstance.removeLayer(marcadorDestino);
   }
 
-  // Agregar nuevo destino
-  marcadorDestino = L.marker([lat, lon]).addTo(mapInstance).bindPopup("Destino");
+  marcadorDestino = L.marker([lat, lon]).addTo(mapInstance).bindPopup("Destination").openPopup();
 
-  // Eliminar geolocalización anterior
-  if (watchId) {
-    navigator.geolocation.clearWatch(watchId);
-  }
-
-  // Nueva geolocalización y ruta
-  watchId = navigator.geolocation.watchPosition(pos => {
+  // Obtener ubicación actual una vez
+  navigator.geolocation.getCurrentPosition(pos => {
     const userLat = pos.coords.latitude;
     const userLon = pos.coords.longitude;
 
     if (markerUsuario) {
       markerUsuario.setLatLng([userLat, userLon]);
     } else {
-      markerUsuario = L.marker([userLat, userLon]).addTo(mapInstance).bindPopup("You are here!").openPopup();
+      markerUsuario = L.marker([userLat, userLon]).addTo(mapInstance).bindPopup("Estás aquí").openPopup();
     }
 
-    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${userLon},${userLat};${lon},${lat}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kZ2pjeDF1MDNiYTJxb2dibWw2Z2J6eCJ9.du-ro4y6fz92Vh1DyrU7fg`;
-
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        const coords = data.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
-        if (ruta) mapInstance.removeLayer(ruta);
-        ruta = L.polyline(coords, { color: 'blue', weight: 4 }).addTo(mapInstance);
-        mapInstance.fitBounds(ruta.getBounds());
-      });
+    // Crear nueva ruta
+    routingControl = L.Routing.control({
+      waypoints: [
+        L.latLng(userLat, userLon),
+        L.latLng(lat, lon)
+      ],
+      routeWhileDragging: false,
+      show: false,
+      addWaypoints: false,
+      draggableWaypoints: false,
+      createMarker: () => null // No mostrar marcadores automáticos
+    }).addTo(mapInstance);
 
   }, err => {
     console.error("Error obteniendo ubicación:", err);
-  }, {
-    enableHighAccuracy: true,
-    maximumAge: 5000,
-    timeout: 10000
   });
 }
 
 function cerrarMapa() {
   document.getElementById('mapContainer').style.display = 'none';
-  if (ruta) mapInstance.removeLayer(ruta);
+  if (routingControl) mapInstance.removeControl(routingControl);
   if (marcadorDestino) mapInstance.removeLayer(marcadorDestino);
 }
 
