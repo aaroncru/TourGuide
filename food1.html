@@ -1033,54 +1033,45 @@ function mostrarCoffee() {
   function cerrarKids() {
     document.getElementById("kidsModal").style.display = "none";
   }
-let mapInstance;
+let mapInstance = null;
 let markerUsuario = null;
 let ruta = null;
 let marcadorDestino = null;
 let watchId = null;
 
+function inicializarMapa() {
+  mapInstance = L.map('map').setView([61.217, -149.9], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '© OpenStreetMap'
+  }).addTo(mapInstance);
+}
+
 function mostrarRutaDestino(lat, lon) {
-const container = document.getElementById('mapContainer');
-container.style.display = 'block';
+  const container = document.getElementById('mapContainer');
+  container.style.display = 'block';
 
-// Esperar a que el contenedor esté visible antes de redimensionar
-setTimeout(() => {
-  if (mapInstance) {
-    mapInstance.invalidateSize();
-  }
-}, 200);
+  // Asegurar que Leaflet ajuste tamaño
+  setTimeout(() => {
+    if (mapInstance) mapInstance.invalidateSize();
+  }, 200);
 
-  // Crear mapa si no existe
-  if (!mapInstance) {
-    mapInstance = L.map('map').setView([lat, lon], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '© OpenStreetMap'
-    }).addTo(mapInstance);
-  } else {
-    mapInstance.invalidateSize();
-  }
-  
-  // Eliminar ruta anterior
+  // Eliminar ruta y marcador destino anterior
   if (ruta) {
     mapInstance.removeLayer(ruta);
     ruta = null;
   }
-
-  // Eliminar marcador destino anterior
   if (marcadorDestino) {
     mapInstance.removeLayer(marcadorDestino);
   }
 
-  // Agregar nuevo destino
+  // Nuevo marcador destino
   marcadorDestino = L.marker([lat, lon]).addTo(mapInstance).bindPopup("Destino");
 
-  // Eliminar geolocalización anterior
-  if (watchId) {
-    navigator.geolocation.clearWatch(watchId);
-  }
+  // Cancelar geolocalización anterior
+  if (watchId) navigator.geolocation.clearWatch(watchId);
 
-  // Nueva geolocalización y ruta
+  // Nueva geolocalización + ruta
   watchId = navigator.geolocation.watchPosition(pos => {
     const userLat = pos.coords.latitude;
     const userLon = pos.coords.longitude;
@@ -1088,7 +1079,9 @@ setTimeout(() => {
     if (markerUsuario) {
       markerUsuario.setLatLng([userLat, userLon]);
     } else {
-      markerUsuario = L.marker([userLat, userLon]).addTo(mapInstance).bindPopup("You are here!").openPopup();
+      markerUsuario = L.marker([userLat, userLon])
+        .addTo(mapInstance)
+        .bindPopup("You are here!").openPopup();
     }
 
     const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${userLon},${userLat};${lon},${lat}?geometries=geojson&access_token=pk.eyJ1IjoiYWFyb25jcnUiLCJhIjoiY21kZ2pjeDF1MDNiYTJxb2dibWw2Z2J6eCJ9.du-ro4y6fz92Vh1DyrU7fg`;
@@ -1116,6 +1109,10 @@ function cerrarMapa() {
   if (ruta) mapInstance.removeLayer(ruta);
   if (marcadorDestino) mapInstance.removeLayer(marcadorDestino);
 }
+
+// Llama a esto al cargar la página:
+window.addEventListener('load', inicializarMapa);
+
  /*Palmeiras*/
   const reviewImages = [
     'reviewPal1.JPG',
